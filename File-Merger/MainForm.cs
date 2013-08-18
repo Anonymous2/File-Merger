@@ -119,7 +119,8 @@ namespace File_Merger
             string[] files = Directory.GetFiles(directory);
 
             for (int i = 0; i < files.Length; i++)
-                allFiles += files[i] + "\n";
+                if (!files[i].Contains("merged_"))
+                    allFiles += files[i] + "\n";
 
             //! If we include sub directories, recursive call this function up to every single directory.
             if (includingSubDirs)
