@@ -25,8 +25,6 @@ namespace File_Merger
             MinimizeBox = false;
         }
 
-        private string allFiles;
-
         private void button1_Click(object sender, EventArgs e)
         {
             string directory = txtBoxDirectory.Text;
@@ -63,8 +61,8 @@ namespace File_Merger
             }
 
             //! Re-cursive call to get all files, then put them back in an array.
-            allFiles = ""; //! Reset this first so we don't get duplicates after pressing the Merge button more than once.
-            GetAllFilesFromDirectory(directory, checkBoxIncludeSubDirs.Checked);
+            string allFiles = ""; //! Reset this first so we don't get duplicates after pressing the Merge button more than once.
+            GetAllFilesFromDirectory(directory, checkBoxIncludeSubDirs.Checked, ref allFiles);
 
             if (allFiles == string.Empty)
             {
@@ -113,7 +111,7 @@ namespace File_Merger
             }
         }
 
-        private void GetAllFilesFromDirectory(string directory, bool includingSubDirs)
+        private void GetAllFilesFromDirectory(string directory, bool includingSubDirs, ref string allFiles)
         {
             string[] directories = Directory.GetDirectories(directory);
             string[] files = Directory.GetFiles(directory);
@@ -125,7 +123,7 @@ namespace File_Merger
             //! If we include sub directories, recursive call this function up to every single directory.
             if (includingSubDirs)
                 for (int i = 0; i < directories.Length; i++)
-                    GetAllFilesFromDirectory(directories[i], true);
+                    GetAllFilesFromDirectory(directories[i], true, ref allFiles);
         }
 
         private void checkBoxAllExtensions_CheckedChanged(object sender, EventArgs e)
