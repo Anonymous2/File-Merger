@@ -140,9 +140,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(11, 78);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(108, 13);
+            this.label1.Size = new System.Drawing.Size(223, 13);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Directory to output in:";
+            this.label1.Text = "Directory to output in (may contain output file):";
             // 
             // checkBoxSyncDirFields
             // 

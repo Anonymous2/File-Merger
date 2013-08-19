@@ -81,7 +81,6 @@ namespace File_Merger
 
             List<string> list = new List<string>(arrayFilesOld);
             list.Remove("");
-            list.Remove(" ");
             arrayFiles = list.ToArray();
 
             if (checkBoxAllExtensions.Checked)
@@ -91,10 +90,31 @@ namespace File_Merger
 
             string[] extensionArray = extensionString.Split(';');
             int z = checkBoxExtensions.Checked ? extensionArray.Length : 1;
-            bool firstLinePrinted = true;
+            bool firstLinePrinted = true, oneHardcodedOutputFile = false;
 
             if (!Directory.Exists(directoryOutput))
-                Directory.CreateDirectory(directoryOutput);
+            {
+                //! If the directory does not exist, we create a new one. If the directory output field
+                //! contains an extension (thus is a filename with an output FILE to create), we first
+                //! remove the filename from the directory and then check if the directory does not
+                //! yet exist. If it doesn't, create it.
+                string _directoryOutput = directoryOutput;
+
+                //! Minus hardcoded 2 because those are the '//' lines.
+                if (Path.HasExtension(directoryOutput))
+                    _directoryOutput = _directoryOutput.Remove(_directoryOutput.Length - 2 - Path.GetFileName(directoryOutput).Length);
+
+                if (!Directory.Exists(_directoryOutput))
+                    Directory.CreateDirectory(_directoryOutput);
+            }
+
+            if (Path.HasExtension(directoryOutput))
+            {
+                oneHardcodedOutputFile = true;
+                z = 1; //! Only create one file
+                extensionArray[0] = Path.GetExtension(directoryOutput); //! That one file we create must contain the output's file extension
+                //filenameExludingExtension = Path.GetFileNameWithoutExtension(directoryOutput); //! Extension is added later on
+            }
 
             for (int y = 0; y < z; ++y)
             {
@@ -102,11 +122,15 @@ namespace File_Merger
                 string commentTypeStart = GetCommentStartTypeForLanguage(extensionWithoutDot);
                 string commentTypeEnd = GetCommentEndTypeForLanguage(extensionWithoutDot);
                 firstLinePrinted = false;
+                string fullOutputFilename = directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y];
 
-                if (directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y] == directorySearch + "\\merged_")
+                if (oneHardcodedOutputFile)
+                    fullOutputFilename = directoryOutput;
+
+                if (!oneHardcodedOutputFile && fullOutputFilename == directorySearch + "\\merged_")
                     continue;
 
-                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y], true))
+                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(fullOutputFilename, true))
                 {
                     for (int i = 0; i < arrayFiles.Length; i++)
                     {
