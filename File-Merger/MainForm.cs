@@ -61,7 +61,7 @@ namespace File_Merger
             }
 
             //! Re-cursive call to get all files, then put them back in an array.
-            string allFiles = ""; //! Reset this first so we don't get duplicates after pressing the Merge button more than once.
+            string allFiles = "";
             GetAllFilesFromDirectory(directory, checkBoxIncludeSubDirs.Checked, ref allFiles);
 
             if (allFiles == string.Empty)
@@ -70,11 +70,17 @@ namespace File_Merger
                 return;
             }
 
-            string[] arrayFiles = allFiles.Split('\n');
+            string[] arrayFilesOld = allFiles.Split('\n');
+            string[] arrayFiles;
+
+            List<string> list = new List<string>(arrayFilesOld);
+            list.Remove("");
+            list.Remove(" ");
+            arrayFiles = list.ToArray();
 
             if (checkBoxAllExtensions.Checked)
                 for (int i = 0; i < arrayFiles.Length; i++)
-                    if (Path.HasExtension(arrayFiles[i]))
+                    if (arrayFiles[i] != string.Empty && arrayFiles[i] != "" && Path.HasExtension(arrayFiles[i]))
                         extensionString += Path.GetExtension(arrayFiles[i]) + ";";
 
             string[] extensionArray = extensionString.Split(';');
@@ -87,6 +93,9 @@ namespace File_Merger
                 string commentTypeStart = GetCommentStartTypeForLanguage(extensionWithoutDot);
                 string commentTypeEnd = GetCommentEndTypeForLanguage(extensionWithoutDot);
                 firstLinePrinted = false;
+
+                if (directory + "\\merged_" + extensionWithoutDot + extensionArray[y] == directory + "\\merged_")
+                    continue;
 
                 using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(directory + "\\merged_" + extensionWithoutDot + extensionArray[y], true))
                 {
