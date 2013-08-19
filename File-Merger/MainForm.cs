@@ -13,6 +13,8 @@ namespace File_Merger
 {
     public partial class MainForm : Form
     {
+        private bool syncrhonizeDirFields = true;
+
         public MainForm()
         {
             InitializeComponent();
@@ -23,25 +25,29 @@ namespace File_Merger
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
+
+            this.txtBoxDirectory.TextChanged += txtBoxDirectory_TextChanged;
+            this.txtBoxDirectoryOutput.TextChanged += txtBoxDirectoryOutput_TextChanged;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string directory = txtBoxDirectory.Text;
+            string directorySearch = txtBoxDirectory.Text;
+            string directoryOutput = txtBoxDirectoryOutput.Text;
 
-            if (directory == "")
+            if (directorySearch == "")
             {
                 MessageBox.Show("The directory field was left empty.", "An error has occurred!");
                 return;
             }
 
-            if (!Directory.Exists(directory))
+            if (!Directory.Exists(directorySearch))
             {
                 MessageBox.Show("The given directory does not exist.", "An error has occurred!");
                 return;
             }
 
-            if (Path.HasExtension(directory))
+            if (Path.HasExtension(directorySearch))
             {
                 MessageBox.Show("There is an extension in the directory.", "An error has occurred!");
                 return;
@@ -62,7 +68,7 @@ namespace File_Merger
 
             //! Re-cursive call to get all files, then put them back in an array.
             string allFiles = "";
-            GetAllFilesFromDirectory(directory, checkBoxIncludeSubDirs.Checked, ref allFiles);
+            GetAllFilesFromDirectory(directorySearch, checkBoxIncludeSubDirs.Checked, ref allFiles);
 
             if (allFiles == string.Empty)
             {
@@ -87,6 +93,9 @@ namespace File_Merger
             int z = checkBoxExtensions.Checked ? extensionArray.Length : 1;
             bool firstLinePrinted = true;
 
+            if (!Directory.Exists(directoryOutput))
+                Directory.CreateDirectory(directoryOutput);
+
             for (int y = 0; y < z; ++y)
             {
                 string extensionWithoutDot = extensionArray[y].Replace(".", "");
@@ -94,10 +103,10 @@ namespace File_Merger
                 string commentTypeEnd = GetCommentEndTypeForLanguage(extensionWithoutDot);
                 firstLinePrinted = false;
 
-                if (directory + "\\merged_" + extensionWithoutDot + extensionArray[y] == directory + "\\merged_")
+                if (directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y] == directorySearch + "\\merged_")
                     continue;
 
-                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(directory + "\\merged_" + extensionWithoutDot + extensionArray[y], true))
+                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y], true))
                 {
                     for (int i = 0; i < arrayFiles.Length; i++)
                     {
@@ -122,10 +131,10 @@ namespace File_Merger
             }
         }
 
-        private void GetAllFilesFromDirectory(string directory, bool includingSubDirs, ref string allFiles)
+        private void GetAllFilesFromDirectory(string directorySearch, bool includingSubDirs, ref string allFiles)
         {
-            string[] directories = Directory.GetDirectories(directory);
-            string[] files = Directory.GetFiles(directory);
+            string[] directories = Directory.GetDirectories(directorySearch);
+            string[] files = Directory.GetFiles(directorySearch);
 
             for (int i = 0; i < files.Length; i++)
                 if (!files[i].Contains("merged_") && files[i] != "")
@@ -179,6 +188,35 @@ namespace File_Merger
 
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 txtBoxDirectory.Text = fbd.SelectedPath;
+        }
+
+        void txtBoxDirectory_TextChanged(object sender, System.EventArgs e)
+        {
+            if (syncrhonizeDirFields)
+            {
+                if (txtBoxDirectory.Text.Length > 0)// && (txtBoxDirectoryOutput.Text == "" || txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxDirectoryOutput.Text ||
+                    //txtBoxDirectoryOutput.Text.Substring(0, txtBoxDirectoryOutput.Text.Length - 1) == txtBoxDirectory.Text))
+                    txtBoxDirectoryOutput.Text = txtBoxDirectory.Text;
+                else if (txtBoxDirectory.Text == "" && txtBoxDirectoryOutput.Text != "")
+                    txtBoxDirectoryOutput.Text = "";
+            }
+        }
+
+        void txtBoxDirectoryOutput_TextChanged(object sender, System.EventArgs e)
+        {
+            if (syncrhonizeDirFields)
+            {
+                if (txtBoxDirectoryOutput.Text.Length > 0)// && (txtBoxDirectory.Text == "" || txtBoxDirectoryOutput.Text.Substring(0, txtBoxDirectoryOutput.Text.Length - 1) == txtBoxDirectory.Text ||
+                    //txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxDirectoryOutput.Text))
+                    txtBoxDirectory.Text = txtBoxDirectoryOutput.Text;
+                else if (txtBoxDirectoryOutput.Text == "" && txtBoxDirectory.Text != "")
+                    txtBoxDirectory.Text = "";
+            }
+        }
+
+        private void checkBoxSyncDirFields_CheckedChanged(object sender, EventArgs e)
+        {
+            syncrhonizeDirFields = checkBoxSyncDirFields.Checked;
         }
     }
 }

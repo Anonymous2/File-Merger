@@ -38,6 +38,9 @@
             this.checkBoxIncludeSubDirs = new System.Windows.Forms.CheckBox();
             this.checkBoxAllExtensions = new System.Windows.Forms.CheckBox();
             this.btnSearchDirectory = new System.Windows.Forms.Button();
+            this.txtBoxDirectoryOutput = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.checkBoxSyncDirFields = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // checkBoxExtensions
@@ -45,7 +48,7 @@
             this.checkBoxExtensions.AutoSize = true;
             this.checkBoxExtensions.Checked = true;
             this.checkBoxExtensions.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxExtensions.Location = new System.Drawing.Point(18, 140);
+            this.checkBoxExtensions.Location = new System.Drawing.Point(18, 188);
             this.checkBoxExtensions.Name = "checkBoxExtensions";
             this.checkBoxExtensions.Size = new System.Drawing.Size(161, 17);
             this.checkBoxExtensions.TabIndex = 1;
@@ -55,7 +58,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 74);
+            this.label2.Location = new System.Drawing.Point(11, 122);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(275, 13);
             this.label2.TabIndex = 2;
@@ -63,14 +66,14 @@
             // 
             // txtBoxExtensions
             // 
-            this.txtBoxExtensions.Location = new System.Drawing.Point(14, 91);
+            this.txtBoxExtensions.Location = new System.Drawing.Point(14, 139);
             this.txtBoxExtensions.Name = "txtBoxExtensions";
             this.txtBoxExtensions.Size = new System.Drawing.Size(272, 20);
             this.txtBoxExtensions.TabIndex = 3;
             // 
             // btnMerge
             // 
-            this.btnMerge.Location = new System.Drawing.Point(210, 134);
+            this.btnMerge.Location = new System.Drawing.Point(210, 182);
             this.btnMerge.Name = "btnMerge";
             this.btnMerge.Size = new System.Drawing.Size(75, 23);
             this.btnMerge.TabIndex = 4;
@@ -82,7 +85,7 @@
             // 
             this.txtBoxDirectory.Location = new System.Drawing.Point(14, 25);
             this.txtBoxDirectory.Name = "txtBoxDirectory";
-            this.txtBoxDirectory.Size = new System.Drawing.Size(271, 20);
+            this.txtBoxDirectory.Size = new System.Drawing.Size(247, 20);
             this.txtBoxDirectory.TabIndex = 5;
             // 
             // label3
@@ -97,7 +100,7 @@
             // checkBoxIncludeSubDirs
             // 
             this.checkBoxIncludeSubDirs.AutoSize = true;
-            this.checkBoxIncludeSubDirs.Location = new System.Drawing.Point(18, 50);
+            this.checkBoxIncludeSubDirs.Location = new System.Drawing.Point(18, 53);
             this.checkBoxIncludeSubDirs.Name = "checkBoxIncludeSubDirs";
             this.checkBoxIncludeSubDirs.Size = new System.Drawing.Size(129, 17);
             this.checkBoxIncludeSubDirs.TabIndex = 7;
@@ -107,7 +110,7 @@
             // checkBoxAllExtensions
             // 
             this.checkBoxAllExtensions.AutoSize = true;
-            this.checkBoxAllExtensions.Location = new System.Drawing.Point(18, 117);
+            this.checkBoxAllExtensions.Location = new System.Drawing.Point(18, 165);
             this.checkBoxAllExtensions.Name = "checkBoxAllExtensions";
             this.checkBoxAllExtensions.Size = new System.Drawing.Size(90, 17);
             this.checkBoxAllExtensions.TabIndex = 8;
@@ -125,15 +128,47 @@
             this.btnSearchDirectory.UseVisualStyleBackColor = true;
             this.btnSearchDirectory.Click += new System.EventHandler(this.btnSearchDirectory_Click);
             // 
+            // txtBoxDirectoryOutput
+            // 
+            this.txtBoxDirectoryOutput.Location = new System.Drawing.Point(14, 95);
+            this.txtBoxDirectoryOutput.Name = "txtBoxDirectoryOutput";
+            this.txtBoxDirectoryOutput.Size = new System.Drawing.Size(271, 20);
+            this.txtBoxDirectoryOutput.TabIndex = 5;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(11, 78);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(108, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Directory to output in:";
+            // 
+            // checkBoxSyncDirFields
+            // 
+            this.checkBoxSyncDirFields.AutoSize = true;
+            this.checkBoxSyncDirFields.Checked = true;
+            this.checkBoxSyncDirFields.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSyncDirFields.Location = new System.Drawing.Point(146, 53);
+            this.checkBoxSyncDirFields.Name = "checkBoxSyncDirFields";
+            this.checkBoxSyncDirFields.Size = new System.Drawing.Size(154, 17);
+            this.checkBoxSyncDirFields.TabIndex = 10;
+            this.checkBoxSyncDirFields.Text = "Synchronize directory fields";
+            this.checkBoxSyncDirFields.UseVisualStyleBackColor = true;
+            this.checkBoxSyncDirFields.CheckedChanged += new System.EventHandler(this.checkBoxSyncDirFields_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 165);
+            this.ClientSize = new System.Drawing.Size(300, 212);
+            this.Controls.Add(this.checkBoxSyncDirFields);
             this.Controls.Add(this.btnSearchDirectory);
             this.Controls.Add(this.checkBoxAllExtensions);
             this.Controls.Add(this.checkBoxIncludeSubDirs);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtBoxDirectoryOutput);
             this.Controls.Add(this.txtBoxDirectory);
             this.Controls.Add(this.btnMerge);
             this.Controls.Add(this.txtBoxExtensions);
@@ -162,7 +197,8 @@
         private System.Windows.Forms.CheckBox checkBoxIncludeSubDirs;
         private System.Windows.Forms.CheckBox checkBoxAllExtensions;
         private System.Windows.Forms.Button btnSearchDirectory;
-
+        private System.Windows.Forms.TextBox txtBoxDirectoryOutput;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBoxSyncDirFields;
     }
 }
-
