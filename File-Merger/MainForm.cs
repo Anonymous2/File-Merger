@@ -92,7 +92,7 @@ namespace File_Merger
                 {
                     for (int i = 0; i < arrayFiles.Length; i++)
                     {
-                        if (Path.HasExtension(arrayFiles[i]) && extensionArray[y].Contains(Path.GetExtension(arrayFiles[i])))
+                        if (Path.HasExtension(arrayFiles[i]) && extensionArray[y] == Path.GetExtension(arrayFiles[i]))
                         {
                             if (firstLinePrinted) //! First line has to be on-top of the file.
                                 outputFile.WriteLine("\t"); //! "\t" is a single linebreak, "\n" breaks two lines.
