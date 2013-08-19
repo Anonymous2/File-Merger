@@ -35,7 +35,7 @@ namespace File_Merger
                 return;
             }
 
-            if (!Directory.Exists(directory))// || !((File.GetAttributes(directory) & FileAttributes.Directory) == FileAttributes.Directory))
+            if (!Directory.Exists(directory))
             {
                 MessageBox.Show("The given directory does not exist.", "An error has occurred!");
                 return;
