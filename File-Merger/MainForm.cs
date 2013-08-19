@@ -171,5 +171,14 @@ namespace File_Merger
 
             return ""; //! Default for unknown languages
         }
+
+        private void btnSearchDirectory_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.Description = "Select a directory to merge files from.";
+
+            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                txtBoxDirectory.Text = fbd.SelectedPath;
+        }
     }
 }

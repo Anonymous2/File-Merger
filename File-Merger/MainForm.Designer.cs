@@ -37,6 +37,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.checkBoxIncludeSubDirs = new System.Windows.Forms.CheckBox();
             this.checkBoxAllExtensions = new System.Windows.Forms.CheckBox();
+            this.btnSearchDirectory = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // checkBoxExtensions
@@ -114,11 +115,22 @@
             this.checkBoxAllExtensions.UseVisualStyleBackColor = true;
             this.checkBoxAllExtensions.CheckedChanged += new System.EventHandler(this.checkBoxAllExtensions_CheckedChanged);
             // 
+            // btnSearchDirectory
+            // 
+            this.btnSearchDirectory.Location = new System.Drawing.Point(261, 25);
+            this.btnSearchDirectory.Name = "btnSearchDirectory";
+            this.btnSearchDirectory.Size = new System.Drawing.Size(24, 20);
+            this.btnSearchDirectory.TabIndex = 9;
+            this.btnSearchDirectory.Text = "...";
+            this.btnSearchDirectory.UseVisualStyleBackColor = true;
+            this.btnSearchDirectory.Click += new System.EventHandler(this.btnSearchDirectory_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(300, 165);
+            this.Controls.Add(this.btnSearchDirectory);
             this.Controls.Add(this.checkBoxAllExtensions);
             this.Controls.Add(this.checkBoxIncludeSubDirs);
             this.Controls.Add(this.label3);
@@ -149,6 +161,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBoxIncludeSubDirs;
         private System.Windows.Forms.CheckBox checkBoxAllExtensions;
+        private System.Windows.Forms.Button btnSearchDirectory;
 
     }
 }
