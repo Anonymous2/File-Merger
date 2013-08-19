@@ -84,6 +84,8 @@ namespace File_Merger
             for (int y = 0; y < z; ++y)
             {
                 string extensionWithoutDot = extensionArray[y].Replace(".", "");
+                string commentTypeStart = GetCommentStartTypeForLanguage(extensionWithoutDot);
+                string commentTypeEnd = GetCommentEndTypeForLanguage(extensionWithoutDot);
                 firstLinePrinted = false;
 
                 using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(directory + "\\merged_" + extensionWithoutDot + extensionArray[y], true))
@@ -96,9 +98,9 @@ namespace File_Merger
                                 outputFile.WriteLine("\t"); //! "\t" is a single linebreak, "\n" breaks two lines.
 
                             firstLinePrinted = true;
-                            outputFile.WriteLine("-- - - - - - - - - - - - - - - - - - - - - - - - - - -");
-                            outputFile.WriteLine("-- '" + arrayFiles[i] + "'");
-                            outputFile.WriteLine("-- - - - - - - - - - - - - - - - - - - - - - - - - - -");
+                            outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
+                            outputFile.WriteLine(commentTypeStart + " '" + arrayFiles[i] + "'" + commentTypeEnd);
+                            outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
                             outputFile.WriteLine("\t");
 
                             string[] linesOfFile = System.IO.File.ReadAllLines(arrayFiles[i]);
@@ -130,6 +132,34 @@ namespace File_Merger
         {
             //! No point in giving extensions if we will look for all extensions.
             txtBoxExtensions.Enabled = !checkBoxAllExtensions.Checked;
+        }
+
+        private string GetCommentStartTypeForLanguage(string languageExtension)
+        {
+            if (languageExtension == "sql" || languageExtension == "lua")
+                return "--";
+            else if (languageExtension == "html" || languageExtension == "xml")
+                return "<!--";
+            else if (languageExtension == "php" || languageExtension == "pl" || languageExtension == "pm" ||
+                languageExtension == "t" || languageExtension == "pod" || languageExtension == "rb" ||
+                languageExtension == "rbw" || languageExtension == "py" || languageExtension == "pyw" ||
+                languageExtension == "pyc" || languageExtension == "pyo" || languageExtension == "pyd")
+                return "#";
+            else if (languageExtension == "cpp" || languageExtension == "cs" || languageExtension == "d" ||
+                languageExtension == "js" || languageExtension == "java" || languageExtension == "javac" ||
+                languageExtension == "p" || languageExtension == "pp" || languageExtension == "pas" ||
+                languageExtension == "c")
+                return "//";
+
+            return "--"; //! Default for unknown languages
+        }
+
+        private string GetCommentEndTypeForLanguage(string languageExtension)
+        {
+            if (languageExtension == "html" || languageExtension == "xml")
+                return " -->";
+
+            return ""; //! Default for unknown languages
         }
     }
 }
