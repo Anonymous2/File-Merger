@@ -288,7 +288,7 @@ namespace File_Merger
         private void btnSearchForOutput_Click(object sender, EventArgs e)
         {
             //openFileDialog1.Filter = "Textfiles (*.txt)*.txt";
-            openFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog1.Filter = "All files (*.*)|*.*";
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
