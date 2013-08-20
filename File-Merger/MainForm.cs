@@ -130,7 +130,16 @@ namespace File_Merger
                 if (!oneHardcodedOutputFile && fullOutputFilename == directorySearch + "\\merged_")
                     continue;
 
-                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(fullOutputFilename, true))
+                if (Path.HasExtension(fullOutputFilename))
+                {
+                    if (File.Exists(fullOutputFilename) && new FileInfo(fullOutputFilename).Length != 0)
+                    {
+                        MessageBox.Show("Output file already exists!", "An error has occurred!");
+                        continue;
+                    }
+                }
+
+                using (StreamWriter outputFile = new StreamWriter(fullOutputFilename, true))
                 {
                     for (int i = 0; i < arrayFiles.Length; i++)
                     {
@@ -144,8 +153,8 @@ namespace File_Merger
                             outputFile.WriteLine(commentTypeStart + " '" + arrayFiles[i] + "'" + commentTypeEnd);
                             outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
                             outputFile.WriteLine("\t");
-
-                            string[] linesOfFile = System.IO.File.ReadAllLines(arrayFiles[i]);
+                            
+                            string[] linesOfFile = File.ReadAllLines(arrayFiles[i]);
 
                             for (int j = 0; j < linesOfFile.Length; j++)
                                 outputFile.WriteLine("\t" + linesOfFile[j]);
