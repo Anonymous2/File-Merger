@@ -230,7 +230,10 @@ namespace File_Merger
             fbd.Description = "Select a directory to merge files from.";
 
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                txtBoxDirectory.Text = fbd.SelectedPath;
+            {
+                txtBoxDirectoryOutput.Text = fbd.SelectedPath;
+                txtBoxDirectoryOutput_TextChanged(sender, e);
+            }
         }
 
         void txtBoxDirectory_TextChanged(object sender, System.EventArgs e)
@@ -272,6 +275,8 @@ namespace File_Merger
                 syncrhonizeDirFields = false;
                 txtBoxDirectoryOutput.Text = openFileDialog1.FileName;
                 syncrhonizeDirFields = true;
+
+                txtBoxDirectory_TextChanged(sender, e);
             }
         }
     }
