@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.checkBoxExtensions = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.checkBoxUniqueFilePerExt = new System.Windows.Forms.CheckBox();
+            this.labelExtensionsToMerge = new System.Windows.Forms.Label();
             this.txtBoxExtensions = new System.Windows.Forms.TextBox();
             this.btnMerge = new System.Windows.Forms.Button();
             this.txtBoxDirectory = new System.Windows.Forms.TextBox();
@@ -45,28 +45,29 @@
             this.btnSearchForOutput = new System.Windows.Forms.Button();
             this.checkBoxDeleteOutputFile = new System.Windows.Forms.CheckBox();
             this.txtBoxOutputFile = new System.Windows.Forms.TextBox();
+            this.checkBoxReverseExtensions = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
-            // checkBoxExtensions
+            // checkBoxUniqueFilePerExt
             // 
-            this.checkBoxExtensions.AutoSize = true;
-            this.checkBoxExtensions.Checked = true;
-            this.checkBoxExtensions.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxExtensions.Location = new System.Drawing.Point(18, 188);
-            this.checkBoxExtensions.Name = "checkBoxExtensions";
-            this.checkBoxExtensions.Size = new System.Drawing.Size(161, 17);
-            this.checkBoxExtensions.TabIndex = 1;
-            this.checkBoxExtensions.Text = "One output file per extension";
-            this.checkBoxExtensions.UseVisualStyleBackColor = true;
+            this.checkBoxUniqueFilePerExt.AutoSize = true;
+            this.checkBoxUniqueFilePerExt.Checked = true;
+            this.checkBoxUniqueFilePerExt.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxUniqueFilePerExt.Location = new System.Drawing.Point(146, 165);
+            this.checkBoxUniqueFilePerExt.Name = "checkBoxUniqueFilePerExt";
+            this.checkBoxUniqueFilePerExt.Size = new System.Drawing.Size(161, 17);
+            this.checkBoxUniqueFilePerExt.TabIndex = 1;
+            this.checkBoxUniqueFilePerExt.Text = "One output file per extension";
+            this.checkBoxUniqueFilePerExt.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // labelExtensionsToMerge
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 122);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(275, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Extensions to merge (split by semicolon if more than one):";
+            this.labelExtensionsToMerge.AutoSize = true;
+            this.labelExtensionsToMerge.Location = new System.Drawing.Point(11, 122);
+            this.labelExtensionsToMerge.Name = "labelExtensionsToMerge";
+            this.labelExtensionsToMerge.Size = new System.Drawing.Size(275, 13);
+            this.labelExtensionsToMerge.TabIndex = 2;
+            this.labelExtensionsToMerge.Text = "Extensions to merge (split by semicolon if more than one):";
             // 
             // txtBoxExtensions
             // 
@@ -181,11 +182,11 @@
             this.checkBoxDeleteOutputFile.Checked = true;
             this.checkBoxDeleteOutputFile.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxDeleteOutputFile.Enabled = false;
-            this.checkBoxDeleteOutputFile.Location = new System.Drawing.Point(18, 211);
+            this.checkBoxDeleteOutputFile.Location = new System.Drawing.Point(18, 209);
             this.checkBoxDeleteOutputFile.Name = "checkBoxDeleteOutputFile";
-            this.checkBoxDeleteOutputFile.Size = new System.Drawing.Size(143, 17);
+            this.checkBoxDeleteOutputFile.Size = new System.Drawing.Size(106, 17);
             this.checkBoxDeleteOutputFile.TabIndex = 12;
-            this.checkBoxDeleteOutputFile.Text = "Delete output file if exists";
+            this.checkBoxDeleteOutputFile.Text = "Delete output file";
             this.checkBoxDeleteOutputFile.UseVisualStyleBackColor = true;
             // 
             // txtBoxOutputFile
@@ -195,11 +196,23 @@
             this.txtBoxOutputFile.Size = new System.Drawing.Size(73, 20);
             this.txtBoxOutputFile.TabIndex = 13;
             // 
+            // checkBoxReverseExtensions
+            // 
+            this.checkBoxReverseExtensions.AutoSize = true;
+            this.checkBoxReverseExtensions.Location = new System.Drawing.Point(18, 188);
+            this.checkBoxReverseExtensions.Name = "checkBoxReverseExtensions";
+            this.checkBoxReverseExtensions.Size = new System.Drawing.Size(136, 17);
+            this.checkBoxReverseExtensions.TabIndex = 14;
+            this.checkBoxReverseExtensions.Text = "Reverse extension field";
+            this.checkBoxReverseExtensions.UseVisualStyleBackColor = true;
+            this.checkBoxReverseExtensions.CheckedChanged += new System.EventHandler(this.checkBoxReverseExtensions_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(341, 234);
+            this.Controls.Add(this.checkBoxReverseExtensions);
             this.Controls.Add(this.btnSearchForOutput);
             this.Controls.Add(this.txtBoxOutputFile);
             this.Controls.Add(this.checkBoxDeleteOutputFile);
@@ -213,8 +226,8 @@
             this.Controls.Add(this.txtBoxDirectory);
             this.Controls.Add(this.btnMerge);
             this.Controls.Add(this.txtBoxExtensions);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.checkBoxExtensions);
+            this.Controls.Add(this.labelExtensionsToMerge);
+            this.Controls.Add(this.checkBoxUniqueFilePerExt);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -229,8 +242,8 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckBox checkBoxExtensions;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox checkBoxUniqueFilePerExt;
+        private System.Windows.Forms.Label labelExtensionsToMerge;
         private System.Windows.Forms.TextBox txtBoxExtensions;
         private System.Windows.Forms.Button btnMerge;
         private System.Windows.Forms.TextBox txtBoxDirectory;
@@ -245,5 +258,6 @@
         private System.Windows.Forms.Button btnSearchForOutput;
         private System.Windows.Forms.CheckBox checkBoxDeleteOutputFile;
         private System.Windows.Forms.TextBox txtBoxOutputFile;
+        private System.Windows.Forms.CheckBox checkBoxReverseExtensions;
     }
 }

@@ -24,10 +24,13 @@ namespace File_Merger
         private void Form1_Load(object sender, EventArgs e)
         {
             //promptAdmOutcome = Prompt.ShowDialog("Did you run the application as an administrator (nothing bad will happen if you didn't)?", "Administrator mode", "Yes", "No");
-
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
+
+            ToolTip toolTipExtensions = new ToolTip();
+            toolTipExtensions.SetToolTip(checkBoxReverseExtensions, "Unchecking this will reverse the extensions field, meaning we ignore any given extensions written there.");
+            toolTipExtensions.ShowAlways = true;
 
             this.txtBoxDirectory.TextChanged += txtBoxDirectory_TextChanged;
             this.txtBoxOutputDir.TextChanged += txtBoxOutputDir_TextChanged;
@@ -58,6 +61,7 @@ namespace File_Merger
 
             string extensionString = "";
 
+            //! Do not pick ALL extensions
             if (!checkBoxAllExtensions.Checked)
             {
                 extensionString = txtBoxExtensions.Text;
@@ -92,7 +96,7 @@ namespace File_Merger
                         extensionString += Path.GetExtension(arrayFiles[i]) + ";";
 
             string[] extensionArray = extensionString.Split(';');
-            int z = checkBoxExtensions.Checked ? extensionArray.Length : 1;
+            int z = checkBoxUniqueFilePerExt.Checked ? extensionArray.Length : 1;
             bool firstLinePrinted = true, oneHardcodedOutputFile = false;
 
             if (!Directory.Exists(directoryOutput))
@@ -155,37 +159,40 @@ namespace File_Merger
                 {
                     for (int i = 0; i < arrayFiles.Length; i++)
                     {
-                        if (Path.HasExtension(arrayFiles[i]) && (oneHardcodedOutputFile || extensionArray[y] == Path.GetExtension(arrayFiles[i])))
+                        if (Path.HasExtension(arrayFiles[i]))
                         {
-                            if (firstLinePrinted) //! First line has to be on-top of the file.
-                                outputFile.WriteLine("\t"); //! "\t" is a single linebreak, "\n" breaks two lines.
-
-                            firstLinePrinted = true;
-                            outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
-                            outputFile.WriteLine(commentTypeStart + " '" + arrayFiles[i] + "'" + commentTypeEnd);
-                            outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
-                            outputFile.WriteLine("\t");
-
-                            string[] linesOfFile;
-
-                            try
+                            if (Path.HasExtension(arrayFiles[i]) && (oneHardcodedOutputFile || (checkBoxReverseExtensions.Checked != (extensionArray[y] == Path.GetExtension(arrayFiles[i])))))
                             {
-                                linesOfFile = File.ReadAllLines(arrayFiles[i]);
+                                if (firstLinePrinted) //! First line has to be on-top of the file.
+                                    outputFile.WriteLine("\t"); //! "\t" is a single linebreak, "\n" breaks two lines.
+
+                                firstLinePrinted = true;
+                                outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
+                                outputFile.WriteLine(commentTypeStart + " '" + arrayFiles[i] + "'" + commentTypeEnd);
+                                outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
+                                outputFile.WriteLine("\t");
+
+                                string[] linesOfFile;
+
+                                try
+                                {
+                                    linesOfFile = File.ReadAllLines(arrayFiles[i]);
+                                }
+                                catch (IOException)
+                                {
+                                    string messageToShow = "Output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning).";
+
+                                    if (promptAdmOutcome == 2)
+                                        messageToShow += ". Please note you did not run the program in administrator mode, which is most likely the problem. If you did, please make sure the file was not actually updated anyhow";
+
+                                    messageToShow += "!";
+                                    MessageBox.Show(messageToShow, "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    continue;
+                                }
+
+                                for (int j = 0; j < linesOfFile.Length; j++)
+                                    outputFile.WriteLine("\t" + linesOfFile[j]);
                             }
-                            catch (IOException)
-                            {
-                                string messageToShow = "Output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning).";
-
-                                if (promptAdmOutcome == 2)
-                                    messageToShow += ". Please note you did not run the program in administrator mode, which is most likely the problem. If you did, please make sure the file was not actually updated anyhow";
-
-                                messageToShow += "!";
-                                MessageBox.Show(messageToShow, "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                continue;
-                            }
-
-                            for (int j = 0; j < linesOfFile.Length; j++)
-                                outputFile.WriteLine("\t" + linesOfFile[j]);
                         }
                     }
                 }
@@ -206,12 +213,6 @@ namespace File_Merger
             if (includingSubDirs)
                 for (int i = 0; i < directories.Length; i++)
                     GetAllFilesFromDirectory(directories[i], true, ref allFiles);
-        }
-
-        private void checkBoxAllExtensions_CheckedChanged(object sender, EventArgs e)
-        {
-            //! No point in giving extensions if we will look for all extensions.
-            txtBoxExtensions.Enabled = !checkBoxAllExtensions.Checked;
         }
 
         private string GetCommentStartTypeForLanguage(string languageExtension)
@@ -312,6 +313,44 @@ namespace File_Merger
 
                 txtBoxOutputDir_TextChanged(sender, e);
             }
+        }
+
+        private void checkBoxReverseExtensions_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxReverseExtensions.Checked)
+            {
+                if (!checkBoxAllExtensions.Checked)
+                    txtBoxExtensions.BackColor = Color.LightYellow;
+
+                labelExtensionsToMerge.Text = "Extensions NOT to merge (split by semicolon if more than one):";
+
+                ToolTip toolTipExtensions = new ToolTip();
+                toolTipExtensions.SetToolTip(txtBoxExtensions, "The extensions are now reversed; writing extensions here will mean they will be ignored.");
+                toolTipExtensions.ShowAlways = true;
+            }
+            else
+            {
+                if (!checkBoxAllExtensions.Checked)
+                    txtBoxExtensions.BackColor = txtBoxExtensions.Enabled ? Color.White : SystemColors.Control;
+
+                labelExtensionsToMerge.Text = "Extensions to merge (split by semicolon if more than one):";
+            }
+        }
+
+        private void checkBoxAllExtensions_CheckedChanged(object sender, EventArgs e)
+        {
+            txtBoxExtensions.Enabled = !checkBoxAllExtensions.Checked;
+
+            if (checkBoxAllExtensions.Checked)
+            {
+                txtBoxExtensions.BackColor = SystemColors.Control;
+                return;
+            }
+
+            if (checkBoxReverseExtensions.Checked)
+                txtBoxExtensions.BackColor = Color.LightYellow;
+            else
+                txtBoxExtensions.BackColor = txtBoxExtensions.Enabled ? Color.White : SystemColors.Control;
         }
     }
 
