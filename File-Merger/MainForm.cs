@@ -25,13 +25,12 @@ namespace File_Merger
         {
             //promptAdmOutcome = Prompt.ShowDialog("Did you run the application as an administrator (nothing bad will happen if you didn't)?", "Administrator mode", "Yes", "No");
 
-            InitializeComponent();
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
 
-            txtBoxDirectory.TextChanged += txtBoxDirectory_TextChanged;
-            txtBoxDirectoryOutput.TextChanged += txtBoxDirectoryOutput_TextChanged;
+            this.txtBoxDirectory.TextChanged += txtBoxDirectory_TextChanged;
+            this.txtBoxDirectoryOutput.TextChanged += txtBoxDirectoryOutput_TextChanged;
         }
 
         private void button1_Click(object sender, EventArgs e)
