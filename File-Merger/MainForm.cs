@@ -242,5 +242,18 @@ namespace File_Merger
         {
             syncrhonizeDirFields = checkBoxSyncDirFields.Checked;
         }
+
+        private void btnSearchForOutput_Click(object sender, EventArgs e)
+        {
+            //openFileDialog1.Filter = "Textfiles (*.txt)*.txt";
+            openFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                syncrhonizeDirFields = false;
+                txtBoxDirectoryOutput.Text = openFileDialog1.FileName;
+                syncrhonizeDirFields = true;
+            }
+        }
     }
 }

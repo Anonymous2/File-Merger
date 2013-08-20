@@ -41,6 +41,8 @@
             this.txtBoxDirectoryOutput = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBoxSyncDirFields = new System.Windows.Forms.CheckBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.btnSearchForOutput = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // checkBoxExtensions
@@ -132,7 +134,7 @@
             // 
             this.txtBoxDirectoryOutput.Location = new System.Drawing.Point(14, 95);
             this.txtBoxDirectoryOutput.Name = "txtBoxDirectoryOutput";
-            this.txtBoxDirectoryOutput.Size = new System.Drawing.Size(271, 20);
+            this.txtBoxDirectoryOutput.Size = new System.Drawing.Size(247, 20);
             this.txtBoxDirectoryOutput.TabIndex = 5;
             // 
             // label1
@@ -157,11 +159,26 @@
             this.checkBoxSyncDirFields.UseVisualStyleBackColor = true;
             this.checkBoxSyncDirFields.CheckedChanged += new System.EventHandler(this.checkBoxSyncDirFields_CheckedChanged);
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "searchForFileDialog";
+            // 
+            // btnSearchForOutput
+            // 
+            this.btnSearchForOutput.Location = new System.Drawing.Point(261, 95);
+            this.btnSearchForOutput.Name = "btnSearchForOutput";
+            this.btnSearchForOutput.Size = new System.Drawing.Size(24, 20);
+            this.btnSearchForOutput.TabIndex = 11;
+            this.btnSearchForOutput.Text = "...";
+            this.btnSearchForOutput.UseVisualStyleBackColor = true;
+            this.btnSearchForOutput.Click += new System.EventHandler(this.btnSearchForOutput_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(300, 212);
+            this.Controls.Add(this.btnSearchForOutput);
             this.Controls.Add(this.checkBoxSyncDirFields);
             this.Controls.Add(this.btnSearchDirectory);
             this.Controls.Add(this.checkBoxAllExtensions);
@@ -200,5 +217,7 @@
         private System.Windows.Forms.TextBox txtBoxDirectoryOutput;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox checkBoxSyncDirFields;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button btnSearchForOutput;
     }
 }
