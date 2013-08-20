@@ -40,19 +40,19 @@ namespace File_Merger
 
             if (directorySearch == "")
             {
-                MessageBox.Show("The directory field was left empty.", "An error has occurred!");
+                MessageBox.Show("The directory field was left empty.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (!Directory.Exists(directorySearch))
             {
-                MessageBox.Show("The given directory does not exist.", "An error has occurred!");
+                MessageBox.Show("The given directory does not exist.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (Path.HasExtension(directorySearch))
             {
-                MessageBox.Show("There is an extension in the directory.", "An error has occurred!");
+                MessageBox.Show("There is an extension in the directory.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace File_Merger
 
                 if (extensionString == "")
                 {
-                    MessageBox.Show("The extensions field was left empty.", "An error has occurred!");
+                    MessageBox.Show("The extensions field was left empty.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
@@ -75,7 +75,7 @@ namespace File_Merger
 
             if (allFiles == string.Empty)
             {
-                MessageBox.Show("The searched directory contains no files at all.", "An error has occurred!");
+                MessageBox.Show("The searched directory contains no files at all.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -139,7 +139,7 @@ namespace File_Merger
                     {
                         if (new FileInfo(fullOutputFilename).Length != 0 && !checkBoxDeleteOutputFile.Checked)
                         {
-                            MessageBox.Show("Output file already exists and you did not check the box to delete the file if it would exist!", "An error has occurred!");
+                            MessageBox.Show("Output file already exists and you did not check the box to delete the file if it would exist!", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             continue;
                         }
                         else //! Delete both if length is 0 OR when we should delete it because of the checkbox
@@ -180,7 +180,7 @@ namespace File_Merger
                                     messageToShow += ". Please note you did not run the program in administrator mode, which is most likely the problem. If you did, please make sure the file was not actually updated anyhow";
 
                                 messageToShow += "!";
-                                MessageBox.Show(messageToShow, "An error has occurred!");
+                                MessageBox.Show(messageToShow, "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 continue;
                             }
 
