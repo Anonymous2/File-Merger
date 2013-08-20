@@ -43,6 +43,7 @@
             this.checkBoxSyncDirFields = new System.Windows.Forms.CheckBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.btnSearchForOutput = new System.Windows.Forms.Button();
+            this.checkBoxDeleteOutputFile = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // checkBoxExtensions
@@ -75,7 +76,7 @@
             // 
             // btnMerge
             // 
-            this.btnMerge.Location = new System.Drawing.Point(210, 182);
+            this.btnMerge.Location = new System.Drawing.Point(210, 205);
             this.btnMerge.Name = "btnMerge";
             this.btnMerge.Size = new System.Drawing.Size(75, 23);
             this.btnMerge.TabIndex = 4;
@@ -173,11 +174,25 @@
             this.btnSearchForOutput.UseVisualStyleBackColor = true;
             this.btnSearchForOutput.Click += new System.EventHandler(this.btnSearchForOutput_Click);
             // 
+            // checkBoxDeleteOutputFile
+            // 
+            this.checkBoxDeleteOutputFile.AutoSize = true;
+            this.checkBoxDeleteOutputFile.Checked = true;
+            this.checkBoxDeleteOutputFile.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxDeleteOutputFile.Enabled = false;
+            this.checkBoxDeleteOutputFile.Location = new System.Drawing.Point(18, 211);
+            this.checkBoxDeleteOutputFile.Name = "checkBoxDeleteOutputFile";
+            this.checkBoxDeleteOutputFile.Size = new System.Drawing.Size(143, 17);
+            this.checkBoxDeleteOutputFile.TabIndex = 12;
+            this.checkBoxDeleteOutputFile.Text = "Delete output file if exists";
+            this.checkBoxDeleteOutputFile.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 212);
+            this.ClientSize = new System.Drawing.Size(300, 234);
+            this.Controls.Add(this.checkBoxDeleteOutputFile);
             this.Controls.Add(this.btnSearchForOutput);
             this.Controls.Add(this.checkBoxSyncDirFields);
             this.Controls.Add(this.btnSearchDirectory);
@@ -219,5 +234,6 @@
         private System.Windows.Forms.CheckBox checkBoxSyncDirFields;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button btnSearchForOutput;
+        private System.Windows.Forms.CheckBox checkBoxDeleteOutputFile;
     }
 }
