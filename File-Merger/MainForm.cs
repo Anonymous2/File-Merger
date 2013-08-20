@@ -292,6 +292,7 @@ namespace File_Merger
         {
             //openFileDialog1.Filter = "Textfiles (*.txt)*.txt";
             openFileDialog1.Filter = "All files (*.*)|*.*";
+            openFileDialog1.FileName = "";
 
             if (txtBoxOutputDir.Text != "" && Directory.Exists(txtBoxOutputDir.Text))
                 openFileDialog1.InitialDirectory = txtBoxOutputDir.Text;
