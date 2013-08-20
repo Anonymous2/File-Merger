@@ -153,8 +153,18 @@ namespace File_Merger
                             outputFile.WriteLine(commentTypeStart + " '" + arrayFiles[i] + "'" + commentTypeEnd);
                             outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
                             outputFile.WriteLine("\t");
-                            
-                            string[] linesOfFile = File.ReadAllLines(arrayFiles[i]);
+
+                            string[] linesOfFile;
+
+                            try
+                            {
+                                linesOfFile = File.ReadAllLines(arrayFiles[i]);
+                            }
+                            catch (IOException)
+                            {
+                                MessageBox.Show("Output file could not be read (probably because it's being used)!", "An error has occurred!");
+                                continue;
+                            }
 
                             for (int j = 0; j < linesOfFile.Length; j++)
                                 outputFile.WriteLine("\t" + linesOfFile[j]);
