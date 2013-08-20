@@ -247,6 +247,9 @@ namespace File_Merger
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Select a directory to merge files from.";
 
+            if (txtBoxDirectory.Text != "" && Directory.Exists(txtBoxDirectory.Text))
+                fbd.SelectedPath = txtBoxDirectory.Text;
+
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 txtBoxDirectoryOutput.Text = fbd.SelectedPath;
@@ -289,6 +292,9 @@ namespace File_Merger
         {
             //openFileDialog1.Filter = "Textfiles (*.txt)*.txt";
             openFileDialog1.Filter = "All files (*.*)|*.*";
+
+            if (txtBoxDirectoryOutput.Text != "" && Directory.Exists(txtBoxDirectoryOutput.Text))
+                openFileDialog1.InitialDirectory = txtBoxDirectoryOutput.Text;
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
