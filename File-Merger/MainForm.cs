@@ -30,13 +30,13 @@ namespace File_Merger
             MinimizeBox = false;
 
             this.txtBoxDirectory.TextChanged += txtBoxDirectory_TextChanged;
-            this.txtBoxDirectoryOutput.TextChanged += txtBoxDirectoryOutput_TextChanged;
+            this.txtBoxOutputDir.TextChanged += txtBoxOutputDir_TextChanged;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             string directorySearch = txtBoxDirectory.Text;
-            string directoryOutput = txtBoxDirectoryOutput.Text;
+            string directoryOutput = txtBoxOutputDir.Text;
 
             if (directorySearch == "")
             {
@@ -252,8 +252,8 @@ namespace File_Merger
 
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                txtBoxDirectoryOutput.Text = fbd.SelectedPath;
-                txtBoxDirectoryOutput_TextChanged(sender, e);
+                txtBoxOutputDir.Text = fbd.SelectedPath;
+                txtBoxOutputDir_TextChanged(sender, e);
             }
         }
 
@@ -261,26 +261,26 @@ namespace File_Merger
         {
             if (syncrhonizeDirFields)
             {
-                if (txtBoxDirectory.Text.Length > 0)// && (txtBoxDirectoryOutput.Text == "" || txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxDirectoryOutput.Text ||
-                    //txtBoxDirectoryOutput.Text.Substring(0, txtBoxDirectoryOutput.Text.Length - 1) == txtBoxDirectory.Text))
-                    txtBoxDirectoryOutput.Text = txtBoxDirectory.Text;
-                else if (txtBoxDirectory.Text == "" && txtBoxDirectoryOutput.Text != "")
-                    txtBoxDirectoryOutput.Text = "";
+                if (txtBoxDirectory.Text.Length > 0)// && (txtBoxOutputDir.Text == "" || txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxOutputDir.Text ||
+                    //txtBoxOutputDir.Text.Substring(0, txtBoxOutputDir.Text.Length - 1) == txtBoxDirectory.Text))
+                    txtBoxOutputDir.Text = txtBoxDirectory.Text;
+                else if (txtBoxDirectory.Text == "" && txtBoxOutputDir.Text != "")
+                    txtBoxOutputDir.Text = "";
             }
         }
 
-        void txtBoxDirectoryOutput_TextChanged(object sender, System.EventArgs e)
+        void txtBoxOutputDir_TextChanged(object sender, System.EventArgs e)
         {
             if (syncrhonizeDirFields)
             {
-                if (txtBoxDirectoryOutput.Text.Length > 0)// && (txtBoxDirectory.Text == "" || txtBoxDirectoryOutput.Text.Substring(0, txtBoxDirectoryOutput.Text.Length - 1) == txtBoxDirectory.Text ||
-                    //txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxDirectoryOutput.Text))
-                    txtBoxDirectory.Text = txtBoxDirectoryOutput.Text;
-                else if (txtBoxDirectoryOutput.Text == "" && txtBoxDirectory.Text != "")
+                if (txtBoxOutputDir.Text.Length > 0)// && (txtBoxDirectory.Text == "" || txtBoxOutputDir.Text.Substring(0, txtBoxOutputDir.Text.Length - 1) == txtBoxDirectory.Text ||
+                    //txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxOutputDir.Text))
+                    txtBoxDirectory.Text = txtBoxOutputDir.Text;
+                else if (txtBoxOutputDir.Text == "" && txtBoxDirectory.Text != "")
                     txtBoxDirectory.Text = "";
             }
 
-            checkBoxDeleteOutputFile.Enabled = Path.HasExtension(txtBoxDirectoryOutput.Text);
+            checkBoxDeleteOutputFile.Enabled = Path.HasExtension(txtBoxOutputDir.Text);
         }
 
         private void checkBoxSyncDirFields_CheckedChanged(object sender, EventArgs e)
@@ -293,16 +293,26 @@ namespace File_Merger
             //openFileDialog1.Filter = "Textfiles (*.txt)*.txt";
             openFileDialog1.Filter = "All files (*.*)|*.*";
 
-            if (txtBoxDirectoryOutput.Text != "" && Directory.Exists(txtBoxDirectoryOutput.Text))
-                openFileDialog1.InitialDirectory = txtBoxDirectoryOutput.Text;
+            if (txtBoxOutputDir.Text != "" && Directory.Exists(txtBoxOutputDir.Text))
+                openFileDialog1.InitialDirectory = txtBoxOutputDir.Text;
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 syncrhonizeDirFields = false;
-                txtBoxDirectoryOutput.Text = openFileDialog1.FileName;
+                string fileNameWithDir = openFileDialog1.FileName;
+                string fileNameWithoutDir = Path.GetFileName(fileNameWithDir);
+
+                if (Path.HasExtension(fileNameWithDir))
+                    fileNameWithDir = fileNameWithDir.Substring(0, fileNameWithDir.Length - Path.GetFileName(fileNameWithDir).Length);
+
+                if (fileNameWithDir.Substring(fileNameWithDir.Length - 1) == "\\")
+                    fileNameWithDir = fileNameWithDir.Remove(fileNameWithDir.Length - 2);
+
+                txtBoxOutputDir.Text = fileNameWithDir;
+                txtBoxOutputFile.Text = "\\" + fileNameWithoutDir;
                 syncrhonizeDirFields = true;
 
-                txtBoxDirectory_TextChanged(sender, e);
+                txtBoxOutputDir_TextChanged(sender, e);
             }
         }
     }
