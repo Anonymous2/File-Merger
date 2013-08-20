@@ -14,6 +14,7 @@ namespace File_Merger
     public partial class MainForm : Form
     {
         private bool syncrhonizeDirFields = true;
+        private int promptAdmOutcome = 0;
 
         public MainForm()
         {
@@ -22,12 +23,15 @@ namespace File_Merger
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //promptAdmOutcome = Prompt.ShowDialog("Did you run the application as an administrator (nothing bad will happen if you didn't)?", "Administrator mode", "Yes", "No");
+
+            InitializeComponent();
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
 
-            this.txtBoxDirectory.TextChanged += txtBoxDirectory_TextChanged;
-            this.txtBoxDirectoryOutput.TextChanged += txtBoxDirectoryOutput_TextChanged;
+            txtBoxDirectory.TextChanged += txtBoxDirectory_TextChanged;
+            txtBoxDirectoryOutput.TextChanged += txtBoxDirectoryOutput_TextChanged;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -171,7 +175,13 @@ namespace File_Merger
                             }
                             catch (IOException)
                             {
-                                MessageBox.Show("Output file could not be read (probably because it's being used)!", "An error has occurred!");
+                                string messageToShow = "Output file could not be read (probably because it's being used)";
+
+                                if (promptAdmOutcome == 2)
+                                    messageToShow += ". Please note you did not run the program in administrator mode, which is most likely the problem. If you did, please make sure the file was not actually updated anyhow";
+
+                                messageToShow += "!";
+                                MessageBox.Show(messageToShow, "An error has occurred!");
                                 continue;
                             }
 
@@ -289,6 +299,34 @@ namespace File_Merger
 
                 txtBoxDirectory_TextChanged(sender, e);
             }
+        }
+    }
+
+    public static class Prompt
+    {
+        public static int ShowDialog(string text, string caption, string btnOneText, string btnTwoText)
+        {
+            Form prompt = new Form();
+            prompt.FormBorderStyle = FormBorderStyle.FixedDialog;
+            prompt.MaximizeBox = false;
+            prompt.MinimizeBox = false;
+            prompt.ShowIcon = false;
+            prompt.Width = 300;
+            prompt.Height = 125;
+            prompt.Text = caption;
+            Label textLabel = new Label() { Left = 10, Top = 15, Text = text };
+            Button firstButton = new Button() { Text = btnOneText, Left = 30, Width = 90, Top = 50 };
+            Button secondButton = new Button() { Text = btnTwoText, Left = 160, Width = 90, Top = 50 };
+            int clickedFirstButton = 0; //! 0 = uninitialized (red 'X' for example), 1 = button one, 2 = button two
+            firstButton.Click  += (sender, e) => { prompt.Close(); clickedFirstButton = 1; };
+            secondButton.Click += (sender, e) => { prompt.Close(); clickedFirstButton = 2; };
+            prompt.Controls.Add(textLabel);
+            prompt.Controls.Add(firstButton);
+            prompt.Controls.Add(secondButton);
+            prompt.ShowDialog();
+
+            //! Keep opening new prompts until the user pressed either of the buttons.
+            return clickedFirstButton > 0 ? clickedFirstButton : Prompt.ShowDialog(text, caption, btnOneText, btnTwoText);
         }
     }
 }
