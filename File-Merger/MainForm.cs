@@ -306,9 +306,6 @@ namespace File_Merger
                 if (Path.HasExtension(fileNameWithDir))
                     fileNameWithDir = fileNameWithDir.Substring(0, fileNameWithDir.Length - Path.GetFileName(fileNameWithDir).Length);
 
-                if (fileNameWithDir.Substring(fileNameWithDir.Length - 1) == "\\")
-                    fileNameWithDir = fileNameWithDir.Remove(fileNameWithDir.Length - 2);
-
                 txtBoxOutputDir.Text = fileNameWithDir;
                 txtBoxOutputFile.Text = "\\" + fileNameWithoutDir;
                 syncrhonizeDirFields = true;
