@@ -132,10 +132,19 @@ namespace File_Merger
 
                 if (Path.HasExtension(fullOutputFilename))
                 {
-                    if (File.Exists(fullOutputFilename) && new FileInfo(fullOutputFilename).Length != 0)
+                    if (File.Exists(fullOutputFilename))
                     {
-                        MessageBox.Show("Output file already exists!", "An error has occurred!");
-                        continue;
+                        if (new FileInfo(fullOutputFilename).Length != 0 && !checkBoxDeleteOutputFile.Checked)
+                        {
+                            MessageBox.Show("Output file already exists and you did not check the box to delete the file if it would exist!", "An error has occurred!");
+                            continue;
+                        }
+                        else //! Delete both if length is 0 OR when we should delete it because of the checkbox
+                        {
+                            //string _fullOutputFilename = fullOutputFilename.Replace("\\", "'\'\");
+                            //File.Delete(@_fullOutputFilename);
+                            File.Delete(@fullOutputFilename);
+                        }
                     }
                 }
 
@@ -258,6 +267,8 @@ namespace File_Merger
                 else if (txtBoxDirectoryOutput.Text == "" && txtBoxDirectory.Text != "")
                     txtBoxDirectory.Text = "";
             }
+
+            checkBoxDeleteOutputFile.Enabled = Path.HasExtension(txtBoxDirectoryOutput.Text);
         }
 
         private void checkBoxSyncDirFields_CheckedChanged(object sender, EventArgs e)
