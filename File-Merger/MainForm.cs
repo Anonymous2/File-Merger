@@ -103,9 +103,9 @@ namespace File_Merger
                 //! yet exist. If it doesn't, create it.
                 string _directoryOutput = directoryOutput;
 
-                //! Minus hardcoded 2 because those are the '//' lines.
+                //! Minus hardcoded 1 because that's the '/' line.
                 if (Path.HasExtension(directoryOutput))
-                    _directoryOutput = _directoryOutput.Remove(_directoryOutput.Length - 2 - Path.GetFileName(directoryOutput).Length);
+                    _directoryOutput = _directoryOutput.Remove(_directoryOutput.Length - 1 - Path.GetFileName(directoryOutput).Length);
 
                 if (!Directory.Exists(_directoryOutput))
                     Directory.CreateDirectory(_directoryOutput);
