@@ -67,6 +67,12 @@ namespace File_Merger
                 return;
             }
 
+            if (Path.GetDirectoryName(txtBoxOutputFile.Text) != "")
+            {
+                MessageBox.Show("It is now allowed to give a directory in the output FILE field.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (Path.HasExtension(directorySearch))
             {
                 MessageBox.Show("There is an extension in the directory field we search in.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
