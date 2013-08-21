@@ -26,7 +26,7 @@ namespace File_Merger
             //promptAdmOutcome = Prompt.ShowDialog("Did you run the application as an administrator (nothing bad will happen if you didn't)?", "Administrator mode", "Yes", "No");
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
-            MinimizeBox = false;
+            MinimizeBox = true;
 
             addTooltip(txtBoxExtensions, "The extensions written here will be checked unless the 'All Extensions' checkbox is checked.");
             addTooltip(txtBoxDirectorySearch, "Directory in which the application will search for files to merge.");
