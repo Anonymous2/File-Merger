@@ -28,18 +28,16 @@ namespace File_Merger
             MaximizeBox = false;
             MinimizeBox = false;
 
-            addTooltip(txtBoxExtensions, "The extensions written here will either be used or ignored, depending on if the checkbox to reverse this field is checked.");
+            addTooltip(txtBoxExtensions, "The extensions written here will be checked unless the 'All Extensions' checkbox is checked.");
             addTooltip(txtBoxDirectorySearch, "Directory in which the application will search for files to merge.");
             addTooltip(txtBoxOutputDir, "Directory the output file will be created in.");
             addTooltip(txtBoxOutputFile, "Filename the output file will be named.");
             addTooltip(btnSearchDirectory, "Search for a directroy to fill in the 'search directory' field.");
             addTooltip(btnSearchForOutput, "Search for a file to output the result of the merge in.");
             addTooltip(checkBoxIncludeSubDirs, "Checking this will make the application include subdirectories of the directory we search in.");
-            addTooltip(checkBoxReverseExtensions, "Checking this will reverse the extensions field, meaning we ignore any given extensions written there.");
             addTooltip(checkBoxSyncDirFields, "Checking this will synchronize the directory search and directory output fields.");
             addTooltip(checkBoxAllExtensions, "Checking this will make the application use all the extensions it can find in the given directory.");
             addTooltip(checkBoxUniqueFilePerExt, "Checking this will mean if there are more extensions found to be merged, it will create one respective file for each such as 'merged_html.html', 'merged_sql.sql', etc.");
-            addTooltip(checkBoxReverseExtensions, "Checking this will reverse the 'extensions' field (unless 'All Extensions' is checked). From that point on, the given extensions will be ignored.");
             addTooltip(checkBoxDeleteOutputFile, "Checking this will delete any output file if any exist before writing a new one. If not checked and the file already exists, we return an error.");
             addTooltip(btnMerge, "Merge the files!");
 
@@ -212,7 +210,7 @@ namespace File_Merger
                     {
                         if (Path.HasExtension(arrayFiles[i]))
                         {
-                            if (Path.HasExtension(arrayFiles[i]) && (oneHardcodedOutputFile || (checkBoxReverseExtensions.Checked != (extensionArray[y] == Path.GetExtension(arrayFiles[i])))))
+                            if (Path.HasExtension(arrayFiles[i]) && (oneHardcodedOutputFile || extensionArray[y] == Path.GetExtension(arrayFiles[i])))
                             {
                                 if (firstLinePrinted) //! First line has to be on-top of the file.
                                     outputFile.WriteLine("\t"); //! "\t" is a single linebreak, "\n" breaks two lines.
@@ -363,24 +361,6 @@ namespace File_Merger
             }
         }
 
-        private void checkBoxReverseExtensions_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxReverseExtensions.Checked)
-            {
-                if (!checkBoxAllExtensions.Checked)
-                    txtBoxExtensions.BackColor = Color.LightYellow;
-
-                labelExtensionsToMerge.Text = "Extensions NOT to merge (split by semicolon if more than one):";
-            }
-            else
-            {
-                if (!checkBoxAllExtensions.Checked)
-                    txtBoxExtensions.BackColor = txtBoxExtensions.Enabled ? Color.White : SystemColors.Control;
-
-                labelExtensionsToMerge.Text = "Extensions to merge (split by semicolon if more than one):";
-            }
-        }
-
         private void checkBoxAllExtensions_CheckedChanged(object sender, EventArgs e)
         {
             txtBoxExtensions.Enabled = !checkBoxAllExtensions.Checked;
@@ -391,10 +371,7 @@ namespace File_Merger
                 return;
             }
 
-            if (checkBoxReverseExtensions.Checked)
-                txtBoxExtensions.BackColor = Color.LightYellow;
-            else
-                txtBoxExtensions.BackColor = txtBoxExtensions.Enabled ? Color.White : SystemColors.Control;
+            txtBoxExtensions.BackColor = txtBoxExtensions.Enabled ? Color.White : SystemColors.Control;
         }
 
         private void addTooltip(Control control, string tooltipMsg)

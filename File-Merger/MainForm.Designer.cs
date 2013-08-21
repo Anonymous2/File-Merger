@@ -45,7 +45,6 @@
             this.btnSearchForOutput = new System.Windows.Forms.Button();
             this.checkBoxDeleteOutputFile = new System.Windows.Forms.CheckBox();
             this.txtBoxOutputFile = new System.Windows.Forms.TextBox();
-            this.checkBoxReverseExtensions = new System.Windows.Forms.CheckBox();
             this.checkBoxFolderForMerged = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
@@ -198,21 +197,10 @@
             this.txtBoxOutputFile.TabIndex = 13;
             this.txtBoxOutputFile.TextChanged += new System.EventHandler(this.txtBoxOutputFile_TextChanged);
             // 
-            // checkBoxReverseExtensions
-            // 
-            this.checkBoxReverseExtensions.AutoSize = true;
-            this.checkBoxReverseExtensions.Location = new System.Drawing.Point(18, 188);
-            this.checkBoxReverseExtensions.Name = "checkBoxReverseExtensions";
-            this.checkBoxReverseExtensions.Size = new System.Drawing.Size(136, 17);
-            this.checkBoxReverseExtensions.TabIndex = 14;
-            this.checkBoxReverseExtensions.Text = "Reverse extension field";
-            this.checkBoxReverseExtensions.UseVisualStyleBackColor = true;
-            this.checkBoxReverseExtensions.CheckedChanged += new System.EventHandler(this.checkBoxReverseExtensions_CheckedChanged);
-            // 
             // checkBoxFolderForMerged
             // 
             this.checkBoxFolderForMerged.AutoSize = true;
-            this.checkBoxFolderForMerged.Location = new System.Drawing.Point(163, 188);
+            this.checkBoxFolderForMerged.Location = new System.Drawing.Point(17, 188);
             this.checkBoxFolderForMerged.Name = "checkBoxFolderForMerged";
             this.checkBoxFolderForMerged.Size = new System.Drawing.Size(137, 17);
             this.checkBoxFolderForMerged.TabIndex = 15;
@@ -225,7 +213,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(341, 238);
             this.Controls.Add(this.checkBoxFolderForMerged);
-            this.Controls.Add(this.checkBoxReverseExtensions);
             this.Controls.Add(this.btnSearchForOutput);
             this.Controls.Add(this.txtBoxOutputFile);
             this.Controls.Add(this.checkBoxDeleteOutputFile);
@@ -271,7 +258,6 @@
         private System.Windows.Forms.Button btnSearchForOutput;
         private System.Windows.Forms.CheckBox checkBoxDeleteOutputFile;
         private System.Windows.Forms.TextBox txtBoxOutputFile;
-        private System.Windows.Forms.CheckBox checkBoxReverseExtensions;
         private System.Windows.Forms.CheckBox checkBoxFolderForMerged;
     }
 }
