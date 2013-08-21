@@ -5,7 +5,7 @@ File merger written in C#.
 
 Images
 ===========
-![Newest UI](http://i.imgur.com/soULuZD.png)
+![Newest UI](http://i.imgur.com/WnkzSJe.png)
 
 ![Image](http://img856.imageshack.us/img856/8003/hi.png)
 
