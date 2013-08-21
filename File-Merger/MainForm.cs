@@ -441,6 +441,9 @@ namespace File_Merger
             {
                 mergeThread.Abort();
                 mergeThread = null;
+
+                SetEnabledOfControl(btnMerge, true);
+                SetEnabledOfControl(btnStopMerging, false);
             }
         }
 
