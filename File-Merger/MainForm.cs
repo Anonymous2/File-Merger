@@ -99,6 +99,12 @@ namespace File_Merger
                     return;
                 }
 
+                if (File.Exists(directoryOutput) && checkBoxDeleteOutputFile.Enabled && !checkBoxDeleteOutputFile.Checked)
+                {
+                    MessageBox.Show("The given output file already exists and the checkbox to delete the output file is not checked.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 if (txtBoxOutputFile.Text.Substring(0, 1) != "\\")
                 {
                     MessageBox.Show("There are no backslashes on the start of the output file, the application has added them manually.", "A warning has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
