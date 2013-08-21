@@ -250,7 +250,7 @@ namespace File_Merger
                                     }
                                     catch (IOException)
                                     {
-                                        string messageToShow = "Output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning).";
+                                        string messageToShow = "Output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning)";
 
                                         if (promptAdminOutcome == 2)
                                             messageToShow += ". Please note you did not run the program in administrator mode, which is most likely the problem. If you did, please make sure the file was not actually updated anyhow";
