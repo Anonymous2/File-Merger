@@ -53,7 +53,7 @@
             this.checkBoxUniqueFilePerExt.AutoSize = true;
             this.checkBoxUniqueFilePerExt.Checked = true;
             this.checkBoxUniqueFilePerExt.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxUniqueFilePerExt.Location = new System.Drawing.Point(146, 165);
+            this.checkBoxUniqueFilePerExt.Location = new System.Drawing.Point(163, 165);
             this.checkBoxUniqueFilePerExt.Name = "checkBoxUniqueFilePerExt";
             this.checkBoxUniqueFilePerExt.Size = new System.Drawing.Size(161, 17);
             this.checkBoxUniqueFilePerExt.TabIndex = 1;
@@ -154,7 +154,7 @@
             this.checkBoxSyncDirFields.AutoSize = true;
             this.checkBoxSyncDirFields.Checked = true;
             this.checkBoxSyncDirFields.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSyncDirFields.Location = new System.Drawing.Point(146, 53);
+            this.checkBoxSyncDirFields.Location = new System.Drawing.Point(163, 53);
             this.checkBoxSyncDirFields.Name = "checkBoxSyncDirFields";
             this.checkBoxSyncDirFields.Size = new System.Drawing.Size(154, 17);
             this.checkBoxSyncDirFields.TabIndex = 10;
@@ -195,6 +195,7 @@
             this.txtBoxOutputFile.Name = "txtBoxOutputFile";
             this.txtBoxOutputFile.Size = new System.Drawing.Size(73, 20);
             this.txtBoxOutputFile.TabIndex = 13;
+            this.txtBoxOutputFile.TextChanged += new System.EventHandler(this.txtBoxOutputFile_TextChanged);
             // 
             // checkBoxReverseExtensions
             // 

@@ -291,8 +291,6 @@ namespace File_Merger
                 else if (txtBoxOutputDir.Text == "" && txtBoxDirectory.Text != "")
                     txtBoxDirectory.Text = "";
             }
-
-            checkBoxDeleteOutputFile.Enabled = Path.HasExtension(txtBoxOutputDir.Text);
         }
 
         private void checkBoxSyncDirFields_CheckedChanged(object sender, EventArgs e)
@@ -365,6 +363,11 @@ namespace File_Merger
             ToolTip toolTip = new ToolTip();
             toolTip.SetToolTip(control, tooltipMsg);
             toolTip.ShowAlways = true;
+        }
+
+        private void txtBoxOutputFile_TextChanged(object sender, EventArgs e)
+        {
+            checkBoxDeleteOutputFile.Enabled = Path.HasExtension(txtBoxOutputFile.Text);
         }
     }
 
