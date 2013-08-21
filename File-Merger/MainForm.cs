@@ -29,7 +29,7 @@ namespace File_Merger
             MinimizeBox = false;
 
             addTooltip(txtBoxExtensions, "The extensions written here will either be used or ignored, depending on if the checkbox to reverse this field is checked.");
-            addTooltip(txtBoxDirectory, "Directory in which the application will search for files to merge.");
+            addTooltip(txtBoxDirectorySearch, "Directory in which the application will search for files to merge.");
             addTooltip(txtBoxOutputDir, "Directory the output file will be created in.");
             addTooltip(txtBoxOutputFile, "Filename the output file will be named.");
             addTooltip(btnSearchDirectory, "Search for a directroy to fill in the 'search directory' field.");
@@ -43,13 +43,13 @@ namespace File_Merger
             addTooltip(checkBoxDeleteOutputFile, "Checking this will delete any output file if any exist before writing a new one. If not checked and the file already exists, we return an error.");
             addTooltip(btnMerge, "Merge the files!");
 
-            this.txtBoxDirectory.TextChanged += txtBoxDirectory_TextChanged;
+            this.txtBoxDirectorySearch.TextChanged += txtBoxDirectorySearch_TextChanged;
             this.txtBoxOutputDir.TextChanged += txtBoxOutputDir_TextChanged;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string directorySearch = txtBoxDirectory.Text;
+            string directorySearch = txtBoxDirectorySearch.Text;
             string directoryOutput = txtBoxOutputDir.Text + txtBoxOutputFile.Text;
 
             if (directorySearch == "")
@@ -266,24 +266,24 @@ namespace File_Merger
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Select a directory to merge files from.";
 
-            if (txtBoxDirectory.Text != "" && Directory.Exists(txtBoxDirectory.Text))
-                fbd.SelectedPath = txtBoxDirectory.Text;
+            if (txtBoxDirectorySearch.Text != "" && Directory.Exists(txtBoxDirectorySearch.Text))
+                fbd.SelectedPath = txtBoxDirectorySearch.Text;
 
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                txtBoxDirectory.Text = fbd.SelectedPath;
-                txtBoxDirectory_TextChanged(sender, e);
+                txtBoxDirectorySearch.Text = fbd.SelectedPath;
+                txtBoxDirectorySearch_TextChanged(sender, e);
             }
         }
 
-        void txtBoxDirectory_TextChanged(object sender, System.EventArgs e)
+        void txtBoxDirectorySearch_TextChanged(object sender, System.EventArgs e)
         {
             if (syncrhonizeDirFields)
             {
-                if (txtBoxDirectory.Text.Length > 0)// && (txtBoxOutputDir.Text == "" || txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxOutputDir.Text ||
+                if (txtBoxDirectorySearch.Text.Length > 0)// && (txtBoxOutputDir.Text == "" || txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxOutputDir.Text ||
                     //txtBoxOutputDir.Text.Substring(0, txtBoxOutputDir.Text.Length - 1) == txtBoxDirectory.Text))
-                    txtBoxOutputDir.Text = txtBoxDirectory.Text;
-                else if (txtBoxDirectory.Text == "" && txtBoxOutputDir.Text != "")
+                    txtBoxOutputDir.Text = txtBoxDirectorySearch.Text;
+                else if (txtBoxDirectorySearch.Text == "" && txtBoxOutputDir.Text != "")
                     txtBoxOutputDir.Text = "";
             }
         }
@@ -294,9 +294,9 @@ namespace File_Merger
             {
                 if (txtBoxOutputDir.Text.Length > 0)// && (txtBoxDirectory.Text == "" || txtBoxOutputDir.Text.Substring(0, txtBoxOutputDir.Text.Length - 1) == txtBoxDirectory.Text ||
                     //txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxOutputDir.Text))
-                    txtBoxDirectory.Text = txtBoxOutputDir.Text;
-                else if (txtBoxOutputDir.Text == "" && txtBoxDirectory.Text != "")
-                    txtBoxDirectory.Text = "";
+                    txtBoxDirectorySearch.Text = txtBoxOutputDir.Text;
+                else if (txtBoxOutputDir.Text == "" && txtBoxDirectorySearch.Text != "")
+                    txtBoxDirectorySearch.Text = "";
             }
         }
 
@@ -325,8 +325,7 @@ namespace File_Merger
 
                 txtBoxOutputDir.Text = fileNameWithDir;
                 txtBoxOutputFile.Text = "\\" + fileNameWithoutDir;
-                syncrhonizeDirFields = true;
-
+                syncrhonizeDirFields = checkBoxSyncDirFields.Checked;
                 txtBoxOutputDir_TextChanged(sender, e);
             }
         }
