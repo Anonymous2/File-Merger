@@ -76,6 +76,12 @@ namespace File_Merger
                 return;
             }
 
+            if (txtBoxOutputFile.Text != String.Empty && !Path.HasExtension(txtBoxOutputFile.Text))
+            {
+                MessageBox.Show("There is no extension in the output file field but it's not empty either.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             string extensionString = "";
 
             //! Do not pick ALL extensions
