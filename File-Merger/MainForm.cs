@@ -475,8 +475,17 @@ namespace File_Merger
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-                button1_Click(sender, e);
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    button1_Click(sender, e);
+                    break;
+                case Keys.Escape:
+                    if (MessageBox.Show("Are you sure you want to quit?.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        Close();
+
+                    break;
+            }
         }
     }
 
