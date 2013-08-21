@@ -128,12 +128,6 @@ namespace File_Merger
                     MessageBox.Show("The given output file already exists and the checkbox to delete the output file is not checked.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
-                if (txtBoxOutputFile.Text.Substring(0, 1) != "\\")
-                {
-                    MessageBox.Show("There are no backslashes on the start of the output file, the application has added them manually.", "A warning has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    UpdateTextControl(txtBoxOutputFile, "\\" + txtBoxOutputFile.Text);
-                }
             }
 
             string extensionString = "";
@@ -148,6 +142,30 @@ namespace File_Merger
                     MessageBox.Show("The extensions field was left empty.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+            }
+
+            if (txtBoxOutputFile.Text != String.Empty)
+            {
+                if (txtBoxOutputFile.Text.Substring(0, 1) != "\\")
+                {
+                    MessageBox.Show("There are no backslashes on the start of the output file, the application has added them manually.", "A warning has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    UpdateTextControl(txtBoxOutputFile, "\\" + txtBoxOutputFile.Text);
+                }
+            }
+
+            if (checkBoxIncludeSubDirs.Checked)
+            {
+                int amountOfDirectories = Directory.GetDirectories(directorySearch).Length;
+
+                if (amountOfDirectories > 20)
+                    MessageBox.Show("The application has found more than 20 (" + amountOfDirectories + " to be exact) directories. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                int amountOfFiles = Directory.GetFiles(directorySearch).Length;
+
+                if (amountOfFiles > 20)
+                    MessageBox.Show("The application has found more than 20 (" + amountOfFiles + " to be exact) files. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             SetEnabledOfControl(btnMerge, false);
