@@ -151,6 +151,7 @@ namespace File_Merger
             }
 
             SetEnabledOfControl(btnMerge, false);
+            SetEnabledOfControl(btnStopMerging, true);
 
             //! Re-cursive call to get all files, then put them back in an array.
             string allFiles = "";
@@ -279,7 +280,7 @@ namespace File_Merger
             }
 
             SetEnabledOfControl(btnMerge, true);
-            SetEnabledOfControl(btnStopMerging, true);
+            SetEnabledOfControl(btnStopMerging, false);
         }
 
         private void GetAllFilesFromDirectory(string directorySearch, bool includingSubDirs, ref string allFiles)

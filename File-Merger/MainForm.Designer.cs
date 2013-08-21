@@ -199,6 +199,7 @@
             // 
             // btnStopMerging
             // 
+            this.btnStopMerging.Enabled = false;
             this.btnStopMerging.Location = new System.Drawing.Point(173, 184);
             this.btnStopMerging.Name = "btnStopMerging";
             this.btnStopMerging.Size = new System.Drawing.Size(75, 23);
