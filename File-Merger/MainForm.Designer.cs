@@ -33,7 +33,7 @@
             this.labelExtensionsToMerge = new System.Windows.Forms.Label();
             this.txtBoxExtensions = new System.Windows.Forms.TextBox();
             this.btnMerge = new System.Windows.Forms.Button();
-            this.txtBoxDirectory = new System.Windows.Forms.TextBox();
+            this.txtBoxDirectorySearch = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBoxIncludeSubDirs = new System.Windows.Forms.CheckBox();
             this.checkBoxAllExtensions = new System.Windows.Forms.CheckBox();
@@ -86,12 +86,12 @@
             this.btnMerge.UseVisualStyleBackColor = true;
             this.btnMerge.Click += new System.EventHandler(this.button1_Click);
             // 
-            // txtBoxDirectory
+            // txtBoxDirectorySearch
             // 
-            this.txtBoxDirectory.Location = new System.Drawing.Point(14, 25);
-            this.txtBoxDirectory.Name = "txtBoxDirectory";
-            this.txtBoxDirectory.Size = new System.Drawing.Size(294, 20);
-            this.txtBoxDirectory.TabIndex = 5;
+            this.txtBoxDirectorySearch.Location = new System.Drawing.Point(14, 25);
+            this.txtBoxDirectorySearch.Name = "txtBoxDirectorySearch";
+            this.txtBoxDirectorySearch.Size = new System.Drawing.Size(294, 20);
+            this.txtBoxDirectorySearch.TabIndex = 5;
             // 
             // label3
             // 
@@ -224,7 +224,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtBoxOutputDir);
-            this.Controls.Add(this.txtBoxDirectory);
+            this.Controls.Add(this.txtBoxDirectorySearch);
             this.Controls.Add(this.btnMerge);
             this.Controls.Add(this.txtBoxExtensions);
             this.Controls.Add(this.labelExtensionsToMerge);
@@ -247,7 +247,7 @@
         private System.Windows.Forms.Label labelExtensionsToMerge;
         private System.Windows.Forms.TextBox txtBoxExtensions;
         private System.Windows.Forms.Button btnMerge;
-        private System.Windows.Forms.TextBox txtBoxDirectory;
+        private System.Windows.Forms.TextBox txtBoxDirectorySearch;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBoxIncludeSubDirs;
         private System.Windows.Forms.CheckBox checkBoxAllExtensions;
