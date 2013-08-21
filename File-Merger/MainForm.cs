@@ -226,66 +226,74 @@ namespace File_Merger
                     }
                 }
 
-                using (StreamWriter outputFile = new StreamWriter(fullOutputFilename, true))
+                try
                 {
-                    for (int i = 0; i < arrayFiles.Length; i++)
+                    using (StreamWriter outputFile = new StreamWriter(fullOutputFilename, true))
                     {
-                        if (Path.HasExtension(arrayFiles[i]))
+                        for (int i = 0; i < arrayFiles.Length; i++)
                         {
-                            if (Path.HasExtension(arrayFiles[i]) && (oneHardcodedOutputFile || extensionArray[y] == Path.GetExtension(arrayFiles[i])))
+                            if (Path.HasExtension(arrayFiles[i]))
                             {
-                                //! We run the try-catch before writing anything to save memory. If we get
-                                //! an error, there's no reason to continue anyway.
-                                string[] linesOfFile;
-
-                                try
+                                if (Path.HasExtension(arrayFiles[i]) && (oneHardcodedOutputFile || extensionArray[y] == Path.GetExtension(arrayFiles[i])))
                                 {
-                                    linesOfFile = File.ReadAllLines(arrayFiles[i]);
+                                    //! We run the try-catch before writing anything to save memory. If we get
+                                    //! an error, there's no reason to continue anyway.
+                                    string[] linesOfFile;
+
+                                    try
+                                    {
+                                        linesOfFile = File.ReadAllLines(arrayFiles[i]);
+                                    }
+                                    catch (IOException)
+                                    {
+                                        string messageToShow = "Output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning).";
+
+                                        if (promptAdminOutcome == 2)
+                                            messageToShow += ". Please note you did not run the program in administrator mode, which is most likely the problem. If you did, please make sure the file was not actually updated anyhow";
+
+                                        messageToShow += "!";
+                                        MessageBox.Show(messageToShow, "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        continue;
+                                    }
+
+                                    if (firstLinePrinted) //! First line has to be on-top of the file.
+                                        outputFile.WriteLine("\t"); //! "\t" is a single linebreak, "\n" breaks two lines.
+
+                                    firstLinePrinted = true;
+                                    outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
+                                    outputFile.WriteLine(commentTypeStart + " '" + arrayFiles[i] + "'" + commentTypeEnd);
+                                    outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
+                                    outputFile.WriteLine("\t");
+
+                                    for (int j = 0; j < linesOfFile.Length; j++)
+                                        outputFile.WriteLine("\t" + linesOfFile[j]);
                                 }
-                                catch (IOException)
-                                {
-                                    string messageToShow = "Output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning).";
-
-                                    if (promptAdminOutcome == 2)
-                                        messageToShow += ". Please note you did not run the program in administrator mode, which is most likely the problem. If you did, please make sure the file was not actually updated anyhow";
-
-                                    messageToShow += "!";
-                                    MessageBox.Show(messageToShow, "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                    continue;
-                                }
-
-                                if (firstLinePrinted) //! First line has to be on-top of the file.
-                                    outputFile.WriteLine("\t"); //! "\t" is a single linebreak, "\n" breaks two lines.
-
-                                firstLinePrinted = true;
-                                outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
-                                outputFile.WriteLine(commentTypeStart + " '" + arrayFiles[i] + "'" + commentTypeEnd);
-                                outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
-                                outputFile.WriteLine("\t");
-
-                                for (int j = 0; j < linesOfFile.Length; j++)
-                                    outputFile.WriteLine("\t" + linesOfFile[j]);
                             }
                         }
                     }
                 }
+                catch (Exception) { }; //! Only try, no need to catch anything.
             }
         }
 
         private void GetAllFilesFromDirectory(string directorySearch, bool includingSubDirs, ref string allFiles)
         {
-            string[] directories = Directory.GetDirectories(directorySearch);
-            string[] files = Directory.GetFiles(directorySearch);
+            try
+            {
+                string[] directories = Directory.GetDirectories(directorySearch);
+                string[] files = Directory.GetFiles(directorySearch);
 
-            for (int i = 0; i < files.Length; i++)
-                if (!files[i].Contains("merged_") && files[i] != "")
-                    if ((File.GetAttributes(files[i]) & FileAttributes.Hidden) != FileAttributes.Hidden)
-                        allFiles += files[i] + "\n";
+                for (int i = 0; i < files.Length; i++)
+                    if (!files[i].Contains("merged_") && files[i] != "")
+                        if ((File.GetAttributes(files[i]) & FileAttributes.Hidden) != FileAttributes.Hidden)
+                            allFiles += files[i] + "\n";
 
-            //! If we include sub directories, recursive call this function up to every single directory.
-            if (includingSubDirs)
-                for (int i = 0; i < directories.Length; i++)
-                    GetAllFilesFromDirectory(directories[i], false, ref allFiles);
+                //! If we include sub directories, recursive call this function up to every single directory.
+                if (includingSubDirs)
+                    for (int i = 0; i < directories.Length; i++)
+                        GetAllFilesFromDirectory(directories[i], false, ref allFiles);
+            }
+            catch (Exception) { }; //! Just don't do anything
         }
 
         private string GetCommentStartTypeForLanguage(string languageExtension)
