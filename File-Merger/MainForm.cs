@@ -8,13 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
 
 namespace File_Merger
 {
     public partial class MainForm : Form
     {
         private bool syncrhonizeDirFields = true;
-        private int promptAdmOutcome = 0;
+        private int promptAdminOutcome = 0;
+        private Thread mergeThread = null;
 
         public MainForm()
         {
@@ -23,7 +25,7 @@ namespace File_Merger
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //promptAdmOutcome = Prompt.ShowDialog("Did you run the application as an administrator (nothing bad will happen if you didn't)?", "Administrator mode", "Yes", "No");
+            //promptAdminOutcome = Prompt.ShowDialog("Did you run the application as an administrator (nothing bad will happen if you didn't)?", "Administrator mode", "Yes", "No");
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = true;
@@ -40,12 +42,19 @@ namespace File_Merger
             addTooltip(checkBoxUniqueFilePerExt, "Checking this will mean if there are more extensions found to be merged, it will create one respective file for each such as 'merged_html.html', 'merged_sql.sql', etc.");
             addTooltip(checkBoxDeleteOutputFile, "Checking this will delete any output file if any exist before writing a new one. If not checked and the file already exists, we return an error.");
             addTooltip(btnMerge, "Merge the files!");
+            addTooltip(btnStopMerging, "Stop merging the last instance. Since you can have more directories being merged individually at the same time, this button will only stop the last executed one.");
 
             this.txtBoxDirectorySearch.TextChanged += txtBoxDirectorySearch_TextChanged;
             this.txtBoxOutputDir.TextChanged += txtBoxOutputDir_TextChanged;
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+            mergeThread = new Thread(new ThreadStart(StartMerging));
+            mergeThread.Start();
+        }
+
+        private void StartMerging()
         {
             string directorySearch = txtBoxDirectorySearch.Text;
             string directoryOutput = txtBoxOutputDir.Text + txtBoxOutputFile.Text;
@@ -106,7 +115,7 @@ namespace File_Merger
                 if (txtBoxOutputFile.Text.Substring(0, 1) != "\\")
                 {
                     MessageBox.Show("There are no backslashes on the start of the output file, the application has added them manually.", "A warning has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtBoxOutputFile.Text = "\\" + txtBoxOutputFile.Text;
+                    UpdateTextControl(txtBoxOutputFile, "\\" + txtBoxOutputFile.Text);
                 }
             }
 
@@ -209,15 +218,8 @@ namespace File_Merger
                         {
                             if (Path.HasExtension(arrayFiles[i]) && (oneHardcodedOutputFile || extensionArray[y] == Path.GetExtension(arrayFiles[i])))
                             {
-                                if (firstLinePrinted) //! First line has to be on-top of the file.
-                                    outputFile.WriteLine("\t"); //! "\t" is a single linebreak, "\n" breaks two lines.
-
-                                firstLinePrinted = true;
-                                outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
-                                outputFile.WriteLine(commentTypeStart + " '" + arrayFiles[i] + "'" + commentTypeEnd);
-                                outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
-                                outputFile.WriteLine("\t");
-
+                                //! We run the try-catch before writing anything to save memory. If we get
+                                //! an error, there's no reason to continue anyway.
                                 string[] linesOfFile;
 
                                 try
@@ -228,13 +230,22 @@ namespace File_Merger
                                 {
                                     string messageToShow = "Output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning).";
 
-                                    if (promptAdmOutcome == 2)
+                                    if (promptAdminOutcome == 2)
                                         messageToShow += ". Please note you did not run the program in administrator mode, which is most likely the problem. If you did, please make sure the file was not actually updated anyhow";
 
                                     messageToShow += "!";
                                     MessageBox.Show(messageToShow, "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     continue;
                                 }
+
+                                if (firstLinePrinted) //! First line has to be on-top of the file.
+                                    outputFile.WriteLine("\t"); //! "\t" is a single linebreak, "\n" breaks two lines.
+
+                                firstLinePrinted = true;
+                                outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
+                                outputFile.WriteLine(commentTypeStart + " '" + arrayFiles[i] + "'" + commentTypeEnd);
+                                outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
+                                outputFile.WriteLine("\t");
 
                                 for (int j = 0; j < linesOfFile.Length; j++)
                                     outputFile.WriteLine("\t" + linesOfFile[j]);
@@ -299,7 +310,7 @@ namespace File_Merger
 
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                txtBoxDirectorySearch.Text = fbd.SelectedPath;
+                UpdateTextControl(txtBoxDirectorySearch, fbd.SelectedPath);
                 txtBoxDirectorySearch_TextChanged(sender, e);
             }
         }
@@ -310,9 +321,9 @@ namespace File_Merger
             {
                 if (txtBoxDirectorySearch.Text.Length > 0)// && (txtBoxOutputDir.Text == "" || txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxOutputDir.Text ||
                     //txtBoxOutputDir.Text.Substring(0, txtBoxOutputDir.Text.Length - 1) == txtBoxDirectory.Text))
-                    txtBoxOutputDir.Text = txtBoxDirectorySearch.Text;
+                    UpdateTextControl(txtBoxOutputDir, txtBoxDirectorySearch.Text);
                 else if (txtBoxDirectorySearch.Text == "" && txtBoxOutputDir.Text != "")
-                    txtBoxOutputDir.Text = "";
+                    UpdateTextControl(txtBoxOutputDir, "");
             }
         }
 
@@ -322,9 +333,9 @@ namespace File_Merger
             {
                 if (txtBoxOutputDir.Text.Length > 0)// && (txtBoxDirectory.Text == "" || txtBoxOutputDir.Text.Substring(0, txtBoxOutputDir.Text.Length - 1) == txtBoxDirectory.Text ||
                     //txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxOutputDir.Text))
-                    txtBoxDirectorySearch.Text = txtBoxOutputDir.Text;
+                    UpdateTextControl(txtBoxDirectorySearch, txtBoxOutputDir.Text);
                 else if (txtBoxOutputDir.Text == "" && txtBoxDirectorySearch.Text != "")
-                    txtBoxDirectorySearch.Text = "";
+                    UpdateTextControl(txtBoxDirectorySearch, "");
             }
         }
 
@@ -382,6 +393,28 @@ namespace File_Merger
         {
             checkBoxDeleteOutputFile.Enabled = Path.HasExtension(txtBoxOutputFile.Text);
             checkBoxUniqueFilePerExt.Enabled = !Path.HasExtension(txtBoxOutputFile.Text);
+        }
+
+        private void buttonStopMerging_Click(object sender, EventArgs e)
+        {
+            if (mergeThread != null && mergeThread.IsAlive)
+            {
+                mergeThread.Abort();
+                mergeThread = null;
+            }
+        }
+
+        private delegate void UpdateTextControlDelegate(Control control, string text);
+
+        private void UpdateTextControl(Control control, string text)
+        {
+            if (control.InvokeRequired)
+            {
+                Invoke(new UpdateTextControlDelegate(UpdateTextControl), new object[] { control, text });
+                return;
+            }
+
+            control.Text = text;
         }
     }
 

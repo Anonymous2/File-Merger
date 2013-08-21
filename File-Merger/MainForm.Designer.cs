@@ -45,6 +45,7 @@
             this.btnSearchForOutput = new System.Windows.Forms.Button();
             this.checkBoxDeleteOutputFile = new System.Windows.Forms.CheckBox();
             this.txtBoxOutputFile = new System.Windows.Forms.TextBox();
+            this.btnStopMerging = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // checkBoxUniqueFilePerExt
@@ -196,11 +197,22 @@
             this.txtBoxOutputFile.TabIndex = 13;
             this.txtBoxOutputFile.TextChanged += new System.EventHandler(this.txtBoxOutputFile_TextChanged);
             // 
+            // btnStopMerging
+            // 
+            this.btnStopMerging.Location = new System.Drawing.Point(173, 184);
+            this.btnStopMerging.Name = "btnStopMerging";
+            this.btnStopMerging.Size = new System.Drawing.Size(75, 23);
+            this.btnStopMerging.TabIndex = 14;
+            this.btnStopMerging.Text = "Stop";
+            this.btnStopMerging.UseVisualStyleBackColor = true;
+            this.btnStopMerging.Click += new System.EventHandler(this.buttonStopMerging_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(341, 216);
+            this.Controls.Add(this.btnStopMerging);
             this.Controls.Add(this.btnSearchForOutput);
             this.Controls.Add(this.txtBoxOutputFile);
             this.Controls.Add(this.checkBoxDeleteOutputFile);
@@ -246,5 +258,6 @@
         private System.Windows.Forms.Button btnSearchForOutput;
         private System.Windows.Forms.CheckBox checkBoxDeleteOutputFile;
         private System.Windows.Forms.TextBox txtBoxOutputFile;
+        private System.Windows.Forms.Button btnStopMerging;
     }
 }
