@@ -76,10 +76,19 @@ namespace File_Merger
                 return;
             }
 
-            if (txtBoxOutputFile.Text != String.Empty && !Path.HasExtension(txtBoxOutputFile.Text))
+            if (txtBoxOutputFile.Text != String.Empty)
             {
-                MessageBox.Show("There is no extension in the output file field but it's not empty either.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (!Path.HasExtension(txtBoxOutputFile.Text))
+                {
+                    MessageBox.Show("There is no extension in the output file field but it's not empty either.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (txtBoxOutputFile.Text.Substring(0, 1) != "\\")
+                {
+                    MessageBox.Show("There are no backslashes on the start of the output file, the application has added them manually.", "A warning has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtBoxOutputFile.Text = "\\" + txtBoxOutputFile.Text;
+                }
             }
 
             string extensionString = "";
