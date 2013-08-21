@@ -375,6 +375,7 @@ namespace File_Merger
         private void txtBoxOutputFile_TextChanged(object sender, EventArgs e)
         {
             checkBoxDeleteOutputFile.Enabled = Path.HasExtension(txtBoxOutputFile.Text);
+            checkBoxUniqueFilePerExt.Enabled = !Path.HasExtension(txtBoxOutputFile.Text);
         }
     }
 
