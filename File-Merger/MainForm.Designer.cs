@@ -46,6 +46,7 @@
             this.checkBoxDeleteOutputFile = new System.Windows.Forms.CheckBox();
             this.txtBoxOutputFile = new System.Windows.Forms.TextBox();
             this.checkBoxReverseExtensions = new System.Windows.Forms.CheckBox();
+            this.checkBoxFolderForMerged = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // checkBoxUniqueFilePerExt
@@ -208,11 +209,22 @@
             this.checkBoxReverseExtensions.UseVisualStyleBackColor = true;
             this.checkBoxReverseExtensions.CheckedChanged += new System.EventHandler(this.checkBoxReverseExtensions_CheckedChanged);
             // 
+            // checkBoxFolderForMerged
+            // 
+            this.checkBoxFolderForMerged.AutoSize = true;
+            this.checkBoxFolderForMerged.Location = new System.Drawing.Point(163, 188);
+            this.checkBoxFolderForMerged.Name = "checkBoxFolderForMerged";
+            this.checkBoxFolderForMerged.Size = new System.Drawing.Size(137, 17);
+            this.checkBoxFolderForMerged.TabIndex = 15;
+            this.checkBoxFolderForMerged.Text = "Place files in new folder";
+            this.checkBoxFolderForMerged.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(341, 234);
+            this.Controls.Add(this.checkBoxFolderForMerged);
             this.Controls.Add(this.checkBoxReverseExtensions);
             this.Controls.Add(this.btnSearchForOutput);
             this.Controls.Add(this.txtBoxOutputFile);
@@ -260,5 +272,6 @@
         private System.Windows.Forms.CheckBox checkBoxDeleteOutputFile;
         private System.Windows.Forms.TextBox txtBoxOutputFile;
         private System.Windows.Forms.CheckBox checkBoxReverseExtensions;
+        private System.Windows.Forms.CheckBox checkBoxFolderForMerged;
     }
 }

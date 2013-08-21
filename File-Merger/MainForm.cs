@@ -106,6 +106,9 @@ namespace File_Merger
                 }
             }
 
+            if (checkBoxFolderForMerged.Checked)
+                directoryOutput += "\\Merged Files";
+
             string extensionString = "";
 
             //! Do not pick ALL extensions
