@@ -67,7 +67,7 @@ namespace File_Merger
                 return;
             }
 
-            if (Path.GetDirectoryName(txtBoxOutputFile.Text) != "" && Path.GetDirectoryName(txtBoxOutputFile.Text) != "\\")
+            if (txtBoxOutputFile.Text != "" && Path.GetDirectoryName(txtBoxOutputFile.Text) != "" && Path.GetDirectoryName(txtBoxOutputFile.Text) != "\\")
             {
                 MessageBox.Show("It is not allowed to give a directory in the output FILE field.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -85,11 +85,9 @@ namespace File_Merger
                 return;
             }
 
-            //! Apparently not possible in C#...
-            //if (bool(txtBoxOutputFile.Text == "") != bool(txtBoxOutputDir.Text == ""))
-            if ((txtBoxOutputFile.Text == "" && txtBoxOutputDir.Text != "") || (txtBoxOutputFile.Text != "" && txtBoxOutputDir.Text == ""))
+            if (txtBoxOutputFile.Text != "" && txtBoxOutputDir.Text == "")
             {
-                MessageBox.Show("Either both or none of the directory output fields can be used at the same time. You can not only fill one and leave the other one empty.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The output directory field must be filled if the output file field is filled.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
