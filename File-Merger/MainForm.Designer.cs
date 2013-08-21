@@ -45,7 +45,6 @@
             this.btnSearchForOutput = new System.Windows.Forms.Button();
             this.checkBoxDeleteOutputFile = new System.Windows.Forms.CheckBox();
             this.txtBoxOutputFile = new System.Windows.Forms.TextBox();
-            this.checkBoxFolderForMerged = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // checkBoxUniqueFilePerExt
@@ -78,7 +77,7 @@
             // 
             // btnMerge
             // 
-            this.btnMerge.Location = new System.Drawing.Point(254, 207);
+            this.btnMerge.Location = new System.Drawing.Point(254, 184);
             this.btnMerge.Name = "btnMerge";
             this.btnMerge.Size = new System.Drawing.Size(75, 23);
             this.btnMerge.TabIndex = 4;
@@ -182,7 +181,7 @@
             this.checkBoxDeleteOutputFile.Checked = true;
             this.checkBoxDeleteOutputFile.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxDeleteOutputFile.Enabled = false;
-            this.checkBoxDeleteOutputFile.Location = new System.Drawing.Point(18, 211);
+            this.checkBoxDeleteOutputFile.Location = new System.Drawing.Point(18, 188);
             this.checkBoxDeleteOutputFile.Name = "checkBoxDeleteOutputFile";
             this.checkBoxDeleteOutputFile.Size = new System.Drawing.Size(106, 17);
             this.checkBoxDeleteOutputFile.TabIndex = 12;
@@ -197,22 +196,11 @@
             this.txtBoxOutputFile.TabIndex = 13;
             this.txtBoxOutputFile.TextChanged += new System.EventHandler(this.txtBoxOutputFile_TextChanged);
             // 
-            // checkBoxFolderForMerged
-            // 
-            this.checkBoxFolderForMerged.AutoSize = true;
-            this.checkBoxFolderForMerged.Location = new System.Drawing.Point(17, 188);
-            this.checkBoxFolderForMerged.Name = "checkBoxFolderForMerged";
-            this.checkBoxFolderForMerged.Size = new System.Drawing.Size(137, 17);
-            this.checkBoxFolderForMerged.TabIndex = 15;
-            this.checkBoxFolderForMerged.Text = "Place files in new folder";
-            this.checkBoxFolderForMerged.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 238);
-            this.Controls.Add(this.checkBoxFolderForMerged);
+            this.ClientSize = new System.Drawing.Size(341, 216);
             this.Controls.Add(this.btnSearchForOutput);
             this.Controls.Add(this.txtBoxOutputFile);
             this.Controls.Add(this.checkBoxDeleteOutputFile);
@@ -258,6 +246,5 @@
         private System.Windows.Forms.Button btnSearchForOutput;
         private System.Windows.Forms.CheckBox checkBoxDeleteOutputFile;
         private System.Windows.Forms.TextBox txtBoxOutputFile;
-        private System.Windows.Forms.CheckBox checkBoxFolderForMerged;
     }
 }
