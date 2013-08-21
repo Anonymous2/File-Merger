@@ -271,8 +271,8 @@ namespace File_Merger
 
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                txtBoxOutputDir.Text = fbd.SelectedPath;
-                txtBoxOutputDir_TextChanged(sender, e);
+                txtBoxDirectory.Text = fbd.SelectedPath;
+                txtBoxDirectory_TextChanged(sender, e);
             }
         }
 
