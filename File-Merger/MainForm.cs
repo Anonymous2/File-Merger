@@ -46,6 +46,8 @@ namespace File_Merger
 
             this.txtBoxDirectorySearch.TextChanged += txtBoxDirectorySearch_TextChanged;
             this.txtBoxOutputDir.TextChanged += txtBoxOutputDir_TextChanged;
+            this.KeyPreview = true;
+            this.KeyDown += new KeyEventHandler(Form1_KeyDown);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -415,6 +417,12 @@ namespace File_Merger
             }
 
             control.Text = text;
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                button1_Click(sender, e);
         }
     }
 
