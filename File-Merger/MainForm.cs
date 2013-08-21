@@ -67,9 +67,9 @@ namespace File_Merger
                 return;
             }
 
-            if (Path.GetDirectoryName(txtBoxOutputFile.Text) != "")
+            if (Path.GetDirectoryName(txtBoxOutputFile.Text) != "" && Path.GetDirectoryName(txtBoxOutputFile.Text) != "\\")
             {
-                MessageBox.Show("It is now allowed to give a directory in the output FILE field.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("It is not allowed to give a directory in the output FILE field.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
