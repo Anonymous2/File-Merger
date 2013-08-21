@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
+using System.Timers;
 
 namespace File_Merger
 {
@@ -149,6 +150,8 @@ namespace File_Merger
                 }
             }
 
+            SetEnabledOfControl(btnMerge, false);
+
             //! Re-cursive call to get all files, then put them back in an array.
             string allFiles = "";
             GetAllFilesFromDirectory(directorySearch, checkBoxIncludeSubDirs.Checked, ref allFiles);
@@ -274,6 +277,9 @@ namespace File_Merger
                 }
                 catch (Exception) { }; //! Only try, no need to catch anything.
             }
+
+            SetEnabledOfControl(btnMerge, true);
+            SetEnabledOfControl(btnStopMerging, true);
         }
 
         private void GetAllFilesFromDirectory(string directorySearch, bool includingSubDirs, ref string allFiles)
@@ -439,6 +445,19 @@ namespace File_Merger
             }
 
             control.Text = text;
+        }
+
+        private delegate void SetEnabledOfControlDelegate(Control control, bool enable);
+
+        private void SetEnabledOfControl(Control control, bool enable)
+        {
+            if (control.InvokeRequired)
+            {
+                Invoke(new SetEnabledOfControlDelegate(SetEnabledOfControl), new object[] { control, enable });
+                return;
+            }
+
+            control.Enabled = enable;
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
