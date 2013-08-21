@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsgBoxCheck", "MsgBoxCheck\MsgBoxCheck.csproj", "{43D66268-9336-4118-A30E-FC43CED0E62D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMsgBoxCheck", "TestMsgBoxCheck\TestMsgBoxCheck.csproj", "{EB09CDA0-EF4C-4534-BC51-81AC6A1A70EE}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{43D66268-9336-4118-A30E-FC43CED0E62D}.Debug.ActiveCfg = Debug|.NET
+		{43D66268-9336-4118-A30E-FC43CED0E62D}.Debug.Build.0 = Debug|.NET
+		{43D66268-9336-4118-A30E-FC43CED0E62D}.Release.ActiveCfg = Release|.NET
+		{43D66268-9336-4118-A30E-FC43CED0E62D}.Release.Build.0 = Release|.NET
+		{EB09CDA0-EF4C-4534-BC51-81AC6A1A70EE}.Debug.ActiveCfg = Debug|.NET
+		{EB09CDA0-EF4C-4534-BC51-81AC6A1A70EE}.Debug.Build.0 = Debug|.NET
+		{EB09CDA0-EF4C-4534-BC51-81AC6A1A70EE}.Release.ActiveCfg = Release|.NET
+		{EB09CDA0-EF4C-4534-BC51-81AC6A1A70EE}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

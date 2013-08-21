@@ -250,13 +250,22 @@ namespace File_Merger
                                     }
                                     catch (IOException)
                                     {
+
                                         string messageToShow = "Output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning)";
 
                                         if (promptAdminOutcome == 2)
                                             messageToShow += ". Please note you did not run the program in administrator mode, which is most likely the problem. If you did, please make sure the file was not actually updated anyhow";
 
                                         messageToShow += "!";
-                                        MessageBox.Show(messageToShow, "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        
+                                        MsgBoxCheck.MessageBox dlg = new MsgBoxCheck.MessageBox();
+                                        DialogResult dr =
+                                                dlg.Show(@"Software\PricklySoft\TestMsgBoxCheck",
+                                                "DontShowAgain", DialogResult.OK,
+                                                "Don't ask me this again",
+                                                messageToShow,
+                                                "An error has occurred!",
+                                                MessageBoxButtons.OK, MessageBoxIcon.Information);
                                         continue;
                                     }
 
