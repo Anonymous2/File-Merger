@@ -76,6 +76,20 @@ namespace File_Merger
                 return;
             }
 
+            if (!txtBoxDirectorySearch.Text.Contains("\\"))
+            {
+                MessageBox.Show("The directory search field must contain backslashes at the end (\\). For now I've added them for you.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                UpdateTextControl(txtBoxDirectorySearch, txtBoxDirectorySearch.Text + "\\");
+                directorySearch += "\\";
+            }
+
+            if (txtBoxOutputDir.Text != "" && !txtBoxOutputDir.Text.Contains("\\"))
+            {
+                MessageBox.Show("The directory output field must contain backslashes at the end (\\). For now I've added them for you.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                UpdateTextControl(txtBoxDirectorySearch, txtBoxDirectorySearch.Text + "\\");
+                directoryOutput += "\\";
+            }
+
             if (txtBoxOutputFile.Text != "" && Path.GetDirectoryName(txtBoxOutputFile.Text) != "" && Path.GetDirectoryName(txtBoxOutputFile.Text) != "\\")
             {
                 MessageBox.Show("It is not allowed to give a directory in the output FILE field.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -271,7 +285,7 @@ namespace File_Merger
             //! If we include sub directories, recursive call this function up to every single directory.
             if (includingSubDirs)
                 for (int i = 0; i < directories.Length; i++)
-                    GetAllFilesFromDirectory(directories[i], true, ref allFiles);
+                    GetAllFilesFromDirectory(directories[i], false, ref allFiles);
         }
 
         private string GetCommentStartTypeForLanguage(string languageExtension)
