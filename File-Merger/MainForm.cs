@@ -106,12 +106,7 @@ namespace File_Merger
                 return;
             }
 
-            string[] arrayFilesOld = allFiles.Split('\n');
-            string[] arrayFiles;
-
-            List<string> list = new List<string>(arrayFilesOld);
-            list.Remove("");
-            arrayFiles = list.ToArray();
+            string[] arrayFiles = allFiles.Split('\n');
 
             if (checkBoxAllExtensions.Checked)
                 for (int i = 0; i < arrayFiles.Length; i++)
