@@ -54,19 +54,25 @@ namespace File_Merger
 
             if (directorySearch == "")
             {
-                MessageBox.Show("The directory field was left empty.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("The search directory field was left empty.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (!Directory.Exists(directorySearch))
             {
-                MessageBox.Show("The given directory does not exist.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The given search directory does not exist.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (Path.HasExtension(directorySearch))
             {
-                MessageBox.Show("There is an extension in the directory.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There is an extension in the directory field we search in.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (Path.HasExtension(txtBoxOutputDir.Text))
+            {
+                MessageBox.Show("There is an extension in the output directory field.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
