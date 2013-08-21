@@ -58,6 +58,9 @@ namespace File_Merger
                 return;
             }
 
+            if (directoryOutput == "" || directoryOutput == String.Empty)
+                directoryOutput = directorySearch;
+
             if (!Directory.Exists(directorySearch))
             {
                 MessageBox.Show("The given search directory does not exist.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -73,6 +76,14 @@ namespace File_Merger
             if (Path.HasExtension(txtBoxOutputDir.Text))
             {
                 MessageBox.Show("There is an extension in the output directory field.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            //! Apparently not possible in C#...
+            //if (bool(txtBoxOutputFile.Text == "") != bool(txtBoxOutputDir.Text == ""))
+            if ((txtBoxOutputFile.Text == "" && txtBoxOutputDir.Text != "") || (txtBoxOutputFile.Text != "" && txtBoxOutputDir.Text == ""))
+            {
+                MessageBox.Show("Either both or none of the directory output fields can be used at the same time. You can not only fill one and leave the other one empty.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
