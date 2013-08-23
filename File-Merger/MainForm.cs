@@ -182,9 +182,6 @@ namespace File_Merger
                     MessageBox.Show("I've has found more than 20 (" + amountOfFiles + " to be exact) files. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
-            SetEnabledOfControl(btnMerge, false);
-            SetEnabledOfControl(btnStopMerging, true);
-
             //! Re-cursive call to get all files, then put them back in an array.
             string allFiles = "";
             GetAllFilesFromDirectory(directorySearch, checkBoxIncludeSubDirs.Checked, ref allFiles);
@@ -194,6 +191,9 @@ namespace File_Merger
                 MessageBox.Show("The searched directory contains no files at all.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            SetEnabledOfControl(btnMerge, false);
+            SetEnabledOfControl(btnStopMerging, true);
 
             string[] arrayFiles = allFiles.Split('\n');
             SetProgressBarMaxValue(progressBarProcess, arrayFiles.Length);
