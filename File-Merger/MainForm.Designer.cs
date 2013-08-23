@@ -48,6 +48,8 @@
             this.btnStopMerging = new System.Windows.Forms.Button();
             this.checkBoxShowProgress = new System.Windows.Forms.CheckBox();
             this.progressBarProcess = new System.Windows.Forms.ProgressBar();
+            this.labelProgressBar = new System.Windows.Forms.Label();
+            this.labelProgressFilename = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // checkBoxUniqueFilePerExt
@@ -223,16 +225,36 @@
             // 
             // progressBarProcess
             // 
-            this.progressBarProcess.Location = new System.Drawing.Point(18, 246);
+            this.progressBarProcess.Location = new System.Drawing.Point(18, 256);
             this.progressBarProcess.Name = "progressBarProcess";
             this.progressBarProcess.Size = new System.Drawing.Size(311, 23);
             this.progressBarProcess.TabIndex = 16;
+            this.progressBarProcess.Click += new System.EventHandler(this.progressBarProcess_Click);
+            // 
+            // labelProgressBar
+            // 
+            this.labelProgressBar.AutoSize = true;
+            this.labelProgressBar.Location = new System.Drawing.Point(22, 239);
+            this.labelProgressBar.Name = "labelProgressBar";
+            this.labelProgressBar.Size = new System.Drawing.Size(0, 13);
+            this.labelProgressBar.TabIndex = 18;
+            this.labelProgressBar.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // labelProgressFilename
+            // 
+            this.labelProgressFilename.AutoSize = true;
+            this.labelProgressFilename.Location = new System.Drawing.Point(121, 239);
+            this.labelProgressFilename.Name = "labelProgressFilename";
+            this.labelProgressFilename.Size = new System.Drawing.Size(0, 13);
+            this.labelProgressFilename.TabIndex = 19;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(341, 286);
+            this.Controls.Add(this.labelProgressFilename);
+            this.Controls.Add(this.labelProgressBar);
             this.Controls.Add(this.progressBarProcess);
             this.Controls.Add(this.checkBoxShowProgress);
             this.Controls.Add(this.btnStopMerging);
@@ -284,5 +306,7 @@
         private System.Windows.Forms.Button btnStopMerging;
         private System.Windows.Forms.CheckBox checkBoxShowProgress;
         private System.Windows.Forms.ProgressBar progressBarProcess;
+        private System.Windows.Forms.Label labelProgressBar;
+        private System.Windows.Forms.Label labelProgressFilename;
     }
 }

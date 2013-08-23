@@ -180,8 +180,6 @@ namespace File_Merger
 
                 if (amountOfFiles > 20)
                     MessageBox.Show("I've has found more than 20 (" + amountOfFiles + " to be exact) files. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                progressBarProcess.Maximum = amountOfFiles;
             }
 
             SetEnabledOfControl(btnMerge, false);
@@ -198,6 +196,8 @@ namespace File_Merger
             }
 
             string[] arrayFiles = allFiles.Split('\n');
+            SetProgressBarMaxValue(progressBarProcess, arrayFiles.Length);
+            SetLabelText(labelProgressBar, "0 / " + arrayFiles.Length);
 
             if (checkBoxAllExtensions.Checked)
                 for (int i = 0; i < arrayFiles.Length; i++)
@@ -305,7 +305,9 @@ namespace File_Merger
                                         continue;
                                     }
 
-                                    progressBarProcess.Value++;
+                                    SetProgressBarValue(progressBarProcess, progressBarProcess.Value + 1);
+                                    SetLabelText(labelProgressBar, progressBarProcess.Value + " / " + progressBarProcess.Maximum);
+                                    SetLabelText(labelProgressFilename, Path.GetFileName(arrayFiles[i]));
 
                                     if (firstLinePrinted) //! First line has to be on-top of the file.
                                         outputFile.WriteLine("\t"); //! "\t" is a single linebreak, "\n" breaks two lines.
@@ -328,6 +330,11 @@ namespace File_Merger
 
             SetEnabledOfControl(btnMerge, true);
             SetEnabledOfControl(btnStopMerging, false);
+
+            SetProgressBarMaxValue(progressBarProcess, 100);
+            SetProgressBarValue(progressBarProcess, 0);
+            SetLabelText(labelProgressBar, "");
+            SetLabelText(labelProgressFilename, "");
         }
 
         private void GetAllFilesFromDirectory(string directorySearch, bool includingSubDirs, ref string allFiles)
@@ -482,6 +489,11 @@ namespace File_Merger
 
                 SetEnabledOfControl(btnMerge, true);
                 SetEnabledOfControl(btnStopMerging, false);
+
+                SetProgressBarMaxValue(progressBarProcess, 100);
+                SetProgressBarValue(progressBarProcess, 0);
+                SetLabelText(labelProgressBar, "");
+                SetLabelText(labelProgressFilename, "");
             }
         }
 
@@ -553,6 +565,56 @@ namespace File_Merger
                     timerCollapseProgress.Enabled = false;
                 }
             }
+        }
+
+        private delegate void SetProgressBarMaxValueDelegate(ProgressBar progressBar, int value);
+
+        private void SetProgressBarMaxValue(ProgressBar progressBar, int value)
+        {
+            if (progressBar.InvokeRequired)
+            {
+                Invoke(new SetProgressBarMaxValueDelegate(SetProgressBarMaxValue), new object[] { progressBar, value });
+                return;
+            }
+
+            progressBar.Maximum = value;
+        }
+
+        private delegate void SetProgressBarValueDelegate(ProgressBar progressBar, int value);
+
+        private void SetProgressBarValue(ProgressBar progressBar, int value)
+        {
+            if (progressBar.InvokeRequired)
+            {
+                Invoke(new SetProgressBarValueDelegate(SetProgressBarValue), new object[] { progressBar, value });
+                return;
+            }
+
+            if (progressBar.Value >= progressBar.Maximum)
+            {
+                progressBar.Value = progressBar.Maximum;
+                return;
+            }
+
+            progressBar.Value = value;
+        }
+
+        private delegate void SetLabelTextDelegate(Label label, string text);
+
+        private void SetLabelText(Label label, string text)
+        {
+            if (label.InvokeRequired)
+            {
+                Invoke(new SetLabelTextDelegate(SetLabelText), new object[] { label, text });
+                return;
+            }
+
+            label.Text = text;
+        }
+
+        private void progressBarProcess_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
