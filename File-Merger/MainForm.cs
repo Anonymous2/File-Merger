@@ -457,14 +457,6 @@ namespace File_Merger
         private void checkBoxAllExtensions_CheckedChanged(object sender, EventArgs e)
         {
             txtBoxExtensions.Enabled = !checkBoxAllExtensions.Checked;
-
-            if (checkBoxAllExtensions.Checked)
-            {
-                txtBoxExtensions.BackColor = SystemColors.Control;
-                return;
-            }
-
-            txtBoxExtensions.BackColor = txtBoxExtensions.Enabled ? Color.White : SystemColors.Control;
         }
 
         private void addTooltip(Control control, string tooltipMsg)
@@ -487,14 +479,14 @@ namespace File_Merger
                 mergeThread.Abort();
                 mergeThread = null;
 
-                SetEnabledOfControl(btnMerge, true);
-                SetEnabledOfControl(btnStopMerging, false);
-
                 SetProgressBarMaxValue(progressBarProcess, 100);
                 SetProgressBarValue(progressBarProcess, 0);
                 SetLabelText(labelProgressBar, "");
                 SetLabelText(labelProgressFilename, "");
             }
+
+            SetEnabledOfControl(btnMerge, true);
+            SetEnabledOfControl(btnStopMerging, false);
         }
 
         private delegate void UpdateTextControlDelegate(Control control, string text);
