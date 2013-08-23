@@ -262,7 +262,7 @@ namespace File_Merger
                         {
                             //string _fullOutputFilename = fullOutputFilename.Replace("\\", "'\'\");
                             //File.Delete(@_fullOutputFilename);
-                            File.Delete(@fullOutputFilename);
+                            File.Delete(fullOutputFilename);
                         }
                     }
                 }
@@ -271,6 +271,8 @@ namespace File_Merger
                 {
                     using (StreamWriter outputFile = new StreamWriter(fullOutputFilename, true))
                     {
+                        SetProgressBarValue(progressBarProcess, progressBarProcess.Value + 1);
+
                         for (int i = 0; i < arrayFiles.Length; i++)
                         {
                             if (Path.HasExtension(arrayFiles[i]))
@@ -305,7 +307,6 @@ namespace File_Merger
                                         continue;
                                     }
 
-                                    SetProgressBarValue(progressBarProcess, progressBarProcess.Value + 1);
                                     SetLabelText(labelProgressBar, progressBarProcess.Value + " / " + progressBarProcess.Maximum);
                                     SetLabelText(labelProgressFilename, Path.GetFileName(arrayFiles[i]));
 
