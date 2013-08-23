@@ -352,7 +352,7 @@ namespace File_Merger
                 //! If we include sub directories, recursive call this function up to every single directory.
                 if (includingSubDirs)
                     for (int i = 0; i < directories.Length; i++)
-                        GetAllFilesFromDirectory(directories[i], false, ref allFiles);
+                        GetAllFilesFromDirectory(directories[i], true, ref allFiles);
             }
             catch (Exception) { }; //! Just don't do anything
         }
