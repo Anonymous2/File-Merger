@@ -230,7 +230,7 @@ namespace File_Merger
                 if (!oneHardcodedOutputFile && fullOutputFilename == directorySearch + "\\merged_")
                     continue;
 
-                if (checkBoxUniqueFilePerExt.Checked)
+                if (!checkBoxUniqueFilePerExt.Checked)
                     fullOutputFilename = directoryOutput + "\\merged_files.txt";
 
                 if (Path.HasExtension(fullOutputFilename))
