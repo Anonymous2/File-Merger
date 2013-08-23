@@ -46,6 +46,8 @@
             this.checkBoxDeleteOutputFile = new System.Windows.Forms.CheckBox();
             this.txtBoxOutputFile = new System.Windows.Forms.TextBox();
             this.btnStopMerging = new System.Windows.Forms.Button();
+            this.checkBoxShowProgress = new System.Windows.Forms.CheckBox();
+            this.progressBarProcess = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // checkBoxUniqueFilePerExt
@@ -78,7 +80,7 @@
             // 
             // btnMerge
             // 
-            this.btnMerge.Location = new System.Drawing.Point(254, 184);
+            this.btnMerge.Location = new System.Drawing.Point(254, 206);
             this.btnMerge.Name = "btnMerge";
             this.btnMerge.Size = new System.Drawing.Size(75, 23);
             this.btnMerge.TabIndex = 4;
@@ -200,7 +202,7 @@
             // btnStopMerging
             // 
             this.btnStopMerging.Enabled = false;
-            this.btnStopMerging.Location = new System.Drawing.Point(173, 184);
+            this.btnStopMerging.Location = new System.Drawing.Point(173, 206);
             this.btnStopMerging.Name = "btnStopMerging";
             this.btnStopMerging.Size = new System.Drawing.Size(75, 23);
             this.btnStopMerging.TabIndex = 14;
@@ -208,11 +210,31 @@
             this.btnStopMerging.UseVisualStyleBackColor = true;
             this.btnStopMerging.Click += new System.EventHandler(this.buttonStopMerging_Click);
             // 
+            // checkBoxShowProgress
+            // 
+            this.checkBoxShowProgress.AutoSize = true;
+            this.checkBoxShowProgress.Location = new System.Drawing.Point(18, 212);
+            this.checkBoxShowProgress.Name = "checkBoxShowProgress";
+            this.checkBoxShowProgress.Size = new System.Drawing.Size(148, 17);
+            this.checkBoxShowProgress.TabIndex = 15;
+            this.checkBoxShowProgress.Text = "Show progress of process";
+            this.checkBoxShowProgress.UseVisualStyleBackColor = true;
+            this.checkBoxShowProgress.CheckedChanged += new System.EventHandler(this.checkBoxShowProgress_CheckedChanged);
+            // 
+            // progressBarProcess
+            // 
+            this.progressBarProcess.Location = new System.Drawing.Point(18, 246);
+            this.progressBarProcess.Name = "progressBarProcess";
+            this.progressBarProcess.Size = new System.Drawing.Size(311, 23);
+            this.progressBarProcess.TabIndex = 16;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 216);
+            this.ClientSize = new System.Drawing.Size(341, 286);
+            this.Controls.Add(this.progressBarProcess);
+            this.Controls.Add(this.checkBoxShowProgress);
             this.Controls.Add(this.btnStopMerging);
             this.Controls.Add(this.btnSearchForOutput);
             this.Controls.Add(this.txtBoxOutputFile);
@@ -260,5 +282,7 @@
         private System.Windows.Forms.CheckBox checkBoxDeleteOutputFile;
         private System.Windows.Forms.TextBox txtBoxOutputFile;
         private System.Windows.Forms.Button btnStopMerging;
+        private System.Windows.Forms.CheckBox checkBoxShowProgress;
+        private System.Windows.Forms.ProgressBar progressBarProcess;
     }
 }

@@ -18,6 +18,8 @@ namespace File_Merger
         private bool syncrhonizeDirFields = true;
         private int promptAdminOutcome = 0;
         private Thread mergeThread = null;
+        private System.Windows.Forms.Timer timerCollapseProgress = null;
+        private int originalHeight;
 
         public MainForm()
         {
@@ -49,6 +51,18 @@ namespace File_Merger
             this.txtBoxOutputDir.TextChanged += txtBoxOutputDir_TextChanged;
             this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(Form1_KeyDown);
+
+            timerCollapseProgress = new System.Windows.Forms.Timer();
+            timerCollapseProgress.Enabled = false;
+            timerCollapseProgress.Interval = 16;
+            timerCollapseProgress.Tick += timerCollapseProgress_Tick;
+
+            Height -= 50; //! We set the size of the form bigger than it actually is so we can put stuff in the expanded spot
+            originalHeight = Height;
+
+            progressBarProcess.Minimum = 0;
+            progressBarProcess.Value = 0;
+            progressBarProcess.Maximum = 100; //! Just holder
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -166,6 +180,8 @@ namespace File_Merger
 
                 if (amountOfFiles > 20)
                     MessageBox.Show("I've has found more than 20 (" + amountOfFiles + " to be exact) files. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                progressBarProcess.Maximum = amountOfFiles;
             }
 
             SetEnabledOfControl(btnMerge, false);
@@ -271,7 +287,6 @@ namespace File_Merger
                                     }
                                     catch (IOException)
                                     {
-
                                         string messageToShow = "Output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning)";
 
                                         if (promptAdminOutcome == 2)
@@ -289,6 +304,8 @@ namespace File_Merger
                                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
                                         continue;
                                     }
+
+                                    progressBarProcess.Value++;
 
                                     if (firstLinePrinted) //! First line has to be on-top of the file.
                                         outputFile.WriteLine("\t"); //! "\t" is a single linebreak, "\n" breaks two lines.
@@ -506,6 +523,35 @@ namespace File_Merger
                         Close();
 
                     break;
+            }
+        }
+
+        private void checkBoxShowProgress_CheckedChanged(object sender, EventArgs e)
+        {
+            timerCollapseProgress.Enabled = true;
+        }
+
+        private void timerCollapseProgress_Tick(object sender, EventArgs e)
+        {
+            if (checkBoxShowProgress.Checked)
+            {
+                if (Height >= originalHeight + 50)
+                {
+                    Height = originalHeight + 50;
+                    timerCollapseProgress.Enabled = false;
+                }
+                else
+                    Height += 5;
+            }
+            else
+            {
+                if (Height >= originalHeight)
+                    Height -= 5;
+                else
+                {
+                    Height = originalHeight;
+                    timerCollapseProgress.Enabled = false;
+                }
             }
         }
     }
