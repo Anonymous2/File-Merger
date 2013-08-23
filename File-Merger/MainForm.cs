@@ -234,41 +234,37 @@ namespace File_Merger
 
             for (int y = 0; y < z; ++y)
             {
-                string extensionWithoutDot = extensionArray[y].Replace(".", "");
-                string commentTypeStart = GetCommentStartTypeForLanguage(extensionWithoutDot);
-                string commentTypeEnd = GetCommentEndTypeForLanguage(extensionWithoutDot);
-                firstLinePrinted = false;
-                string fullOutputFilename = directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y];
-
-                if (oneHardcodedOutputFile)
-                    fullOutputFilename = directoryOutput;
-
-                if (!oneHardcodedOutputFile && fullOutputFilename == directorySearch + "\\merged_")
-                    continue;
-
-                if (!checkBoxUniqueFilePerExt.Checked && z > 1)
-                    fullOutputFilename = directoryOutput + "\\merged_files.txt";
-
-                if (Path.HasExtension(fullOutputFilename))
-                {
-                    if (File.Exists(fullOutputFilename))
-                    {
-                        if (new FileInfo(fullOutputFilename).Length != 0 && !checkBoxDeleteOutputFile.Checked)
-                        {
-                            MessageBox.Show("Output file already exists and you did not check the box to delete the file if it would exist!", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            continue;
-                        }
-                        else //! Delete both if length is 0 OR when we should delete it because of the checkbox
-                        {
-                            //string _fullOutputFilename = fullOutputFilename.Replace("\\", "'\'\");
-                            //File.Delete(@_fullOutputFilename);
-                            File.Delete(fullOutputFilename);
-                        }
-                    }
-                }
-
                 try
                 {
+                    string extensionWithoutDot = extensionArray[y].Replace(".", "");
+                    string commentTypeStart = GetCommentStartTypeForLanguage(extensionWithoutDot);
+                    string commentTypeEnd = GetCommentEndTypeForLanguage(extensionWithoutDot);
+                    firstLinePrinted = false;
+                    string fullOutputFilename = directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y];
+
+                    if (oneHardcodedOutputFile)
+                        fullOutputFilename = directoryOutput;
+
+                    if (!oneHardcodedOutputFile && fullOutputFilename == directorySearch + "\\merged_")
+                        continue;
+
+                    if (!checkBoxUniqueFilePerExt.Checked && z > 1)
+                        fullOutputFilename = directoryOutput + "\\merged_files.txt";
+
+                    if (Path.HasExtension(fullOutputFilename))
+                    {
+                        if (File.Exists(fullOutputFilename))
+                        {
+                            if (new FileInfo(fullOutputFilename).Length != 0 && !checkBoxDeleteOutputFile.Checked)
+                            {
+                                MessageBox.Show("Output file already exists and you did not check the box to delete the file if it would exist!", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                continue;
+                            }
+                            else //! Delete both if length is 0 OR if we should delete it because of the checkbox
+                                File.Delete(fullOutputFilename);
+                        }
+                    }
+
                     using (StreamWriter outputFile = new StreamWriter(fullOutputFilename, true))
                     {
                         SetProgressBarValue(progressBarProcess, progressBarProcess.Value + 1);
