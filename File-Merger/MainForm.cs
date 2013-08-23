@@ -197,7 +197,7 @@ namespace File_Merger
 
             string[] arrayFiles = allFiles.Split('\n');
             SetProgressBarMaxValue(progressBarProcess, arrayFiles.Length);
-            SetLabelText(labelProgressBar, "0 / " + arrayFiles.Length);
+            SetLabelText(labelProgressCounter, "0 / " + arrayFiles.Length);
 
             if (checkBoxAllExtensions.Checked)
                 for (int i = 0; i < arrayFiles.Length; i++)
@@ -307,7 +307,7 @@ namespace File_Merger
                                         continue;
                                     }
 
-                                    SetLabelText(labelProgressBar, progressBarProcess.Value + " / " + progressBarProcess.Maximum);
+                                    SetLabelText(labelProgressCounter, progressBarProcess.Value + " / " + progressBarProcess.Maximum);
                                     SetLabelText(labelProgressFilename, Path.GetFileName(arrayFiles[i]));
 
                                     if (firstLinePrinted) //! First line has to be on-top of the file.
@@ -338,7 +338,7 @@ namespace File_Merger
 
             SetProgressBarMaxValue(progressBarProcess, 100);
             SetProgressBarValue(progressBarProcess, 0);
-            SetLabelText(labelProgressBar, "");
+            SetLabelText(labelProgressCounter, "");
             SetLabelText(labelProgressFilename, "");
         }
 
@@ -483,15 +483,16 @@ namespace File_Merger
             {
                 mergeThread.Abort();
                 mergeThread = null;
-
-                SetProgressBarMaxValue(progressBarProcess, 100);
-                SetProgressBarValue(progressBarProcess, 0);
-                SetLabelText(labelProgressBar, "");
-                SetLabelText(labelProgressFilename, "");
             }
 
             SetEnabledOfControl(btnMerge, true);
             SetEnabledOfControl(btnStopMerging, false);
+
+            //? Why doesn't this work for all four of the lines below? Only two of them have effect (one label and one progressbar related).
+            progressBarProcess.Value = 0;
+            progressBarProcess.Maximum = 100;
+            labelProgressCounter.Text = "";
+            labelProgressFilename.Text = "";
         }
 
         private delegate void UpdateTextControlDelegate(Control control, string text);
