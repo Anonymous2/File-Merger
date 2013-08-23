@@ -326,7 +326,11 @@ namespace File_Merger
                         }
                     }
                 }
-                catch (Exception) { }; //! Only try, no need to catch anything.
+                //! Only try, no need to catch anything. We need to set back the counter of the progress box, though.
+                catch (Exception)
+                {
+                    SetProgressBarValue(progressBarProcess, progressBarProcess.Value - 1);
+                }; 
             }
 
             SetEnabledOfControl(btnMerge, true);
