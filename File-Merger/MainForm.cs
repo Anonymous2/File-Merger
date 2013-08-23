@@ -26,20 +26,20 @@ namespace File_Merger
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //promptAdminOutcome = Prompt.ShowDialog("Did you run the application as an administrator (nothing bad will happen if you didn't)?", "Administrator mode", "Yes", "No");
+            //promptAdminOutcome = Prompt.ShowDialog("Did you run me as an administrator (nothing bad will happen if you didn't)?", "Administrator mode", "Yes", "No");
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = true;
 
             addTooltip(txtBoxExtensions, "The extensions written here will be checked unless the 'All Extensions' checkbox is checked.");
-            addTooltip(txtBoxDirectorySearch, "Directory in which the application will search for files to merge.");
+            addTooltip(txtBoxDirectorySearch, "Directory in which I will search for files to merge.");
             addTooltip(txtBoxOutputDir, "Directory the output file will be created in.");
             addTooltip(txtBoxOutputFile, "Filename the output file will be named.");
             addTooltip(btnSearchDirectory, "Search for a directroy to fill in the 'search directory' field.");
             addTooltip(btnSearchForOutput, "Search for a file to output the result of the merge in.");
-            addTooltip(checkBoxIncludeSubDirs, "Checking this will make the application include subdirectories of the directory we search in.");
+            addTooltip(checkBoxIncludeSubDirs, "Checking this will include subdirectories of the directory we search in.");
             addTooltip(checkBoxSyncDirFields, "Checking this will synchronize the directory search and directory output fields.");
-            addTooltip(checkBoxAllExtensions, "Checking this will make the application use all the extensions it can find in the given directory.");
+            addTooltip(checkBoxAllExtensions, "Checking this will use all the extensions it can find in the given directory.");
             addTooltip(checkBoxUniqueFilePerExt, "Checking this will mean if there are more extensions found to be merged, it will create one respective file for each such as 'merged_html.html', 'merged_sql.sql', etc.");
             addTooltip(checkBoxDeleteOutputFile, "Checking this will delete any output file if any exist before writing a new one. If not checked and the file already exists, we return an error.");
             addTooltip(btnMerge, "Merge the files!");
@@ -148,7 +148,7 @@ namespace File_Merger
             {
                 if (txtBoxOutputFile.Text.Substring(0, 1) != "\\")
                 {
-                    MessageBox.Show("There are no backslashes on the start of the output file, the application has added them manually.", "A warning has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("There are no backslashes on the start of the output file, I've added them manually.", "A warning has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     UpdateTextControl(txtBoxOutputFile, "\\" + txtBoxOutputFile.Text);
                 }
             }
@@ -158,14 +158,14 @@ namespace File_Merger
                 int amountOfDirectories = Directory.GetDirectories(directorySearch).Length;
 
                 if (amountOfDirectories > 20)
-                    MessageBox.Show("The application has found more than 20 (" + amountOfDirectories + " to be exact) directories. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("I've has found more than 20 (" + amountOfDirectories + " to be exact) directories. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
                 int amountOfFiles = Directory.GetFiles(directorySearch).Length;
 
                 if (amountOfFiles > 20)
-                    MessageBox.Show("The application has found more than 20 (" + amountOfFiles + " to be exact) files. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("I've has found more than 20 (" + amountOfFiles + " to be exact) files. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             SetEnabledOfControl(btnMerge, false);
@@ -230,7 +230,7 @@ namespace File_Merger
                 if (!oneHardcodedOutputFile && fullOutputFilename == directorySearch + "\\merged_")
                     continue;
 
-                if (!checkBoxUniqueFilePerExt.Checked)
+                if (!checkBoxUniqueFilePerExt.Checked && z > 1)
                     fullOutputFilename = directoryOutput + "\\merged_files.txt";
 
                 if (Path.HasExtension(fullOutputFilename))
