@@ -525,7 +525,7 @@ namespace File_Merger
                     button1_Click(sender, e);
                     break;
                 case Keys.Escape:
-                    if (MessageBox.Show("Are you sure you want to quit?.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    if (MessageBox.Show("Are you sure you want to quit?", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         Close();
 
                     break;
