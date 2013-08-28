@@ -60,7 +60,7 @@
             this.checkBoxUniqueFilePerExt.Location = new System.Drawing.Point(163, 165);
             this.checkBoxUniqueFilePerExt.Name = "checkBoxUniqueFilePerExt";
             this.checkBoxUniqueFilePerExt.Size = new System.Drawing.Size(161, 17);
-            this.checkBoxUniqueFilePerExt.TabIndex = 1;
+            this.checkBoxUniqueFilePerExt.TabIndex = 9;
             this.checkBoxUniqueFilePerExt.Text = "One output file per extension";
             this.checkBoxUniqueFilePerExt.UseVisualStyleBackColor = true;
             // 
@@ -78,14 +78,14 @@
             this.txtBoxExtensions.Location = new System.Drawing.Point(14, 139);
             this.txtBoxExtensions.Name = "txtBoxExtensions";
             this.txtBoxExtensions.Size = new System.Drawing.Size(315, 20);
-            this.txtBoxExtensions.TabIndex = 3;
+            this.txtBoxExtensions.TabIndex = 7;
             // 
             // btnMerge
             // 
             this.btnMerge.Location = new System.Drawing.Point(254, 206);
             this.btnMerge.Name = "btnMerge";
             this.btnMerge.Size = new System.Drawing.Size(75, 23);
-            this.btnMerge.TabIndex = 4;
+            this.btnMerge.TabIndex = 13;
             this.btnMerge.Text = "Merge!";
             this.btnMerge.UseVisualStyleBackColor = true;
             this.btnMerge.Click += new System.EventHandler(this.button1_Click);
@@ -95,7 +95,7 @@
             this.txtBoxDirectorySearch.Location = new System.Drawing.Point(14, 25);
             this.txtBoxDirectorySearch.Name = "txtBoxDirectorySearch";
             this.txtBoxDirectorySearch.Size = new System.Drawing.Size(294, 20);
-            this.txtBoxDirectorySearch.TabIndex = 5;
+            this.txtBoxDirectorySearch.TabIndex = 0;
             // 
             // label3
             // 
@@ -112,7 +112,7 @@
             this.checkBoxIncludeSubDirs.Location = new System.Drawing.Point(18, 53);
             this.checkBoxIncludeSubDirs.Name = "checkBoxIncludeSubDirs";
             this.checkBoxIncludeSubDirs.Size = new System.Drawing.Size(129, 17);
-            this.checkBoxIncludeSubDirs.TabIndex = 7;
+            this.checkBoxIncludeSubDirs.TabIndex = 2;
             this.checkBoxIncludeSubDirs.Text = "Include subdirectories";
             this.checkBoxIncludeSubDirs.UseVisualStyleBackColor = true;
             // 
@@ -132,7 +132,7 @@
             this.btnSearchDirectory.Location = new System.Drawing.Point(305, 25);
             this.btnSearchDirectory.Name = "btnSearchDirectory";
             this.btnSearchDirectory.Size = new System.Drawing.Size(24, 20);
-            this.btnSearchDirectory.TabIndex = 9;
+            this.btnSearchDirectory.TabIndex = 1;
             this.btnSearchDirectory.Text = "...";
             this.btnSearchDirectory.UseVisualStyleBackColor = true;
             this.btnSearchDirectory.Click += new System.EventHandler(this.btnSearchDirectory_Click);
@@ -142,7 +142,7 @@
             this.txtBoxOutputDir.Location = new System.Drawing.Point(14, 95);
             this.txtBoxOutputDir.Name = "txtBoxOutputDir";
             this.txtBoxOutputDir.Size = new System.Drawing.Size(220, 20);
-            this.txtBoxOutputDir.TabIndex = 5;
+            this.txtBoxOutputDir.TabIndex = 4;
             // 
             // label1
             // 
@@ -161,7 +161,7 @@
             this.checkBoxSyncDirFields.Location = new System.Drawing.Point(163, 53);
             this.checkBoxSyncDirFields.Name = "checkBoxSyncDirFields";
             this.checkBoxSyncDirFields.Size = new System.Drawing.Size(154, 17);
-            this.checkBoxSyncDirFields.TabIndex = 10;
+            this.checkBoxSyncDirFields.TabIndex = 3;
             this.checkBoxSyncDirFields.Text = "Synchronize directory fields";
             this.checkBoxSyncDirFields.UseVisualStyleBackColor = true;
             this.checkBoxSyncDirFields.CheckedChanged += new System.EventHandler(this.checkBoxSyncDirFields_CheckedChanged);
@@ -175,7 +175,7 @@
             this.btnSearchForOutput.Location = new System.Drawing.Point(305, 94);
             this.btnSearchForOutput.Name = "btnSearchForOutput";
             this.btnSearchForOutput.Size = new System.Drawing.Size(24, 20);
-            this.btnSearchForOutput.TabIndex = 11;
+            this.btnSearchForOutput.TabIndex = 6;
             this.btnSearchForOutput.Text = "...";
             this.btnSearchForOutput.UseVisualStyleBackColor = true;
             this.btnSearchForOutput.Click += new System.EventHandler(this.btnSearchForOutput_Click);
@@ -189,7 +189,7 @@
             this.checkBoxDeleteOutputFile.Location = new System.Drawing.Point(18, 188);
             this.checkBoxDeleteOutputFile.Name = "checkBoxDeleteOutputFile";
             this.checkBoxDeleteOutputFile.Size = new System.Drawing.Size(106, 17);
-            this.checkBoxDeleteOutputFile.TabIndex = 12;
+            this.checkBoxDeleteOutputFile.TabIndex = 10;
             this.checkBoxDeleteOutputFile.Text = "Delete output file";
             this.checkBoxDeleteOutputFile.UseVisualStyleBackColor = true;
             // 
@@ -198,7 +198,7 @@
             this.txtBoxOutputFile.Location = new System.Drawing.Point(235, 95);
             this.txtBoxOutputFile.Name = "txtBoxOutputFile";
             this.txtBoxOutputFile.Size = new System.Drawing.Size(73, 20);
-            this.txtBoxOutputFile.TabIndex = 13;
+            this.txtBoxOutputFile.TabIndex = 5;
             this.txtBoxOutputFile.TextChanged += new System.EventHandler(this.txtBoxOutputFile_TextChanged);
             // 
             // btnStopMerging
@@ -207,7 +207,7 @@
             this.btnStopMerging.Location = new System.Drawing.Point(173, 206);
             this.btnStopMerging.Name = "btnStopMerging";
             this.btnStopMerging.Size = new System.Drawing.Size(75, 23);
-            this.btnStopMerging.TabIndex = 14;
+            this.btnStopMerging.TabIndex = 12;
             this.btnStopMerging.Text = "Stop";
             this.btnStopMerging.UseVisualStyleBackColor = true;
             this.btnStopMerging.Click += new System.EventHandler(this.buttonStopMerging_Click);
@@ -218,7 +218,7 @@
             this.checkBoxShowProgress.Location = new System.Drawing.Point(18, 212);
             this.checkBoxShowProgress.Name = "checkBoxShowProgress";
             this.checkBoxShowProgress.Size = new System.Drawing.Size(148, 17);
-            this.checkBoxShowProgress.TabIndex = 15;
+            this.checkBoxShowProgress.TabIndex = 11;
             this.checkBoxShowProgress.Text = "Show progress of process";
             this.checkBoxShowProgress.UseVisualStyleBackColor = true;
             this.checkBoxShowProgress.CheckedChanged += new System.EventHandler(this.checkBoxShowProgress_CheckedChanged);
