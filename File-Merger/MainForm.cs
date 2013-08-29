@@ -180,6 +180,9 @@ namespace File_Merger
             foreach (var control in controlsToDisable)
                 SetEnabledOfControl(control, false);
 
+            SetEnabledOfControl(btnMerge, false);
+            SetEnabledOfControl(btnStopMerging, true);
+
             //! Re-cursive call to get all files, then put them back in an array.
             string allFiles = "";
             GetAllFilesFromDirectory(directorySearch, checkBoxIncludeSubDirs.Checked, ref allFiles);
@@ -191,11 +194,11 @@ namespace File_Merger
                 foreach (var control in controlsToDisable)
                     SetEnabledOfControl(control, true);
 
+                SetEnabledOfControl(btnMerge, true);
+                SetEnabledOfControl(btnStopMerging, false);
+
                 return;
             }
-
-            SetEnabledOfControl(btnMerge, false);
-            SetEnabledOfControl(btnStopMerging, true);
 
             string[] arrayFiles = allFiles.Split('\n');
             SetProgressBarMaxValue(progressBarProcess, arrayFiles.Length);
