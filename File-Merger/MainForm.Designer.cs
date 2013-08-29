@@ -36,7 +36,6 @@
             this.txtBoxDirectorySearch = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBoxIncludeSubDirs = new System.Windows.Forms.CheckBox();
-            this.checkBoxAllExtensions = new System.Windows.Forms.CheckBox();
             this.btnSearchDirectory = new System.Windows.Forms.Button();
             this.txtBoxOutputDir = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -82,7 +81,7 @@
             // 
             // btnMerge
             // 
-            this.btnMerge.Location = new System.Drawing.Point(254, 206);
+            this.btnMerge.Location = new System.Drawing.Point(254, 188);
             this.btnMerge.Name = "btnMerge";
             this.btnMerge.Size = new System.Drawing.Size(75, 23);
             this.btnMerge.TabIndex = 13;
@@ -116,17 +115,6 @@
             this.checkBoxIncludeSubDirs.TabIndex = 2;
             this.checkBoxIncludeSubDirs.Text = "Include subdirectories";
             this.checkBoxIncludeSubDirs.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxAllExtensions
-            // 
-            this.checkBoxAllExtensions.AutoSize = true;
-            this.checkBoxAllExtensions.Location = new System.Drawing.Point(18, 165);
-            this.checkBoxAllExtensions.Name = "checkBoxAllExtensions";
-            this.checkBoxAllExtensions.Size = new System.Drawing.Size(90, 17);
-            this.checkBoxAllExtensions.TabIndex = 8;
-            this.checkBoxAllExtensions.Text = "All extensions";
-            this.checkBoxAllExtensions.UseVisualStyleBackColor = true;
-            this.checkBoxAllExtensions.CheckedChanged += new System.EventHandler(this.checkBoxAllExtensions_CheckedChanged);
             // 
             // btnSearchDirectory
             // 
@@ -188,7 +176,7 @@
             this.checkBoxDeleteOutputFile.Checked = true;
             this.checkBoxDeleteOutputFile.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxDeleteOutputFile.Enabled = false;
-            this.checkBoxDeleteOutputFile.Location = new System.Drawing.Point(18, 188);
+            this.checkBoxDeleteOutputFile.Location = new System.Drawing.Point(18, 165);
             this.checkBoxDeleteOutputFile.Name = "checkBoxDeleteOutputFile";
             this.checkBoxDeleteOutputFile.Size = new System.Drawing.Size(106, 17);
             this.checkBoxDeleteOutputFile.TabIndex = 10;
@@ -206,7 +194,7 @@
             // btnStopMerging
             // 
             this.btnStopMerging.Enabled = false;
-            this.btnStopMerging.Location = new System.Drawing.Point(173, 206);
+            this.btnStopMerging.Location = new System.Drawing.Point(173, 188);
             this.btnStopMerging.Name = "btnStopMerging";
             this.btnStopMerging.Size = new System.Drawing.Size(75, 23);
             this.btnStopMerging.TabIndex = 12;
@@ -217,7 +205,7 @@
             // checkBoxShowProgress
             // 
             this.checkBoxShowProgress.AutoSize = true;
-            this.checkBoxShowProgress.Location = new System.Drawing.Point(18, 212);
+            this.checkBoxShowProgress.Location = new System.Drawing.Point(18, 188);
             this.checkBoxShowProgress.Name = "checkBoxShowProgress";
             this.checkBoxShowProgress.Size = new System.Drawing.Size(148, 17);
             this.checkBoxShowProgress.TabIndex = 11;
@@ -227,7 +215,7 @@
             // 
             // progressBarProcess
             // 
-            this.progressBarProcess.Location = new System.Drawing.Point(18, 256);
+            this.progressBarProcess.Location = new System.Drawing.Point(18, 239);
             this.progressBarProcess.Name = "progressBarProcess";
             this.progressBarProcess.Size = new System.Drawing.Size(311, 23);
             this.progressBarProcess.TabIndex = 16;
@@ -236,25 +224,27 @@
             // labelProgressCounter
             // 
             this.labelProgressCounter.AutoSize = true;
-            this.labelProgressCounter.Location = new System.Drawing.Point(22, 239);
+            this.labelProgressCounter.Location = new System.Drawing.Point(19, 221);
             this.labelProgressCounter.Name = "labelProgressCounter";
-            this.labelProgressCounter.Size = new System.Drawing.Size(0, 13);
+            this.labelProgressCounter.Size = new System.Drawing.Size(62, 13);
             this.labelProgressCounter.TabIndex = 18;
+            this.labelProgressCounter.Text = "placeholder";
             this.labelProgressCounter.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // labelProgressFilename
             // 
             this.labelProgressFilename.AutoSize = true;
-            this.labelProgressFilename.Location = new System.Drawing.Point(73, 239);
+            this.labelProgressFilename.Location = new System.Drawing.Point(70, 221);
             this.labelProgressFilename.Name = "labelProgressFilename";
-            this.labelProgressFilename.Size = new System.Drawing.Size(0, 13);
+            this.labelProgressFilename.Size = new System.Drawing.Size(68, 13);
             this.labelProgressFilename.TabIndex = 19;
+            this.labelProgressFilename.Text = "placeholder2";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 286);
+            this.ClientSize = new System.Drawing.Size(341, 268);
             this.Controls.Add(this.labelProgressFilename);
             this.Controls.Add(this.labelProgressCounter);
             this.Controls.Add(this.progressBarProcess);
@@ -265,7 +255,6 @@
             this.Controls.Add(this.checkBoxDeleteOutputFile);
             this.Controls.Add(this.checkBoxSyncDirFields);
             this.Controls.Add(this.btnSearchDirectory);
-            this.Controls.Add(this.checkBoxAllExtensions);
             this.Controls.Add(this.checkBoxIncludeSubDirs);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label3);
@@ -280,7 +269,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
-            this.Text = "File-Merger";
+            this.Text = "File Merger";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -296,7 +285,6 @@
         private System.Windows.Forms.TextBox txtBoxDirectorySearch;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBoxIncludeSubDirs;
-        private System.Windows.Forms.CheckBox checkBoxAllExtensions;
         private System.Windows.Forms.Button btnSearchDirectory;
         private System.Windows.Forms.TextBox txtBoxOutputDir;
         private System.Windows.Forms.Label label1;

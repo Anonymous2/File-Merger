@@ -41,7 +41,6 @@ namespace File_Merger
             addTooltip(btnSearchForOutput, "Search for a file to output the result of the merge in.");
             addTooltip(checkBoxIncludeSubDirs, "Checking this will include subdirectories of the directory we search in.");
             addTooltip(checkBoxSyncDirFields, "Checking this will synchronize the directory search and directory output fields.");
-            addTooltip(checkBoxAllExtensions, "Checking this will use all the extensions it can find in the given directory.");
             addTooltip(checkBoxUniqueFilePerExt, "Checking this will mean if there are more extensions found to be merged, it will create one respective file for each such as 'merged_html.html', 'merged_sql.sql', etc.");
             addTooltip(checkBoxDeleteOutputFile, "Checking this will delete any output file if any exist before writing a new one. If not checked and the file already exists, we return an error.");
             addTooltip(btnMerge, "Merge the files!");
@@ -63,6 +62,10 @@ namespace File_Merger
             progressBarProcess.Minimum = 0;
             progressBarProcess.Value = 0;
             progressBarProcess.Maximum = 100; //! Just holder
+
+            //! Get rid of the placeholder (needed to properly align these two labels)
+            labelProgressCounter.Text = "";
+            labelProgressFilename.Text = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -144,19 +147,7 @@ namespace File_Merger
                 }
             }
 
-            string extensionString = "";
-
-            //! Do not pick ALL extensions
-            if (!checkBoxAllExtensions.Checked)
-            {
-                extensionString = txtBoxExtensions.Text;
-
-                if (extensionString == "")
-                {
-                    MessageBox.Show("The extensions field was left empty.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
+            string extensionString = txtBoxExtensions.Text;
 
             if (txtBoxOutputFile.Text != String.Empty)
             {
@@ -199,7 +190,7 @@ namespace File_Merger
             SetProgressBarMaxValue(progressBarProcess, arrayFiles.Length);
             SetLabelText(labelProgressCounter, "0 / " + arrayFiles.Length);
 
-            if (checkBoxAllExtensions.Checked)
+            if (String.IsNullOrEmpty(extensionString) || String.IsNullOrWhiteSpace(extensionString))
                 for (int i = 0; i < arrayFiles.Length; i++)
                     if (arrayFiles[i] != string.Empty && arrayFiles[i] != "" && Path.HasExtension(arrayFiles[i]))
                         extensionString += Path.GetExtension(arrayFiles[i]) + ";";
@@ -455,11 +446,6 @@ namespace File_Merger
             }
         }
 
-        private void checkBoxAllExtensions_CheckedChanged(object sender, EventArgs e)
-        {
-            txtBoxExtensions.Enabled = !checkBoxAllExtensions.Checked;
-        }
-
         private void addTooltip(Control control, string tooltipMsg)
         {
             ToolTip toolTip = new ToolTip();
@@ -578,19 +564,23 @@ namespace File_Merger
 
         private void SetProgressBarValue(ProgressBar progressBar, int value)
         {
-            if (progressBar.InvokeRequired)
+            try
             {
-                Invoke(new SetProgressBarValueDelegate(SetProgressBarValue), new object[] { progressBar, value });
-                return;
-            }
+                if (progressBar.InvokeRequired)
+                {
+                    Invoke(new SetProgressBarValueDelegate(SetProgressBarValue), new object[] { progressBar, value });
+                    return;
+                }
 
-            if (progressBar.Value >= progressBar.Maximum)
-            {
-                progressBar.Value = progressBar.Maximum;
-                return;
-            }
+                if (progressBar.Value >= progressBar.Maximum)
+                {
+                    progressBar.Value = progressBar.Maximum;
+                    return;
+                }
 
-            progressBar.Value = value;
+                progressBar.Value = value;
+            }
+            catch (Exception) { };
         }
 
         private delegate void SetLabelTextDelegate(Label label, string text);
