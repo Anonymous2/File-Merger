@@ -183,6 +183,8 @@ namespace File_Merger
             SetEnabledOfControl(btnMerge, false);
             SetEnabledOfControl(btnStopMerging, true);
 
+            UseWaitCursor = true;
+
             //! Re-cursive call to get all files, then put them back in an array.
             string allFiles = "";
             GetAllFilesFromDirectory(directorySearch, checkBoxIncludeSubDirs.Checked, ref allFiles);
@@ -197,6 +199,7 @@ namespace File_Merger
                 SetEnabledOfControl(btnMerge, true);
                 SetEnabledOfControl(btnStopMerging, false);
 
+                UseWaitCursor = false;
                 return;
             }
 
@@ -335,6 +338,8 @@ namespace File_Merger
 
             foreach (var control in controlsToDisable)
                 SetEnabledOfControl(control, true);
+
+            UseWaitCursor = false;
         }
 
         private void GetAllFilesFromDirectory(string directorySearch, bool includingSubDirs, ref string allFiles)
@@ -480,6 +485,8 @@ namespace File_Merger
 
             foreach (var control in controlsToDisable)
                 SetEnabledOfControl(control, true);
+
+            UseWaitCursor = false;
 
             SetEnabledOfControl(btnMerge, true);
             SetEnabledOfControl(btnStopMerging, false);
