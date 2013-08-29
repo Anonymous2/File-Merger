@@ -1,25 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO;
 using System.Threading;
-using System.Timers;
+using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace File_Merger
 {
     public partial class MainForm : Form
     {
-        private bool syncrhonizeDirFields = true;
-        private int promptAdminOutcome = 0;
-        private Thread mergeThread = null;
-        private System.Windows.Forms.Timer timerCollapseProgress = null;
+        private Thread mergeThread;
         private int originalHeight;
+        private int promptAdminOutcome = 0;
+        private bool syncrhonizeDirFields = true;
+        private Timer timerCollapseProgress;
 
         public MainForm()
         {
@@ -46,12 +39,12 @@ namespace File_Merger
             addTooltip(btnMerge, "Merge the files!");
             addTooltip(btnStopMerging, "Stop merging the last instance. Since you can have more directories being merged individually at the same time, this button will only stop the last executed one.");
 
-            this.txtBoxDirectorySearch.TextChanged += txtBoxDirectorySearch_TextChanged;
-            this.txtBoxOutputDir.TextChanged += txtBoxOutputDir_TextChanged;
-            this.KeyPreview = true;
-            this.KeyDown += new KeyEventHandler(Form1_KeyDown);
+            txtBoxDirectorySearch.TextChanged += txtBoxDirectorySearch_TextChanged;
+            txtBoxOutputDir.TextChanged += txtBoxOutputDir_TextChanged;
+            KeyPreview = true;
+            KeyDown += Form1_KeyDown;
 
-            timerCollapseProgress = new System.Windows.Forms.Timer();
+            timerCollapseProgress = new Timer();
             timerCollapseProgress.Enabled = false;
             timerCollapseProgress.Interval = 16;
             timerCollapseProgress.Tick += timerCollapseProgress_Tick;
@@ -70,7 +63,7 @@ namespace File_Merger
 
         private void button1_Click(object sender, EventArgs e)
         {
-            mergeThread = new Thread(new ThreadStart(StartMerging));
+            mergeThread = new Thread(StartMerging);
             mergeThread.Start();
         }
 
@@ -96,19 +89,20 @@ namespace File_Merger
 
             if (!txtBoxDirectorySearch.Text.Contains("\\"))
             {
-                MessageBox.Show("The directory search field must contain backslashes at the end (\\). For now I've added them for you.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show( "The directory search field must contain backslashes at the end (\\). For now I've added them for you.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 UpdateTextControl(txtBoxDirectorySearch, txtBoxDirectorySearch.Text + "\\");
                 directorySearch += "\\";
             }
 
             if (txtBoxOutputDir.Text != "" && !txtBoxOutputDir.Text.Contains("\\"))
             {
-                MessageBox.Show("The directory output field must contain backslashes at the end (\\). For now I've added them for you.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show( "The directory output field must contain backslashes at the end (\\). For now I've added them for you.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 UpdateTextControl(txtBoxDirectorySearch, txtBoxDirectorySearch.Text + "\\");
                 directoryOutput += "\\";
             }
 
-            if (txtBoxOutputFile.Text != "" && Path.GetDirectoryName(txtBoxOutputFile.Text) != "" && Path.GetDirectoryName(txtBoxOutputFile.Text) != "\\")
+            if (txtBoxOutputFile.Text != "" && Path.GetDirectoryName(txtBoxOutputFile.Text) != "" &&
+                Path.GetDirectoryName(txtBoxOutputFile.Text) != "\\")
             {
                 MessageBox.Show("It is not allowed to give a directory in the output FILE field.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -140,7 +134,8 @@ namespace File_Merger
                     return;
                 }
 
-                if (File.Exists(directoryOutput) && checkBoxDeleteOutputFile.Enabled && !checkBoxDeleteOutputFile.Checked)
+                if (File.Exists(directoryOutput) && checkBoxDeleteOutputFile.Enabled &&
+                    !checkBoxDeleteOutputFile.Checked)
                 {
                     MessageBox.Show("The given output file already exists and the checkbox to delete the output file is not checked.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -170,7 +165,7 @@ namespace File_Merger
                 int amountOfFiles = Directory.GetFiles(directorySearch).Length;
 
                 if (amountOfFiles > 20)
-                    MessageBox.Show("I've has found more than 20 (" + amountOfFiles + " to be exact) files. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show( "I've has found more than 20 (" + amountOfFiles + " to be exact) files. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             //! Re-cursive call to get all files, then put them back in an array.
@@ -209,7 +204,8 @@ namespace File_Merger
 
                 //! Minus hardcoded 1 because that's the '/' line.
                 if (Path.HasExtension(directoryOutput))
-                    _directoryOutput = _directoryOutput.Remove(_directoryOutput.Length - 1 - Path.GetFileName(directoryOutput).Length);
+                    _directoryOutput =
+                        _directoryOutput.Remove(_directoryOutput.Length - 1 - Path.GetFileName(directoryOutput).Length);
 
                 if (!Directory.Exists(_directoryOutput))
                     Directory.CreateDirectory(_directoryOutput);
@@ -251,12 +247,11 @@ namespace File_Merger
                                 MessageBox.Show("Output file already exists and you did not check the box to delete the file if it would exist!", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 continue;
                             }
-                            else //! Delete both if length is 0 OR if we should delete it because of the checkbox
-                                File.Delete(fullOutputFilename);
+                            File.Delete(fullOutputFilename);
                         }
                     }
 
-                    using (StreamWriter outputFile = new StreamWriter(fullOutputFilename, true))
+                    using (var outputFile = new StreamWriter(fullOutputFilename, true))
                     {
                         SetProgressBarValue(progressBarProcess, progressBarProcess.Value + 1);
 
@@ -264,7 +259,8 @@ namespace File_Merger
                         {
                             if (Path.HasExtension(arrayFiles[i]))
                             {
-                                if (Path.HasExtension(arrayFiles[i]) && (oneHardcodedOutputFile || extensionArray[y] == Path.GetExtension(arrayFiles[i])))
+                                if (Path.HasExtension(arrayFiles[i]) &&
+                                    (oneHardcodedOutputFile || extensionArray[y] == Path.GetExtension(arrayFiles[i])))
                                 {
                                     //! We run the try-catch before writing anything to save memory. If we get
                                     //! an error, there's no reason to continue anyway.
@@ -282,23 +278,19 @@ namespace File_Merger
                                             messageToShow += ". Please note you did not run the program in administrator mode, which is most likely the problem. If you did, please make sure the file was not actually updated anyhow";
 
                                         messageToShow += "!";
-                                        
-                                        MsgBoxCheck.MessageBox dlg = new MsgBoxCheck.MessageBox();
-                                        DialogResult dr =
-                                                dlg.Show(@"Software\PricklySoft\TestMsgBoxCheck",
-                                                "DontShowAgain", DialogResult.OK,
-                                                "Don't ask me this again",
-                                                messageToShow,
-                                                "An error has occurred!",
-                                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                        var dlg = new MsgBoxCheck.MessageBox();
+                                        DialogResult dr = dlg.Show(@"Software\PricklySoft\TestMsgBoxCheck", "DontShowAgain", DialogResult.OK, "Don't ask me this again", messageToShow, "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                         continue;
                                     }
 
-                                    SetLabelText(labelProgressCounter, progressBarProcess.Value + " / " + progressBarProcess.Maximum);
+                                    SetLabelText(labelProgressCounter,
+                                        progressBarProcess.Value + " / " + progressBarProcess.Maximum);
                                     SetLabelText(labelProgressFilename, Path.GetFileName(arrayFiles[i]));
 
                                     if (firstLinePrinted) //! First line has to be on-top of the file.
-                                        outputFile.WriteLine("\t"); //! "\t" is a single linebreak, "\n" breaks two lines.
+                                        outputFile.WriteLine("\t");
+                                            //! "\t" is a single linebreak, "\n" breaks two lines.
 
                                     firstLinePrinted = true;
                                     outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
@@ -313,11 +305,11 @@ namespace File_Merger
                         }
                     }
                 }
-                //! Only try, no need to catch anything. We need to set back the counter of the progress box, though.
+                    //! Only try, no need to catch anything. We need to set back the counter of the progress box, though.
                 catch (Exception)
                 {
                     SetProgressBarValue(progressBarProcess, progressBarProcess.Value - 1);
-                }; 
+                };
             }
 
             SetEnabledOfControl(btnMerge, true);
@@ -353,14 +345,14 @@ namespace File_Merger
         {
             if (languageExtension == "sql" || languageExtension == "lua")
                 return "--";
-            else if (languageExtension == "html" || languageExtension == "xml")
+            if (languageExtension == "html" || languageExtension == "xml")
                 return "<!--";
-            else if (languageExtension == "php" || languageExtension == "pl" || languageExtension == "pm" ||
+            if (languageExtension == "php" || languageExtension == "pl" || languageExtension == "pm" ||
                 languageExtension == "t" || languageExtension == "pod" || languageExtension == "rb" ||
                 languageExtension == "rbw" || languageExtension == "py" || languageExtension == "pyw" ||
                 languageExtension == "pyc" || languageExtension == "pyo" || languageExtension == "pyd")
                 return "#";
-            else if (languageExtension == "cpp" || languageExtension == "cs" || languageExtension == "d" ||
+            if (languageExtension == "cpp" || languageExtension == "cs" || languageExtension == "d" ||
                 languageExtension == "js" || languageExtension == "java" || languageExtension == "javac" ||
                 languageExtension == "p" || languageExtension == "pp" || languageExtension == "pas" ||
                 languageExtension == "c")
@@ -379,24 +371,25 @@ namespace File_Merger
 
         private void btnSearchDirectory_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            var fbd = new FolderBrowserDialog();
             fbd.Description = "Select a directory to merge files from.";
 
             if (txtBoxDirectorySearch.Text != "" && Directory.Exists(txtBoxDirectorySearch.Text))
                 fbd.SelectedPath = txtBoxDirectorySearch.Text;
 
-            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (fbd.ShowDialog() == DialogResult.OK)
             {
                 UpdateTextControl(txtBoxDirectorySearch, fbd.SelectedPath);
                 txtBoxDirectorySearch_TextChanged(sender, e);
             }
         }
 
-        void txtBoxDirectorySearch_TextChanged(object sender, System.EventArgs e)
+        private void txtBoxDirectorySearch_TextChanged(object sender, EventArgs e)
         {
             if (syncrhonizeDirFields)
             {
-                if (txtBoxDirectorySearch.Text.Length > 0)// && (txtBoxOutputDir.Text == "" || txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxOutputDir.Text ||
+                if (txtBoxDirectorySearch.Text.Length > 0)
+                    // && (txtBoxOutputDir.Text == "" || txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxOutputDir.Text ||
                     //txtBoxOutputDir.Text.Substring(0, txtBoxOutputDir.Text.Length - 1) == txtBoxDirectory.Text))
                     UpdateTextControl(txtBoxOutputDir, txtBoxDirectorySearch.Text);
                 else if (txtBoxDirectorySearch.Text == "" && txtBoxOutputDir.Text != "")
@@ -404,11 +397,12 @@ namespace File_Merger
             }
         }
 
-        void txtBoxOutputDir_TextChanged(object sender, System.EventArgs e)
+        private void txtBoxOutputDir_TextChanged(object sender, EventArgs e)
         {
             if (syncrhonizeDirFields)
             {
-                if (txtBoxOutputDir.Text.Length > 0)// && (txtBoxDirectory.Text == "" || txtBoxOutputDir.Text.Substring(0, txtBoxOutputDir.Text.Length - 1) == txtBoxDirectory.Text ||
+                if (txtBoxOutputDir.Text.Length > 0)
+                    // && (txtBoxDirectory.Text == "" || txtBoxOutputDir.Text.Substring(0, txtBoxOutputDir.Text.Length - 1) == txtBoxDirectory.Text ||
                     //txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxOutputDir.Text))
                     UpdateTextControl(txtBoxDirectorySearch, txtBoxOutputDir.Text);
                 else if (txtBoxOutputDir.Text == "" && txtBoxDirectorySearch.Text != "")
@@ -437,7 +431,8 @@ namespace File_Merger
                 string fileNameWithoutDir = Path.GetFileName(fileNameWithDir);
 
                 if (Path.HasExtension(fileNameWithDir))
-                    fileNameWithDir = fileNameWithDir.Substring(0, fileNameWithDir.Length - Path.GetFileName(fileNameWithDir).Length);
+                    fileNameWithDir = fileNameWithDir.Substring(0,
+                        fileNameWithDir.Length - Path.GetFileName(fileNameWithDir).Length);
 
                 txtBoxOutputDir.Text = fileNameWithDir;
                 txtBoxOutputFile.Text = "\\" + fileNameWithoutDir;
@@ -448,7 +443,7 @@ namespace File_Merger
 
         private void addTooltip(Control control, string tooltipMsg)
         {
-            ToolTip toolTip = new ToolTip();
+            var toolTip = new ToolTip();
             toolTip.SetToolTip(control, tooltipMsg);
             toolTip.ShowAlways = true;
         }
@@ -477,26 +472,22 @@ namespace File_Merger
             labelProgressFilename.Text = "";
         }
 
-        private delegate void UpdateTextControlDelegate(Control control, string text);
-
         private void UpdateTextControl(Control control, string text)
         {
             if (control.InvokeRequired)
             {
-                Invoke(new UpdateTextControlDelegate(UpdateTextControl), new object[] { control, text });
+                Invoke(new UpdateTextControlDelegate(UpdateTextControl), new object[] {control, text});
                 return;
             }
 
             control.Text = text;
         }
 
-        private delegate void SetEnabledOfControlDelegate(Control control, bool enable);
-
         private void SetEnabledOfControl(Control control, bool enable)
         {
             if (control.InvokeRequired)
             {
-                Invoke(new SetEnabledOfControlDelegate(SetEnabledOfControl), new object[] { control, enable });
+                Invoke(new SetEnabledOfControlDelegate(SetEnabledOfControl), new object[] {control, enable});
                 return;
             }
 
@@ -547,20 +538,16 @@ namespace File_Merger
             }
         }
 
-        private delegate void SetProgressBarMaxValueDelegate(ProgressBar progressBar, int value);
-
         private void SetProgressBarMaxValue(ProgressBar progressBar, int value)
         {
             if (progressBar.InvokeRequired)
             {
-                Invoke(new SetProgressBarMaxValueDelegate(SetProgressBarMaxValue), new object[] { progressBar, value });
+                Invoke(new SetProgressBarMaxValueDelegate(SetProgressBarMaxValue), new object[] {progressBar, value});
                 return;
             }
 
             progressBar.Maximum = value;
         }
-
-        private delegate void SetProgressBarValueDelegate(ProgressBar progressBar, int value);
 
         private void SetProgressBarValue(ProgressBar progressBar, int value)
         {
@@ -568,7 +555,7 @@ namespace File_Merger
             {
                 if (progressBar.InvokeRequired)
                 {
-                    Invoke(new SetProgressBarValueDelegate(SetProgressBarValue), new object[] { progressBar, value });
+                    Invoke(new SetProgressBarValueDelegate(SetProgressBarValue), new object[] {progressBar, value});
                     return;
                 }
 
@@ -583,13 +570,11 @@ namespace File_Merger
             catch (Exception) { };
         }
 
-        private delegate void SetLabelTextDelegate(Label label, string text);
-
         private void SetLabelText(Label label, string text)
         {
             if (label.InvokeRequired)
             {
-                Invoke(new SetLabelTextDelegate(SetLabelText), new object[] { label, text });
+                Invoke(new SetLabelTextDelegate(SetLabelText), new object[] {label, text});
                 return;
             }
 
@@ -598,15 +583,24 @@ namespace File_Merger
 
         private void progressBarProcess_Click(object sender, EventArgs e)
         {
-
         }
+
+        private delegate void SetEnabledOfControlDelegate(Control control, bool enable);
+
+        private delegate void SetLabelTextDelegate(Label label, string text);
+
+        private delegate void SetProgressBarMaxValueDelegate(ProgressBar progressBar, int value);
+
+        private delegate void SetProgressBarValueDelegate(ProgressBar progressBar, int value);
+
+        private delegate void UpdateTextControlDelegate(Control control, string text);
     }
 
     public static class Prompt
     {
         public static int ShowDialog(string text, string caption, string btnOneText, string btnTwoText)
         {
-            Form prompt = new Form();
+            var prompt = new Form();
             prompt.FormBorderStyle = FormBorderStyle.FixedDialog;
             prompt.MaximizeBox = false;
             prompt.MinimizeBox = false;
@@ -614,19 +608,27 @@ namespace File_Merger
             prompt.Width = 300;
             prompt.Height = 125;
             prompt.Text = caption;
-            Label textLabel = new Label() { Left = 10, Top = 15, Text = text };
-            Button firstButton = new Button() { Text = btnOneText, Left = 30, Width = 90, Top = 50 };
-            Button secondButton = new Button() { Text = btnTwoText, Left = 160, Width = 90, Top = 50 };
+            var textLabel = new Label {Left = 10, Top = 15, Text = text};
+            var firstButton = new Button {Text = btnOneText, Left = 30, Width = 90, Top = 50};
+            var secondButton = new Button {Text = btnTwoText, Left = 160, Width = 90, Top = 50};
             int clickedFirstButton = 0; //! 0 = uninitialized (red 'X' for example), 1 = button one, 2 = button two
-            firstButton.Click  += (sender, e) => { prompt.Close(); clickedFirstButton = 1; };
-            secondButton.Click += (sender, e) => { prompt.Close(); clickedFirstButton = 2; };
+            firstButton.Click += (sender, e) =>
+            {
+                prompt.Close();
+                clickedFirstButton = 1;
+            };
+            secondButton.Click += (sender, e) =>
+            {
+                prompt.Close();
+                clickedFirstButton = 2;
+            };
             prompt.Controls.Add(textLabel);
             prompt.Controls.Add(firstButton);
             prompt.Controls.Add(secondButton);
             prompt.ShowDialog();
 
             //! Keep opening new prompts until the user pressed either of the buttons.
-            return clickedFirstButton > 0 ? clickedFirstButton : Prompt.ShowDialog(text, caption, btnOneText, btnTwoText);
+            return clickedFirstButton > 0 ? clickedFirstButton : ShowDialog(text, caption, btnOneText, btnTwoText);
         }
     }
 }
