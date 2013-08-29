@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using Timer = System.Windows.Forms.Timer;
 
 namespace File_Merger
@@ -10,8 +11,9 @@ namespace File_Merger
     {
         private Thread mergeThread;
         private int originalHeight;
-        private bool syncrhonizeDirFields = true;
         private Timer timerCollapseProgress;
+        private bool syncrhonizeDirFields = true;
+        private readonly List<Control> controlsToDisable = new List<Control>();
 
         public MainForm()
         {
@@ -55,6 +57,18 @@ namespace File_Merger
             //! Get rid of the placeholder (needed to properly align these two labels)
             labelProgressCounter.Text = "";
             labelProgressFilename.Text = "";
+
+            controlsToDisable.Add(txtBoxDirectorySearch);
+            controlsToDisable.Add(txtBoxExtensions);
+            controlsToDisable.Add(txtBoxOutputDir);
+            controlsToDisable.Add(txtBoxOutputFile);
+            controlsToDisable.Add(checkBoxDeleteOutputFile);
+            controlsToDisable.Add(checkBoxIncludeSubDirs);
+            //controlsToDisable.Add(checkBoxShowProgress); //! This shouldn't be disabled :)
+            controlsToDisable.Add(checkBoxUniqueFilePerExt);
+            controlsToDisable.Add(checkBoxSyncDirFields);
+            controlsToDisable.Add(btnSearchDirectory);
+            controlsToDisable.Add(btnSearchForOutput);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -163,6 +177,9 @@ namespace File_Merger
                     MessageBox.Show( "I've has found more than 20 (" + amountOfFiles + " to be exact) files. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
+            foreach (var control in controlsToDisable)
+                SetEnabledOfControl(control, false);
+
             //! Re-cursive call to get all files, then put them back in an array.
             string allFiles = "";
             GetAllFilesFromDirectory(directorySearch, checkBoxIncludeSubDirs.Checked, ref allFiles);
@@ -170,6 +187,10 @@ namespace File_Merger
             if (allFiles == string.Empty)
             {
                 MessageBox.Show("The searched directory contains no files at all.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                foreach (var control in controlsToDisable)
+                    SetEnabledOfControl(control, true);
+
                 return;
             }
 
@@ -267,13 +288,7 @@ namespace File_Merger
                                     }
                                     catch (IOException)
                                     {
-                                        string messageToShow = "Output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning)";
-
-                                        if (promptAdminOutcome == 2)
-                                            messageToShow += ". Please note you did not run the program in administrator mode, which is most likely the problem. If you did, please make sure the file was not actually updated anyhow";
-
-                                        messageToShow += "!";
-
+                                        string messageToShow = "Output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning)!";
                                         var dlg = new MsgBoxCheck.MessageBox();
                                         DialogResult dr = dlg.Show(@"Software\PricklySoft\TestMsgBoxCheck", "DontShowAgain", DialogResult.OK, "Don't ask me this again", messageToShow, "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                         continue;
@@ -314,6 +329,9 @@ namespace File_Merger
             SetProgressBarValue(progressBarProcess, 0);
             SetLabelText(labelProgressCounter, "");
             SetLabelText(labelProgressFilename, "");
+
+            foreach (var control in controlsToDisable)
+                SetEnabledOfControl(control, true);
         }
 
         private void GetAllFilesFromDirectory(string directorySearch, bool includingSubDirs, ref string allFiles)
@@ -456,6 +474,9 @@ namespace File_Merger
                 mergeThread.Abort();
                 mergeThread = null;
             }
+
+            foreach (var control in controlsToDisable)
+                SetEnabledOfControl(control, true);
 
             SetEnabledOfControl(btnMerge, true);
             SetEnabledOfControl(btnStopMerging, false);
