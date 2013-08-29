@@ -10,7 +10,6 @@ namespace File_Merger
     {
         private Thread mergeThread;
         private int originalHeight;
-        private int promptAdminOutcome = 0;
         private bool syncrhonizeDirFields = true;
         private Timer timerCollapseProgress;
 
@@ -21,32 +20,29 @@ namespace File_Merger
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //promptAdminOutcome = Prompt.ShowDialog("Did you run me as an administrator (nothing bad will happen if you didn't)?", "Administrator mode", "Yes", "No");
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = true;
 
-            addTooltip(txtBoxExtensions, "The extensions written here will be checked unless the 'All Extensions' checkbox is checked.");
-            addTooltip(txtBoxDirectorySearch, "Directory in which I will search for files to merge.");
-            addTooltip(txtBoxOutputDir, "Directory the output file will be created in.");
-            addTooltip(txtBoxOutputFile, "Filename the output file will be named.");
-            addTooltip(btnSearchDirectory, "Search for a directroy to fill in the 'search directory' field.");
-            addTooltip(btnSearchForOutput, "Search for a file to output the result of the merge in.");
-            addTooltip(checkBoxIncludeSubDirs, "Checking this will include subdirectories of the directory we search in.");
-            addTooltip(checkBoxSyncDirFields, "Checking this will synchronize the directory search and directory output fields.");
-            addTooltip(checkBoxUniqueFilePerExt, "Checking this will mean if there are more extensions found to be merged, it will create one respective file for each such as 'merged_html.html', 'merged_sql.sql', etc.");
-            addTooltip(checkBoxDeleteOutputFile, "Checking this will delete any output file if any exist before writing a new one. If not checked and the file already exists, we return an error.");
-            addTooltip(btnMerge, "Merge the files!");
-            addTooltip(btnStopMerging, "Stop merging the last instance. Since you can have more directories being merged individually at the same time, this button will only stop the last executed one.");
+            AddTooltip(txtBoxExtensions, "The extensions written here will be checked unless the 'All Extensions' checkbox is checked.");
+            AddTooltip(txtBoxDirectorySearch, "Directory in which I will search for files to merge.");
+            AddTooltip(txtBoxOutputDir, "Directory the output file will be created in.");
+            AddTooltip(txtBoxOutputFile, "Filename the output file will be named.");
+            AddTooltip(btnSearchDirectory, "Search for a directroy to fill in the 'search directory' field.");
+            AddTooltip(btnSearchForOutput, "Search for a file to output the result of the merge in.");
+            AddTooltip(checkBoxIncludeSubDirs, "Checking this will include subdirectories of the directory we search in.");
+            AddTooltip(checkBoxSyncDirFields, "Checking this will synchronize the directory search and directory output fields.");
+            AddTooltip(checkBoxUniqueFilePerExt, "Checking this will mean if there are more extensions found to be merged, it will create one respective file for each such as 'merged_html.html', 'merged_sql.sql', etc.");
+            AddTooltip(checkBoxDeleteOutputFile, "Checking this will delete any output file if any exist before writing a new one. If not checked and the file already exists, we return an error.");
+            AddTooltip(btnMerge, "Merge the files!");
+            AddTooltip(btnStopMerging, "Stop merging the last instance. Since you can have more directories being merged individually at the same time, this button will only stop the last executed one.");
 
             txtBoxDirectorySearch.TextChanged += txtBoxDirectorySearch_TextChanged;
             txtBoxOutputDir.TextChanged += txtBoxOutputDir_TextChanged;
             KeyPreview = true;
             KeyDown += Form1_KeyDown;
 
-            timerCollapseProgress = new Timer();
-            timerCollapseProgress.Enabled = false;
-            timerCollapseProgress.Interval = 16;
+            timerCollapseProgress = new Timer { Enabled = false, Interval = 16 };
             timerCollapseProgress.Tick += timerCollapseProgress_Tick;
 
             Height -= 50; //! We set the size of the form bigger than it actually is so we can put stuff in the expanded spot
@@ -87,22 +83,7 @@ namespace File_Merger
                 return;
             }
 
-            if (!txtBoxDirectorySearch.Text.Contains("\\"))
-            {
-                MessageBox.Show( "The directory search field must contain backslashes at the end (\\). For now I've added them for you.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                UpdateTextControl(txtBoxDirectorySearch, txtBoxDirectorySearch.Text + "\\");
-                directorySearch += "\\";
-            }
-
-            if (txtBoxOutputDir.Text != "" && !txtBoxOutputDir.Text.Contains("\\"))
-            {
-                MessageBox.Show( "The directory output field must contain backslashes at the end (\\). For now I've added them for you.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                UpdateTextControl(txtBoxDirectorySearch, txtBoxDirectorySearch.Text + "\\");
-                directoryOutput += "\\";
-            }
-
-            if (txtBoxOutputFile.Text != "" && Path.GetDirectoryName(txtBoxOutputFile.Text) != "" &&
-                Path.GetDirectoryName(txtBoxOutputFile.Text) != "\\")
+            if (txtBoxOutputFile.Text != "" && Path.GetDirectoryName(txtBoxOutputFile.Text) != "" && Path.GetDirectoryName(txtBoxOutputFile.Text) != "\\")
             {
                 MessageBox.Show("It is not allowed to give a directory in the output FILE field.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -140,6 +121,20 @@ namespace File_Merger
                     MessageBox.Show("The given output file already exists and the checkbox to delete the output file is not checked.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+            }
+
+            if (!txtBoxDirectorySearch.Text.Contains("\\"))
+            {
+                MessageBox.Show("The directory search field must contain backslashes at the end (\\). For now I've added them for you.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                UpdateTextControl(txtBoxDirectorySearch, txtBoxDirectorySearch.Text + "\\");
+                directorySearch += "\\";
+            }
+
+            if (txtBoxOutputDir.Text != "" && !txtBoxOutputDir.Text.Contains("\\"))
+            {
+                MessageBox.Show("The directory output field must contain backslashes at the end (\\). For now I've added them for you.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                UpdateTextControl(txtBoxDirectorySearch, txtBoxDirectorySearch.Text + "\\");
+                directoryOutput += "\\";
             }
 
             string extensionString = txtBoxExtensions.Text;
@@ -192,7 +187,7 @@ namespace File_Merger
 
             string[] extensionArray = extensionString.Split(';');
             int z = checkBoxUniqueFilePerExt.Checked ? extensionArray.Length : 1;
-            bool firstLinePrinted = true, oneHardcodedOutputFile = false;
+            bool oneHardcodedOutputFile = false;
 
             if (!Directory.Exists(directoryOutput))
             {
@@ -226,7 +221,7 @@ namespace File_Merger
                     string extensionWithoutDot = extensionArray[y].Replace(".", "");
                     string commentTypeStart = GetCommentStartTypeForLanguage(extensionWithoutDot);
                     string commentTypeEnd = GetCommentEndTypeForLanguage(extensionWithoutDot);
-                    firstLinePrinted = false;
+                    bool firstLinePrinted = false;
                     string fullOutputFilename = directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y];
 
                     if (oneHardcodedOutputFile)
@@ -298,8 +293,8 @@ namespace File_Merger
                                     outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
                                     outputFile.WriteLine("\t");
 
-                                    for (int j = 0; j < linesOfFile.Length; j++)
-                                        outputFile.WriteLine("\t" + linesOfFile[j]);
+                                    foreach (string line in linesOfFile)
+                                        outputFile.WriteLine("\t" + line);
                                 }
                             }
                         }
@@ -441,7 +436,7 @@ namespace File_Merger
             }
         }
 
-        private void addTooltip(Control control, string tooltipMsg)
+        private void AddTooltip(Control control, string tooltipMsg)
         {
             var toolTip = new ToolTip();
             toolTip.SetToolTip(control, tooltipMsg);
@@ -594,41 +589,5 @@ namespace File_Merger
         private delegate void SetProgressBarValueDelegate(ProgressBar progressBar, int value);
 
         private delegate void UpdateTextControlDelegate(Control control, string text);
-    }
-
-    public static class Prompt
-    {
-        public static int ShowDialog(string text, string caption, string btnOneText, string btnTwoText)
-        {
-            var prompt = new Form();
-            prompt.FormBorderStyle = FormBorderStyle.FixedDialog;
-            prompt.MaximizeBox = false;
-            prompt.MinimizeBox = false;
-            prompt.ShowIcon = false;
-            prompt.Width = 300;
-            prompt.Height = 125;
-            prompt.Text = caption;
-            var textLabel = new Label {Left = 10, Top = 15, Text = text};
-            var firstButton = new Button {Text = btnOneText, Left = 30, Width = 90, Top = 50};
-            var secondButton = new Button {Text = btnTwoText, Left = 160, Width = 90, Top = 50};
-            int clickedFirstButton = 0; //! 0 = uninitialized (red 'X' for example), 1 = button one, 2 = button two
-            firstButton.Click += (sender, e) =>
-            {
-                prompt.Close();
-                clickedFirstButton = 1;
-            };
-            secondButton.Click += (sender, e) =>
-            {
-                prompt.Close();
-                clickedFirstButton = 2;
-            };
-            prompt.Controls.Add(textLabel);
-            prompt.Controls.Add(firstButton);
-            prompt.Controls.Add(secondButton);
-            prompt.ShowDialog();
-
-            //! Keep opening new prompts until the user pressed either of the buttons.
-            return clickedFirstButton > 0 ? clickedFirstButton : ShowDialog(text, caption, btnOneText, btnTwoText);
-        }
     }
 }
