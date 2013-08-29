@@ -96,6 +96,7 @@
             this.txtBoxDirectorySearch.Name = "txtBoxDirectorySearch";
             this.txtBoxDirectorySearch.Size = new System.Drawing.Size(291, 20);
             this.txtBoxDirectorySearch.TabIndex = 0;
+            this.txtBoxDirectorySearch.Text = "C:\\";
             // 
             // label3
             // 
@@ -143,6 +144,7 @@
             this.txtBoxOutputDir.Name = "txtBoxOutputDir";
             this.txtBoxOutputDir.Size = new System.Drawing.Size(218, 20);
             this.txtBoxOutputDir.TabIndex = 4;
+            this.txtBoxOutputDir.Text = "C:\\";
             // 
             // label1
             // 
