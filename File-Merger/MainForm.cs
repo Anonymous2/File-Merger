@@ -551,7 +551,7 @@ namespace File_Merger
             }
             else
             {
-                if (Height >= originalHeight)
+                if (Height > originalHeight)
                     Height -= 5;
                 else
                 {
