@@ -94,7 +94,7 @@
             // 
             this.txtBoxDirectorySearch.Location = new System.Drawing.Point(14, 25);
             this.txtBoxDirectorySearch.Name = "txtBoxDirectorySearch";
-            this.txtBoxDirectorySearch.Size = new System.Drawing.Size(294, 20);
+            this.txtBoxDirectorySearch.Size = new System.Drawing.Size(291, 20);
             this.txtBoxDirectorySearch.TabIndex = 0;
             // 
             // label3
@@ -129,9 +129,9 @@
             // 
             // btnSearchDirectory
             // 
-            this.btnSearchDirectory.Location = new System.Drawing.Point(305, 25);
+            this.btnSearchDirectory.Location = new System.Drawing.Point(305, 24);
             this.btnSearchDirectory.Name = "btnSearchDirectory";
-            this.btnSearchDirectory.Size = new System.Drawing.Size(24, 20);
+            this.btnSearchDirectory.Size = new System.Drawing.Size(24, 22);
             this.btnSearchDirectory.TabIndex = 1;
             this.btnSearchDirectory.Text = "...";
             this.btnSearchDirectory.UseVisualStyleBackColor = true;
@@ -141,7 +141,7 @@
             // 
             this.txtBoxOutputDir.Location = new System.Drawing.Point(14, 95);
             this.txtBoxOutputDir.Name = "txtBoxOutputDir";
-            this.txtBoxOutputDir.Size = new System.Drawing.Size(220, 20);
+            this.txtBoxOutputDir.Size = new System.Drawing.Size(218, 20);
             this.txtBoxOutputDir.TabIndex = 4;
             // 
             // label1
@@ -174,7 +174,7 @@
             // 
             this.btnSearchForOutput.Location = new System.Drawing.Point(305, 94);
             this.btnSearchForOutput.Name = "btnSearchForOutput";
-            this.btnSearchForOutput.Size = new System.Drawing.Size(24, 20);
+            this.btnSearchForOutput.Size = new System.Drawing.Size(24, 22);
             this.btnSearchForOutput.TabIndex = 6;
             this.btnSearchForOutput.Text = "...";
             this.btnSearchForOutput.UseVisualStyleBackColor = true;
@@ -197,7 +197,7 @@
             // 
             this.txtBoxOutputFile.Location = new System.Drawing.Point(235, 95);
             this.txtBoxOutputFile.Name = "txtBoxOutputFile";
-            this.txtBoxOutputFile.Size = new System.Drawing.Size(73, 20);
+            this.txtBoxOutputFile.Size = new System.Drawing.Size(70, 20);
             this.txtBoxOutputFile.TabIndex = 5;
             this.txtBoxOutputFile.TextChanged += new System.EventHandler(this.txtBoxOutputFile_TextChanged);
             // 
