@@ -234,7 +234,7 @@
             // labelProgressFilename
             // 
             this.labelProgressFilename.AutoSize = true;
-            this.labelProgressFilename.Location = new System.Drawing.Point(70, 221);
+            this.labelProgressFilename.Location = new System.Drawing.Point(80, 221);
             this.labelProgressFilename.Name = "labelProgressFilename";
             this.labelProgressFilename.Size = new System.Drawing.Size(68, 13);
             this.labelProgressFilename.TabIndex = 19;
