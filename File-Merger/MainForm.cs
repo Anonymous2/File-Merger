@@ -69,6 +69,9 @@ namespace File_Merger
             controlsToDisable.Add(checkBoxSyncDirFields);
             controlsToDisable.Add(btnSearchDirectory);
             controlsToDisable.Add(btnSearchForOutput);
+
+            txtBoxDirectorySearch.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            txtBoxDirectorySearch.AutoCompleteSource = AutoCompleteSource.FileSystemDirectories;
         }
 
         private void button1_Click(object sender, EventArgs e)
