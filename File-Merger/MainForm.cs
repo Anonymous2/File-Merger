@@ -20,12 +20,8 @@ namespace File_Merger
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
-            MinimizeBox = true;
-
             AddTooltip(txtBoxExtensions, "The extensions written here will be checked unless the 'All Extensions' checkbox is checked.");
             AddTooltip(txtBoxDirectorySearch, "Directory in which I will search for files to merge.");
             AddTooltip(txtBoxOutputDir, "Directory the output file will be created in.");
@@ -38,11 +34,6 @@ namespace File_Merger
             AddTooltip(checkBoxDeleteOutputFile, "Checking this will delete any output file if any exist before writing a new one. If not checked and the file already exists, we return an error.");
             AddTooltip(btnMerge, "Merge the files!");
             AddTooltip(btnStopMerging, "Stop merging the last instance. Since you can have more directories being merged individually at the same time, this button will only stop the last executed one.");
-
-            txtBoxDirectorySearch.TextChanged += txtBoxDirectorySearch_TextChanged;
-            txtBoxOutputDir.TextChanged += txtBoxOutputDir_TextChanged;
-            KeyPreview = true;
-            KeyDown += Form1_KeyDown;
 
             timerCollapseProgress = new Timer { Enabled = false, Interval = 16 };
             timerCollapseProgress.Tick += timerCollapseProgress_Tick;
@@ -324,11 +315,11 @@ namespace File_Merger
                         }
                     }
                 }
-                    //! Only try, no need to catch anything. We need to set back the counter of the progress box, though.
+                //! Only try, no need to catch anything. We need to set back the counter of the progress box, though.
                 catch (Exception)
                 {
                     SetProgressBarValue(progressBarProcess, progressBarProcess.Value - 1);
-                };
+                }
             }
 
             SetEnabledOfControl(btnMerge, true);
@@ -362,7 +353,7 @@ namespace File_Merger
                     for (int i = 0; i < directories.Length; i++)
                         GetAllFilesFromDirectory(directories[i], true, ref allFiles);
             }
-            catch (Exception) { }; //! Just don't do anything
+            catch (Exception) { } //! Just don't do anything
         }
 
         private string GetCommentStartTypeForLanguage(string languageExtension)
@@ -413,8 +404,6 @@ namespace File_Merger
             if (syncrhonizeDirFields)
             {
                 if (txtBoxDirectorySearch.Text.Length > 0)
-                    // && (txtBoxOutputDir.Text == "" || txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxOutputDir.Text ||
-                    //txtBoxOutputDir.Text.Substring(0, txtBoxOutputDir.Text.Length - 1) == txtBoxDirectory.Text))
                     UpdateTextControl(txtBoxOutputDir, txtBoxDirectorySearch.Text);
                 else if (txtBoxDirectorySearch.Text == "" && txtBoxOutputDir.Text != "")
                     UpdateTextControl(txtBoxOutputDir, "");
@@ -426,8 +415,6 @@ namespace File_Merger
             if (syncrhonizeDirFields)
             {
                 if (txtBoxOutputDir.Text.Length > 0)
-                    // && (txtBoxDirectory.Text == "" || txtBoxOutputDir.Text.Substring(0, txtBoxOutputDir.Text.Length - 1) == txtBoxDirectory.Text ||
-                    //txtBoxDirectory.Text.Substring(0, txtBoxDirectory.Text.Length - 1) == txtBoxOutputDir.Text))
                     UpdateTextControl(txtBoxDirectorySearch, txtBoxOutputDir.Text);
                 else if (txtBoxOutputDir.Text == "" && txtBoxDirectorySearch.Text != "")
                     UpdateTextControl(txtBoxDirectorySearch, "");
@@ -523,7 +510,7 @@ namespace File_Merger
             control.Enabled = enable;
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -608,10 +595,6 @@ namespace File_Merger
             }
 
             label.Text = text;
-        }
-
-        private void progressBarProcess_Click(object sender, EventArgs e)
-        {
         }
 
         private delegate void SetEnabledOfControlDelegate(Control control, bool enable);

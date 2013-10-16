@@ -96,6 +96,7 @@
             this.txtBoxDirectorySearch.Size = new System.Drawing.Size(291, 20);
             this.txtBoxDirectorySearch.TabIndex = 0;
             this.txtBoxDirectorySearch.Text = "C:\\";
+            this.txtBoxDirectorySearch.TextChanged += new System.EventHandler(this.txtBoxDirectorySearch_TextChanged);
             // 
             // label3
             // 
@@ -133,6 +134,7 @@
             this.txtBoxOutputDir.Size = new System.Drawing.Size(218, 20);
             this.txtBoxOutputDir.TabIndex = 4;
             this.txtBoxOutputDir.Text = "C:\\";
+            this.txtBoxOutputDir.TextChanged += new System.EventHandler(this.txtBoxOutputDir_TextChanged);
             // 
             // label1
             // 
@@ -185,9 +187,9 @@
             // 
             // txtBoxOutputFile
             // 
-            this.txtBoxOutputFile.Location = new System.Drawing.Point(235, 95);
+            this.txtBoxOutputFile.Location = new System.Drawing.Point(233, 95);
             this.txtBoxOutputFile.Name = "txtBoxOutputFile";
-            this.txtBoxOutputFile.Size = new System.Drawing.Size(70, 20);
+            this.txtBoxOutputFile.Size = new System.Drawing.Size(72, 20);
             this.txtBoxOutputFile.TabIndex = 5;
             this.txtBoxOutputFile.TextChanged += new System.EventHandler(this.txtBoxOutputFile_TextChanged);
             // 
@@ -219,7 +221,6 @@
             this.progressBarProcess.Name = "progressBarProcess";
             this.progressBarProcess.Size = new System.Drawing.Size(311, 23);
             this.progressBarProcess.TabIndex = 16;
-            this.progressBarProcess.Click += new System.EventHandler(this.progressBarProcess_Click);
             // 
             // labelProgressCounter
             // 
@@ -265,12 +266,14 @@
             this.Controls.Add(this.labelExtensionsToMerge);
             this.Controls.Add(this.checkBoxUniqueFilePerExt);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
             this.Text = "File Merger";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
