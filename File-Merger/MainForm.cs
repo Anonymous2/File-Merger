@@ -281,9 +281,7 @@ namespace File_Merger
                                 }
                                 catch (IOException)
                                 {
-                                    string messageToShow = "Output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning)!";
-                                    var dlg = new MsgBoxCheck.MessageBox();
-                                    DialogResult dr = dlg.Show(@"Software\PricklySoft\TestMsgBoxCheck", "DontShowAgain", DialogResult.OK, "Don't ask me this again", messageToShow, "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBox.Show("The output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning)!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     continue;
                                 }
 
