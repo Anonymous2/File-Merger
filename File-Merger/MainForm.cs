@@ -604,5 +604,10 @@ namespace File_Merger
         private delegate void SetProgressBarValueDelegate(ProgressBar progressBar, int value);
 
         private delegate void UpdateTextControlDelegate(Control control, string text);
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            StopRunningThread();
+        }
     }
 }
