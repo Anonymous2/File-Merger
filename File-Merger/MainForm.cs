@@ -517,7 +517,9 @@ namespace File_Merger
             switch (e.KeyCode)
             {
                 case Keys.Enter:
-                    btnMerge.PerformClick();
+                    if (GetKeyState(Keys.Enter) < 0)
+                        btnMerge.PerformClick();
+
                     break;
                 case Keys.Escape:
                     if (MessageBox.Show("Are you sure you want to quit?", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -526,6 +528,9 @@ namespace File_Merger
                     break;
             }
         }
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern short GetKeyState(Keys key);
 
         private void checkBoxShowProgress_CheckedChanged(object sender, EventArgs e)
         {
