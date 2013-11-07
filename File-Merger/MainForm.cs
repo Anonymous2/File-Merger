@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Timer = System.Windows.Forms.Timer;
+using File_Merger.Properties;
 
 namespace File_Merger
 {
@@ -56,6 +57,11 @@ namespace File_Merger
             controlsToDisable.Add(checkBoxSyncDirFields);
             controlsToDisable.Add(btnSearchDirectory);
             controlsToDisable.Add(btnSearchForOutput);
+
+            txtBoxDirectorySearch.Text = Settings.Default.LastFilledDirectorySearch;
+            txtBoxOutputDir.Text = Settings.Default.LastFilledDirectoryOutput;
+            txtBoxOutputFile.Text = Settings.Default.LastFilledOutputFile;
+            txtBoxExtensions.Text = Settings.Default.LastFilledExtensions;
         }
 
         private void buttonMerge_Click(object sender, EventArgs e)
@@ -605,6 +611,12 @@ namespace File_Merger
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Settings.Default.LastFilledDirectorySearch = txtBoxDirectorySearch.Text;
+            Settings.Default.LastFilledDirectoryOutput = txtBoxOutputDir.Text;
+            Settings.Default.LastFilledOutputFile = txtBoxOutputFile.Text;
+            Settings.Default.LastFilledExtensions = txtBoxExtensions.Text;
+            Settings.Default.Save();
+
             StopRunningThread();
         }
     }
