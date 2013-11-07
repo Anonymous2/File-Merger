@@ -55,7 +55,7 @@ namespace File_Merger
             checkBoxUniqueFilePerExt.Checked = Settings.Default.OneOutputFilePerExtension;
             checkBoxShowProgress.Checked = Settings.Default.ShowProgressbar;
 
-            AddTooltip(txtBoxExtensions, "The extensions written here will be checked unless the 'All Extensions' checkbox is checked.");
+            AddTooltip(txtBoxExtensions, "The extensions written here will be merged. If left empty, all found extensions will be merged.");
             AddTooltip(txtBoxDirectorySearch, "Directory in which I will search for files to merge.");
             AddTooltip(txtBoxOutputDir, "Directory the output file will be created in.");
             AddTooltip(txtBoxOutputFile, "Filename the output file will be named.");
