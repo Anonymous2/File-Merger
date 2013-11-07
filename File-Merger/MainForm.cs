@@ -160,19 +160,26 @@ namespace File_Merger
                 }
             }
 
-            if (checkBoxIncludeSubDirs.Checked)
+            try
             {
-                int amountOfDirectories = Directory.GetDirectories(directorySearch).Length;
+                if (checkBoxIncludeSubDirs.Checked)
+                {
+                    int amountOfDirectories = Directory.GetDirectories(directorySearch).Length;
 
-                if (amountOfDirectories > 20)
-                    MessageBox.Show("I've has found more than 20 (" + amountOfDirectories + " to be exact) directories. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (amountOfDirectories > 20)
+                        MessageBox.Show("I've has found more than 20 (" + amountOfDirectories + " to be exact) directories. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    int amountOfFiles = Directory.GetFiles(directorySearch).Length;
+
+                    if (amountOfFiles > 20)
+                        MessageBox.Show("I've has found more than 20 (" + amountOfFiles + " to be exact) files. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
-            else
+            catch (UnauthorizedAccessException)
             {
-                int amountOfFiles = Directory.GetFiles(directorySearch).Length;
-
-                if (amountOfFiles > 20)
-                    MessageBox.Show( "I've has found more than 20 (" + amountOfFiles + " to be exact) files. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("The application is not authorized to open this directory or file.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             foreach (var control in controlsToDisable)
