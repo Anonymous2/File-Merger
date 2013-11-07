@@ -62,6 +62,11 @@ namespace File_Merger
             txtBoxOutputDir.Text = Settings.Default.LastFilledDirectoryOutput;
             txtBoxOutputFile.Text = Settings.Default.LastFilledOutputFile;
             txtBoxExtensions.Text = Settings.Default.LastFilledExtensions;
+            checkBoxIncludeSubDirs.Checked = Settings.Default.IncludeSubdirectory;
+            checkBoxSyncDirFields.Checked = Settings.Default.SynchronizeDirectoryFields;
+            checkBoxDeleteOutputFile.Checked = Settings.Default.DeleteOutputFile;
+            checkBoxUniqueFilePerExt.Checked = Settings.Default.OneOutputFilePerExtension;
+            checkBoxShowProgress.Checked = Settings.Default.ShowProgressbar;
         }
 
         private void buttonMerge_Click(object sender, EventArgs e)
@@ -620,6 +625,11 @@ namespace File_Merger
             Settings.Default.LastFilledDirectoryOutput = txtBoxOutputDir.Text;
             Settings.Default.LastFilledOutputFile = txtBoxOutputFile.Text;
             Settings.Default.LastFilledExtensions = txtBoxExtensions.Text;
+            Settings.Default.IncludeSubdirectory = checkBoxIncludeSubDirs.Checked;
+            Settings.Default.SynchronizeDirectoryFields = checkBoxSyncDirFields.Checked;
+            Settings.Default.DeleteOutputFile = checkBoxDeleteOutputFile.Checked;
+            Settings.Default.OneOutputFilePerExtension = checkBoxUniqueFilePerExt.Checked;
+            Settings.Default.ShowProgressbar = checkBoxShowProgress.Checked;
             Settings.Default.Save();
 
             StopRunningThread();

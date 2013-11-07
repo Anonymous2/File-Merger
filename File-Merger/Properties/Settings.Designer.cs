@@ -70,5 +70,65 @@ namespace File_Merger.Properties {
                 this["LastFilledDirectoryOutput"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IncludeSubdirectory {
+            get {
+                return ((bool)(this["IncludeSubdirectory"]));
+            }
+            set {
+                this["IncludeSubdirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SynchronizeDirectoryFields {
+            get {
+                return ((bool)(this["SynchronizeDirectoryFields"]));
+            }
+            set {
+                this["SynchronizeDirectoryFields"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DeleteOutputFile {
+            get {
+                return ((bool)(this["DeleteOutputFile"]));
+            }
+            set {
+                this["DeleteOutputFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OneOutputFilePerExtension {
+            get {
+                return ((bool)(this["OneOutputFilePerExtension"]));
+            }
+            set {
+                this["OneOutputFilePerExtension"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowProgressbar {
+            get {
+                return ((bool)(this["ShowProgressbar"]));
+            }
+            set {
+                this["ShowProgressbar"] = value;
+            }
+        }
     }
 }

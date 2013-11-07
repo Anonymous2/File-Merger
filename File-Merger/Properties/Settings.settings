@@ -14,5 +14,20 @@
     <Setting Name="LastFilledDirectoryOutput" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\</Value>
     </Setting>
+    <Setting Name="IncludeSubdirectory" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SynchronizeDirectoryFields" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DeleteOutputFile" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="OneOutputFilePerExtension" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ShowProgressbar" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
