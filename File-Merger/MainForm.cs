@@ -22,19 +22,6 @@ namespace File_Merger
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            AddTooltip(txtBoxExtensions, "The extensions written here will be checked unless the 'All Extensions' checkbox is checked.");
-            AddTooltip(txtBoxDirectorySearch, "Directory in which I will search for files to merge.");
-            AddTooltip(txtBoxOutputDir, "Directory the output file will be created in.");
-            AddTooltip(txtBoxOutputFile, "Filename the output file will be named.");
-            AddTooltip(btnSearchDirectory, "Search for a directroy to fill in the 'search directory' field.");
-            AddTooltip(btnSearchForOutput, "Search for a file to output the result of the merge in.");
-            AddTooltip(checkBoxIncludeSubDirs, "Checking this will include subdirectories of the directory we search in.");
-            AddTooltip(checkBoxSyncDirFields, "Checking this will synchronize the directory search and directory output fields.");
-            AddTooltip(checkBoxUniqueFilePerExt, "Checking this will mean if there are more extensions found to be merged, it will create one respective file for each such as 'merged_html.html', 'merged_sql.sql', etc.");
-            AddTooltip(checkBoxDeleteOutputFile, "Checking this will delete any output file if any exist before writing a new one. If not checked and the file already exists, we return an error.");
-            AddTooltip(btnMerge, "Merges the files in the given directory.");
-            AddTooltip(btnStopMerging, "Stop merging the last instance. Since you can have more directories being merged individually at the same time, this button will only stop the last executed one.");
-
             Height -= 50; //! We set the size of the form bigger than it actually is so we can put stuff in the expanded spot
             originalHeight = Height;
 
@@ -67,6 +54,20 @@ namespace File_Merger
             checkBoxDeleteOutputFile.Checked = Settings.Default.DeleteOutputFile;
             checkBoxUniqueFilePerExt.Checked = Settings.Default.OneOutputFilePerExtension;
             checkBoxShowProgress.Checked = Settings.Default.ShowProgressbar;
+
+            AddTooltip(txtBoxExtensions, "The extensions written here will be checked unless the 'All Extensions' checkbox is checked.");
+            AddTooltip(txtBoxDirectorySearch, "Directory in which I will search for files to merge.");
+            AddTooltip(txtBoxOutputDir, "Directory the output file will be created in.");
+            AddTooltip(txtBoxOutputFile, "Filename the output file will be named.");
+            AddTooltip(btnSearchDirectory, "Search for a directroy to fill in the 'search directory' field.");
+            AddTooltip(btnSearchForOutput, "Search for a file to output the result of the merge in.");
+            AddTooltip(checkBoxIncludeSubDirs, "Checking this will include subdirectories of the directory we search in.");
+            AddTooltip(checkBoxSyncDirFields, "Checking this will synchronize the directory search and directory output fields.");
+            AddTooltip(checkBoxUniqueFilePerExt, "Checking this will mean if there are more extensions found to be merged, it will create one respective file for each such as 'merged_html.html', 'merged_sql.sql', etc.");
+            AddTooltip(checkBoxDeleteOutputFile, "Checking this will delete any output file if any exist before writing a new one. If not checked and the file already exists, we return an error.");
+            AddTooltip(checkBoxShowProgress, "Expands the form to display a progress bar that shows the amount of files having to be merged and what the current status of the merging process is.");
+            AddTooltip(btnMerge, "Merges the files in the given directory.");
+            AddTooltip(btnStopMerging, "Stop merging the last instance. Since you can have more directories being merged individually at the same time, this button will only stop the last executed one.");
         }
 
         private void buttonMerge_Click(object sender, EventArgs e)
