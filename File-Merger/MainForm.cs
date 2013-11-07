@@ -58,7 +58,7 @@ namespace File_Merger
             AddTooltip(txtBoxExtensions, "The extensions written here will be merged. If left empty, all found extensions will be merged.");
             AddTooltip(txtBoxDirectorySearch, "Directory in which I will search for files to merge.");
             AddTooltip(txtBoxOutputDir, "Directory the output file will be created in.");
-            AddTooltip(txtBoxOutputFile, "Filename the output file will be named.");
+            AddTooltip(txtBoxOutputFile, "Filename the output file will be named. If left empty, a file will be created such as 'merged_<extension>.<extension>' (for example 'merged_sql.sql').");
             AddTooltip(btnSearchDirectory, "Search for a directroy to fill in the 'search directory' field.");
             AddTooltip(btnSearchForOutput, "Search for a file to output the result of the merge in.");
             AddTooltip(checkBoxIncludeSubDirs, "Checking this will include subdirectories of the directory we search in.");
@@ -128,8 +128,7 @@ namespace File_Merger
                     return;
                 }
 
-                if (File.Exists(directoryOutput) && checkBoxDeleteOutputFile.Enabled &&
-                    !checkBoxDeleteOutputFile.Checked)
+                if (File.Exists(directoryOutput) && checkBoxDeleteOutputFile.Enabled && !checkBoxDeleteOutputFile.Checked)
                 {
                     MessageBox.Show("The given output file already exists and the checkbox to delete the output file is not checked.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -523,6 +522,9 @@ namespace File_Merger
             switch (e.KeyCode)
             {
                 case Keys.Enter:
+                    //! Only perform the click event if the Enter key is actually down. This is needed because
+                    //! there's an issue with the AutoComplete code behind the directory textboxes that cause
+                    //! them to call the KeyDown event with the Enter key when an item is selected.
                     if (GetKeyState(Keys.Enter) < 0)
                         btnMerge.PerformClick();
 
