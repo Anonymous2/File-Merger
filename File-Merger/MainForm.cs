@@ -212,7 +212,7 @@ namespace File_Merger
                         extensionString += Path.GetExtension(arrayFiles[i]) + ";";
 
             string[] extensionArray = extensionString.Split(';');
-            int z = checkBoxUniqueFilePerExt.Checked ? extensionArray.Length : 1;
+            int totalOutputFiles = checkBoxUniqueFilePerExt.Checked ? extensionArray.Length : 1;
             bool oneHardcodedOutputFile = false;
 
             if (!Directory.Exists(directoryOutput))
@@ -234,12 +234,12 @@ namespace File_Merger
             if (Path.HasExtension(directoryOutput))
             {
                 oneHardcodedOutputFile = true;
-                z = 1; //! Only create one file
+                totalOutputFiles = 1; //! Only create one file
                 extensionArray[0] = Path.GetExtension(directoryOutput); //! That one file we create must contain the output's file extension
                 //filenameExludingExtension = Path.GetFileNameWithoutExtension(directoryOutput); //! Extension is added later on
             }
 
-            for (int y = 0; y < z; ++y)
+            for (int y = 0; y < totalOutputFiles; ++y)
             {
                 try
                 {
@@ -255,21 +255,18 @@ namespace File_Merger
                     if (!oneHardcodedOutputFile && fullOutputFilename == directorySearch + "\\merged_")
                         continue;
 
-                    if (!checkBoxUniqueFilePerExt.Checked && z > 1)
+                    if (!checkBoxUniqueFilePerExt.Checked && totalOutputFiles == 1)
                         fullOutputFilename = directoryOutput + "\\merged_files.txt";
 
-                    if (Path.HasExtension(fullOutputFilename))
+                    if (Path.HasExtension(fullOutputFilename) && File.Exists(fullOutputFilename))
                     {
-                        if (File.Exists(fullOutputFilename))
+                        if (new FileInfo(fullOutputFilename).Length != 0 && !checkBoxDeleteOutputFile.Checked)
                         {
-                            if (new FileInfo(fullOutputFilename).Length != 0 && !checkBoxDeleteOutputFile.Checked)
-                            {
-                                MessageBox.Show("Output file already exists and you did not check the box to delete the file if it would exist!", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                continue;
-                            }
-
-                            File.Delete(fullOutputFilename);
+                            MessageBox.Show("Output file already exists and you did not check the box to delete the file if it would exist!", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            continue;
                         }
+
+                        File.Delete(fullOutputFilename);
                     }
 
                     using (var outputFile = new StreamWriter(fullOutputFilename, true))
