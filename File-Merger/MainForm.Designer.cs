@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.checkBoxUniqueFilePerExt = new System.Windows.Forms.CheckBox();
             this.labelExtensionsToMerge = new System.Windows.Forms.Label();
@@ -40,7 +41,7 @@
             this.txtBoxOutputDir = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBoxSyncDirFields = new System.Windows.Forms.CheckBox();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.searchForOutputFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.btnSearchForOutput = new System.Windows.Forms.Button();
             this.checkBoxDeleteOutputFile = new System.Windows.Forms.CheckBox();
             this.txtBoxOutputFile = new System.Windows.Forms.TextBox();
@@ -49,6 +50,7 @@
             this.progressBarProcess = new System.Windows.Forms.ProgressBar();
             this.labelProgressCounter = new System.Windows.Forms.Label();
             this.labelProgressFilename = new System.Windows.Forms.Label();
+            this.timerCollapseProgress = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // checkBoxUniqueFilePerExt
@@ -87,10 +89,12 @@
             this.btnMerge.TabIndex = 13;
             this.btnMerge.Text = "Merge!";
             this.btnMerge.UseVisualStyleBackColor = true;
-            this.btnMerge.Click += new System.EventHandler(this.button1_Click);
+            this.btnMerge.Click += new System.EventHandler(this.buttonMerge_Click);
             // 
             // txtBoxDirectorySearch
             // 
+            this.txtBoxDirectorySearch.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.txtBoxDirectorySearch.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystemDirectories;
             this.txtBoxDirectorySearch.Location = new System.Drawing.Point(14, 25);
             this.txtBoxDirectorySearch.Name = "txtBoxDirectorySearch";
             this.txtBoxDirectorySearch.Size = new System.Drawing.Size(291, 20);
@@ -158,9 +162,9 @@
             this.checkBoxSyncDirFields.UseVisualStyleBackColor = true;
             this.checkBoxSyncDirFields.CheckedChanged += new System.EventHandler(this.checkBoxSyncDirFields_CheckedChanged);
             // 
-            // openFileDialog1
+            // searchForOutputFileDialog
             // 
-            this.openFileDialog1.FileName = "searchForFileDialog";
+            this.searchForOutputFileDialog.FileName = "searchForFileDialog";
             // 
             // btnSearchForOutput
             // 
@@ -241,6 +245,11 @@
             this.labelProgressFilename.TabIndex = 19;
             this.labelProgressFilename.Text = "placeholder2";
             // 
+            // timerCollapseProgress
+            // 
+            this.timerCollapseProgress.Interval = 16;
+            this.timerCollapseProgress.Tick += new System.EventHandler(this.timerCollapseProgress_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -292,7 +301,7 @@
         private System.Windows.Forms.TextBox txtBoxOutputDir;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox checkBoxSyncDirFields;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog searchForOutputFileDialog;
         private System.Windows.Forms.Button btnSearchForOutput;
         private System.Windows.Forms.CheckBox checkBoxDeleteOutputFile;
         private System.Windows.Forms.TextBox txtBoxOutputFile;
@@ -301,5 +310,6 @@
         private System.Windows.Forms.ProgressBar progressBarProcess;
         private System.Windows.Forms.Label labelProgressCounter;
         private System.Windows.Forms.Label labelProgressFilename;
+        private System.Windows.Forms.Timer timerCollapseProgress;
     }
 }
