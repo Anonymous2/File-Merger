@@ -205,9 +205,10 @@ namespace File_Merger
             SetProgressBarMaxValue(progressBarProcess, arrayFiles.Length);
             SetLabelText(labelProgressCounter, "0 / " + arrayFiles.Length);
 
-            if (String.IsNullOrEmpty(extensionString) || String.IsNullOrWhiteSpace(extensionString))
+            //! If the extensions field was left empty, we take all extensions we can find and merge them
+            if (String.IsNullOrWhiteSpace(extensionString))
                 for (int i = 0; i < arrayFiles.Length; i++)
-                    if (arrayFiles[i] != string.Empty && arrayFiles[i] != String.Empty && Path.HasExtension(arrayFiles[i]))
+                    if (arrayFiles[i] != String.Empty && Path.HasExtension(arrayFiles[i]) && !extensionString.Contains(Path.GetExtension(arrayFiles[i])))
                         extensionString += Path.GetExtension(arrayFiles[i]) + ";";
 
             string[] extensionArray = extensionString.Split(';');
