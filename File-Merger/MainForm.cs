@@ -4,27 +4,27 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Timer = System.Windows.Forms.Timer;
-using File_Merger.Properties;
 using System.Runtime.InteropServices;
+using File_Merger.Properties;
 
 namespace File_Merger
 {
     public partial class MainForm : Form
     {
         private Thread mergeThread;
-        private int originalHeight;
+        private readonly int originalHeight;
         private readonly List<Control> controlsToDisable = new List<Control>();
 
         public MainForm()
         {
             InitializeComponent();
+
+            Height -= 50; //! We set the size of the form bigger than it actually is so we can put stuff in the expanded spot
+            originalHeight = Height;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            Height -= 50; //! We set the size of the form bigger than it actually is so we can put stuff in the expanded spot
-            originalHeight = Height;
-
             progressBarProcess.Minimum = 0;
             progressBarProcess.Value = 0;
             progressBarProcess.Maximum = 100;
