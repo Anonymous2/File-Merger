@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using Timer = System.Windows.Forms.Timer;
 using File_Merger.Properties;
+using System.Runtime.InteropServices;
 
 namespace File_Merger
 {
@@ -160,28 +161,6 @@ namespace File_Merger
                 }
             }
 
-            try
-            {
-                if (checkBoxIncludeSubDirs.Checked)
-                {
-                    int amountOfDirectories = Directory.GetDirectories(directorySearch).Length;
-
-                    if (amountOfDirectories > 20)
-                        MessageBox.Show("I've has found more than 20 (" + amountOfDirectories + " to be exact) directories. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else
-                {
-                    int amountOfFiles = Directory.GetFiles(directorySearch).Length;
-
-                    if (amountOfFiles > 20)
-                        MessageBox.Show("I've has found more than 20 (" + amountOfFiles + " to be exact) files. The process might take a while. You can see the process finished by checking when the 'Merge!' button becomes click-able again.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch (UnauthorizedAccessException)
-            {
-                MessageBox.Show("The application is not authorized to open this directory or file.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
             foreach (var control in controlsToDisable)
                 SetEnabledOfControl(control, false);
 
@@ -194,7 +173,7 @@ namespace File_Merger
             string allFiles = String.Empty;
             GetAllFilesFromDirectory(directorySearch, checkBoxIncludeSubDirs.Checked, ref allFiles);
 
-            if (allFiles == string.Empty)
+            if (allFiles == String.Empty)
             {
                 MessageBox.Show("The searched directory contains no files at all.", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -542,7 +521,7 @@ namespace File_Merger
             }
         }
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        [DllImport("user32.dll")]
         private static extern short GetKeyState(Keys key);
 
         private void checkBoxShowProgress_CheckedChanged(object sender, EventArgs e)
