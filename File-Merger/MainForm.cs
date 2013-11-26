@@ -13,7 +13,6 @@ namespace File_Merger
     {
         private Thread mergeThread;
         private int originalHeight;
-        private bool syncrhonizeDirFields = true;
         private readonly List<Control> controlsToDisable = new List<Control>();
 
         public MainForm()
@@ -42,7 +41,6 @@ namespace File_Merger
             controlsToDisable.Add(checkBoxIncludeSubDirs);
             //controlsToDisable.Add(checkBoxShowProgress); //! Shouldn't be disabled
             controlsToDisable.Add(checkBoxUniqueFilePerExt);
-            controlsToDisable.Add(checkBoxSyncDirFields);
             controlsToDisable.Add(btnSearchDirectory);
             controlsToDisable.Add(btnSearchForOutput);
 
@@ -51,7 +49,6 @@ namespace File_Merger
             txtBoxOutputFile.Text = Settings.Default.LastFilledOutputFile;
             txtBoxExtensions.Text = Settings.Default.LastFilledExtensions;
             checkBoxIncludeSubDirs.Checked = Settings.Default.IncludeSubdirectory;
-            checkBoxSyncDirFields.Checked = Settings.Default.SynchronizeDirectoryFields;
             checkBoxDeleteOutputFile.Checked = Settings.Default.DeleteOutputFile;
             checkBoxUniqueFilePerExt.Checked = Settings.Default.OneOutputFilePerExtension;
             checkBoxShowProgress.Checked = Settings.Default.ShowProgressbar;
@@ -63,7 +60,6 @@ namespace File_Merger
             AddTooltip(btnSearchDirectory, "Search for a directroy to fill in the 'search directory' field.");
             AddTooltip(btnSearchForOutput, "Search for a file to output the result of the merge in.");
             AddTooltip(checkBoxIncludeSubDirs, "Checking this will include subdirectories of the directory we search in.");
-            AddTooltip(checkBoxSyncDirFields, "Checking this will synchronize the directory search and directory output fields.");
             AddTooltip(checkBoxUniqueFilePerExt, "Checking this will mean if there are more extensions found to be merged, it will create one respective file for each such as 'merged_html.html', 'merged_sql.sql', etc.");
             AddTooltip(checkBoxDeleteOutputFile, "Checking this will delete any output file if any exist before writing a new one. If not checked and the file already exists, we return an error.");
             AddTooltip(checkBoxShowProgress, "Expands the form to display a progress bar that shows the amount of files having to be merged and what the current status of the merging process is.");
@@ -391,29 +387,18 @@ namespace File_Merger
 
         private void txtBoxDirectorySearch_TextChanged(object sender, EventArgs e)
         {
-            if (syncrhonizeDirFields)
-            {
-                if (txtBoxDirectorySearch.Text.Length > 0)
-                    UpdateTextControl(txtBoxOutputDir, txtBoxDirectorySearch.Text);
-                else if (txtBoxDirectorySearch.Text == String.Empty && txtBoxOutputDir.Text != String.Empty)
-                    UpdateTextControl(txtBoxOutputDir, String.Empty);
-            }
+            if (txtBoxDirectorySearch.Text.Length > 0)
+                UpdateTextControl(txtBoxOutputDir, txtBoxDirectorySearch.Text);
+            else if (txtBoxDirectorySearch.Text == String.Empty && txtBoxOutputDir.Text != String.Empty)
+                UpdateTextControl(txtBoxOutputDir, String.Empty);
         }
 
         private void txtBoxOutputDir_TextChanged(object sender, EventArgs e)
         {
-            if (syncrhonizeDirFields)
-            {
-                if (txtBoxOutputDir.Text.Length > 0)
-                    UpdateTextControl(txtBoxDirectorySearch, txtBoxOutputDir.Text);
-                else if (txtBoxOutputDir.Text == String.Empty && txtBoxDirectorySearch.Text != String.Empty)
-                    UpdateTextControl(txtBoxDirectorySearch, String.Empty);
-            }
-        }
-
-        private void checkBoxSyncDirFields_CheckedChanged(object sender, EventArgs e)
-        {
-            syncrhonizeDirFields = checkBoxSyncDirFields.Checked;
+            if (txtBoxOutputDir.Text.Length > 0)
+                UpdateTextControl(txtBoxDirectorySearch, txtBoxOutputDir.Text);
+            else if (txtBoxOutputDir.Text == String.Empty && txtBoxDirectorySearch.Text != String.Empty)
+                UpdateTextControl(txtBoxDirectorySearch, String.Empty);
         }
 
         private void btnSearchForOutput_Click(object sender, EventArgs e)
@@ -426,7 +411,6 @@ namespace File_Merger
 
             if (searchForOutputFileDialog.ShowDialog() == DialogResult.OK)
             {
-                syncrhonizeDirFields = false;
                 string fileNameWithDir = searchForOutputFileDialog.FileName;
                 string fileNameWithoutDir = Path.GetFileName(fileNameWithDir);
 
@@ -435,7 +419,6 @@ namespace File_Merger
 
                 txtBoxOutputDir.Text = fileNameWithDir;
                 txtBoxOutputFile.Text = "\\" + fileNameWithoutDir;
-                syncrhonizeDirFields = checkBoxSyncDirFields.Checked;
                 txtBoxOutputDir_TextChanged(sender, e);
             }
         }
@@ -628,7 +611,6 @@ namespace File_Merger
             Settings.Default.LastFilledOutputFile = txtBoxOutputFile.Text;
             Settings.Default.LastFilledExtensions = txtBoxExtensions.Text;
             Settings.Default.IncludeSubdirectory = checkBoxIncludeSubDirs.Checked;
-            Settings.Default.SynchronizeDirectoryFields = checkBoxSyncDirFields.Checked;
             Settings.Default.DeleteOutputFile = checkBoxDeleteOutputFile.Checked;
             Settings.Default.OneOutputFilePerExtension = checkBoxUniqueFilePerExt.Checked;
             Settings.Default.ShowProgressbar = checkBoxShowProgress.Checked;

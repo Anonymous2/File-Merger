@@ -40,7 +40,6 @@
             this.btnSearchDirectory = new System.Windows.Forms.Button();
             this.txtBoxOutputDir = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.checkBoxSyncDirFields = new System.Windows.Forms.CheckBox();
             this.searchForOutputFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.btnSearchForOutput = new System.Windows.Forms.Button();
             this.checkBoxDeleteOutputFile = new System.Windows.Forms.CheckBox();
@@ -149,19 +148,6 @@
             this.label1.Size = new System.Drawing.Size(108, 13);
             this.label1.TabIndex = 6;
             this.label1.Text = "Directory to output in:";
-            // 
-            // checkBoxSyncDirFields
-            // 
-            this.checkBoxSyncDirFields.AutoSize = true;
-            this.checkBoxSyncDirFields.Checked = true;
-            this.checkBoxSyncDirFields.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSyncDirFields.Location = new System.Drawing.Point(163, 53);
-            this.checkBoxSyncDirFields.Name = "checkBoxSyncDirFields";
-            this.checkBoxSyncDirFields.Size = new System.Drawing.Size(154, 17);
-            this.checkBoxSyncDirFields.TabIndex = 3;
-            this.checkBoxSyncDirFields.Text = "Synchronize directory fields";
-            this.checkBoxSyncDirFields.UseVisualStyleBackColor = true;
-            this.checkBoxSyncDirFields.CheckedChanged += new System.EventHandler(this.checkBoxSyncDirFields_CheckedChanged);
             // 
             // searchForOutputFileDialog
             // 
@@ -274,7 +260,6 @@
             this.Controls.Add(this.btnSearchForOutput);
             this.Controls.Add(this.txtBoxOutputFile);
             this.Controls.Add(this.checkBoxDeleteOutputFile);
-            this.Controls.Add(this.checkBoxSyncDirFields);
             this.Controls.Add(this.btnSearchDirectory);
             this.Controls.Add(this.checkBoxIncludeSubDirs);
             this.Controls.Add(this.label1);
@@ -313,7 +298,6 @@
         private System.Windows.Forms.Button btnSearchDirectory;
         private System.Windows.Forms.TextBox txtBoxOutputDir;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox checkBoxSyncDirFields;
         private System.Windows.Forms.OpenFileDialog searchForOutputFileDialog;
         private System.Windows.Forms.Button btnSearchForOutput;
         private System.Windows.Forms.CheckBox checkBoxDeleteOutputFile;
