@@ -51,6 +51,7 @@
             this.labelProgressCounter = new System.Windows.Forms.Label();
             this.labelProgressFilename = new System.Windows.Forms.Label();
             this.timerCollapseProgress = new System.Windows.Forms.Timer(this.components);
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // checkBoxUniqueFilePerExt
@@ -70,9 +71,9 @@
             this.labelExtensionsToMerge.AutoSize = true;
             this.labelExtensionsToMerge.Location = new System.Drawing.Point(11, 122);
             this.labelExtensionsToMerge.Name = "labelExtensionsToMerge";
-            this.labelExtensionsToMerge.Size = new System.Drawing.Size(275, 13);
+            this.labelExtensionsToMerge.Size = new System.Drawing.Size(318, 13);
             this.labelExtensionsToMerge.TabIndex = 2;
-            this.labelExtensionsToMerge.Text = "Extensions to merge (split by semicolon if more than one):";
+            this.labelExtensionsToMerge.Text = "Extensions to merge (split by semicolon (\';\') for multiple extensions):";
             // 
             // txtBoxExtensions
             // 
@@ -145,9 +146,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(11, 78);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(248, 13);
+            this.label1.Size = new System.Drawing.Size(108, 13);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Directory to output in (second field is for output file):";
+            this.label1.Text = "Directory to output in:";
             // 
             // checkBoxSyncDirFields
             // 
@@ -250,11 +251,21 @@
             this.timerCollapseProgress.Interval = 16;
             this.timerCollapseProgress.Tick += new System.EventHandler(this.timerCollapseProgress_Tick);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(230, 78);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(58, 13);
+            this.label2.TabIndex = 20;
+            this.label2.Text = "Output file:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(341, 268);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.labelProgressFilename);
             this.Controls.Add(this.labelProgressCounter);
             this.Controls.Add(this.progressBarProcess);
@@ -313,5 +324,6 @@
         private System.Windows.Forms.Label labelProgressCounter;
         private System.Windows.Forms.Label labelProgressFilename;
         private System.Windows.Forms.Timer timerCollapseProgress;
+        private System.Windows.Forms.Label label2;
     }
 }
