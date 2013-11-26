@@ -166,8 +166,9 @@ namespace File_Merger
 
             SetEnabledOfControl(btnMerge, false);
             SetEnabledOfControl(btnStopMerging, true);
-
             UseWaitCursor = true;
+            UpdateTextControl(labelProgressCounter, "Scanning amount of files...");
+            SetVisibleOfControl(labelProgressCounter, true);
 
             //! Re-cursive call to get all files, then put them back in an array.
             string allFiles = String.Empty;
@@ -182,8 +183,9 @@ namespace File_Merger
 
                 SetEnabledOfControl(btnMerge, true);
                 SetEnabledOfControl(btnStopMerging, false);
-
                 UseWaitCursor = false;
+                labelProgressCounter.Text = "placeholder";
+                labelProgressCounter.Visible = false;
                 return;
             }
 
@@ -501,6 +503,17 @@ namespace File_Merger
             control.Enabled = enable;
         }
 
+        private void SetVisibleOfControl(Control control, bool visible)
+        {
+            if (control.InvokeRequired)
+            {
+                Invoke(new SetVisibleOfControlDelegate(SetEnabledOfControl), new object[] { control, visible });
+                return;
+            }
+
+            control.Visible = visible;
+        }
+
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -597,6 +610,8 @@ namespace File_Merger
         }
 
         private delegate void SetEnabledOfControlDelegate(Control control, bool enable);
+
+        private delegate void SetVisibleOfControlDelegate(Control control, bool visible);
 
         private delegate void SetLabelTextDelegate(Label label, string text);
 
