@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Timer = System.Windows.Forms.Timer;
 using System.Runtime.InteropServices;
 using File_Merger.Properties;
+using System.Globalization;
 
 namespace File_Merger
 {
@@ -192,8 +193,9 @@ namespace File_Merger
             //! If the extensions field was left empty, we take all extensions we can find and merge them
             if (String.IsNullOrWhiteSpace(extensionString))
                 for (int i = 0; i < arrayFiles.Length; i++)
-                    if (arrayFiles[i] != String.Empty && Path.HasExtension(arrayFiles[i]) && !extensionString.Contains(Path.GetExtension(arrayFiles[i])))
-                        extensionString += Path.GetExtension(arrayFiles[i]) + ";";
+                    if (arrayFiles[i] != String.Empty && Path.HasExtension(arrayFiles[i]))
+                        if (extensionString.IndexOf(Path.GetExtension(arrayFiles[i]), StringComparison.OrdinalIgnoreCase) < 0)
+                            extensionString += Path.GetExtension(arrayFiles[i]) + ";";
 
             string[] extensionArray = extensionString.Split(';');
             int totalOutputFiles = checkBoxUniqueFilePerExt.Checked ? extensionArray.Length : 1;
