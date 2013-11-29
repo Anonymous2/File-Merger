@@ -133,6 +133,8 @@
             // 
             // txtBoxOutputDir
             // 
+            this.txtBoxOutputDir.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.txtBoxOutputDir.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystemDirectories;
             this.txtBoxOutputDir.Location = new System.Drawing.Point(14, 95);
             this.txtBoxOutputDir.Name = "txtBoxOutputDir";
             this.txtBoxOutputDir.Size = new System.Drawing.Size(218, 20);
