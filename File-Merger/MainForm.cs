@@ -258,7 +258,7 @@ namespace File_Merger
 
                     try
                     {
-                        new StreamWriter(fullOutputFilename, true);
+                        using (new StreamWriter(fullOutputFilename, true)) { }
                     }
                     catch (UnauthorizedAccessException)
                     {
@@ -324,8 +324,7 @@ namespace File_Merger
                                     continue;
                                 }
 
-                                SetLabelText(labelProgressCounter,
-                                    progressBarProcess.Value + " / " + progressBarProcess.Maximum);
+                                SetLabelText(labelProgressCounter, progressBarProcess.Value + " / " + progressBarProcess.Maximum);
                                 SetLabelText(labelProgressFilename, Path.GetFileName(arrayFiles[i]));
 
                                 if (firstLinePrinted) //! First line has to be on-top of the file.
