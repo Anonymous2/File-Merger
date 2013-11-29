@@ -227,127 +227,118 @@ namespace File_Merger
 
             for (int y = 0; y < totalOutputFiles; ++y)
             {
-                //try
+                string extensionWithoutDot = extensionArray[y].Replace(".", String.Empty);
+                string commentTypeStart = GetCommentStartTypeForLanguage(extensionWithoutDot);
+                string commentTypeEnd = GetCommentEndTypeForLanguage(extensionWithoutDot);
+                bool firstLinePrinted = false;
+                string fullOutputFilename = directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y];
+
+            ReTryMergeFiles:
+                if (oneHardcodedOutputFile)
+                    fullOutputFilename = directoryOutput;
+
+                if (!oneHardcodedOutputFile && fullOutputFilename == directorySearch + "\\merged_")
+                    continue;
+
+                if (!checkBoxUniqueFilePerExt.Checked && totalOutputFiles == 1)
+                    fullOutputFilename = directoryOutput + "\\merged_files.txt";
+
+                if (Path.HasExtension(fullOutputFilename) && File.Exists(fullOutputFilename))
                 {
-                    string extensionWithoutDot = extensionArray[y].Replace(".", String.Empty);
-                    string commentTypeStart = GetCommentStartTypeForLanguage(extensionWithoutDot);
-                    string commentTypeEnd = GetCommentEndTypeForLanguage(extensionWithoutDot);
-                    bool firstLinePrinted = false;
-                    string fullOutputFilename = directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y];
-
-                ReTryMergeFiles:
-                    if (oneHardcodedOutputFile)
-                        fullOutputFilename = directoryOutput;
-
-                    if (!oneHardcodedOutputFile && fullOutputFilename == directorySearch + "\\merged_")
+                    if (new FileInfo(fullOutputFilename).Length != 0 && !checkBoxDeleteOutputFile.Checked)
+                    {
+                        MessageBox.Show("Output file already exists and you did not check the box to delete the file if it would exist!", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         continue;
-
-                    if (!checkBoxUniqueFilePerExt.Checked && totalOutputFiles == 1)
-                        fullOutputFilename = directoryOutput + "\\merged_files.txt";
-
-                    if (Path.HasExtension(fullOutputFilename) && File.Exists(fullOutputFilename))
-                    {
-                        if (new FileInfo(fullOutputFilename).Length != 0 && !checkBoxDeleteOutputFile.Checked)
-                        {
-                            MessageBox.Show("Output file already exists and you did not check the box to delete the file if it would exist!", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            continue;
-                        }
-
-                        File.Delete(fullOutputFilename);
                     }
 
-                    try
-                    {
-                        using (new StreamWriter(fullOutputFilename, true)) { }
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        DialogResult result = MessageBox.Show("The access to directory '" + directoryOutput + "' could not be granted. Do you wish to select a new output directory? Pressing 'No' means the process will be cancelled.", "No access!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                        if (result != DialogResult.Yes)
-                            break;
-
-                        string selectedPath = "-1";
-                        var t = new Thread((ThreadStart)(() =>
-                        {
-                            FolderBrowserDialog fbd = new FolderBrowserDialog();
-                            fbd.Description = "Select a directory to merge files from.";
-                            fbd.RootFolder = System.Environment.SpecialFolder.MyComputer;
-                            fbd.ShowNewFolderButton = true;
-
-                            if (txtBoxDirectorySearch.Text != String.Empty && Directory.Exists(txtBoxDirectorySearch.Text))
-                                fbd.SelectedPath = txtBoxDirectorySearch.Text;
-
-                            if (fbd.ShowDialog() == DialogResult.Cancel)
-                                return;
-
-                            selectedPath = fbd.SelectedPath;
-                        }));
-
-                        t.SetApartmentState(ApartmentState.STA);
-                        t.Start();
-                        t.Join();
-
-                        if (selectedPath == "-1")
-                        {
-                            MessageBox.Show("The output directory selecting has failed and we have therefore cancelled the process!", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        }
-
-                        directoryOutput = selectedPath;
-                        fullOutputFilename = directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y];
-                        goto ReTryMergeFiles;
-                    }
-
-                    using (var outputFile = new StreamWriter(fullOutputFilename, true))
-                    {
-                        for (int i = 0; i < arrayFiles.Length; i++)
-                        {
-                            SetProgressBarValue(progressBarProcess, progressBarProcess.Value + 1);
-
-                            if (!Path.HasExtension(arrayFiles[i]))
-                                continue;
-
-                            if (oneHardcodedOutputFile || extensionArray[y] == Path.GetExtension(arrayFiles[i]))
-                            {
-                                //! We run the try-catch before writing anything to save memory. If we get
-                                //! an error, there's no reason to continue anyway.
-                                string[] linesOfFile;
-
-                                try
-                                {
-                                    linesOfFile = File.ReadAllLines(arrayFiles[i]);
-                                }
-                                catch (IOException)
-                                {
-                                    MessageBox.Show("The output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning)!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                    continue;
-                                }
-
-                                SetLabelText(labelProgressCounter, progressBarProcess.Value + " / " + progressBarProcess.Maximum);
-                                SetLabelText(labelProgressFilename, Path.GetFileName(arrayFiles[i]));
-
-                                if (firstLinePrinted) //! First line has to be on-top of the file.
-                                    outputFile.WriteLine("\t");
-                                        //! "\t" is a single linebreak, "\n" breaks two lines.
-
-                                firstLinePrinted = true;
-                                outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
-                                outputFile.WriteLine(commentTypeStart + " '" + arrayFiles[i] + "'" + commentTypeEnd);
-                                outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
-                                outputFile.WriteLine("\t");
-
-                                foreach (string line in linesOfFile)
-                                    outputFile.WriteLine("\t" + line);
-                            }
-                        }
-                    }
+                    File.Delete(fullOutputFilename);
                 }
-                //! Only try, no need to catch anything. We need to set back the counter of the progress box, though.
-                //catch (Exception ex)
+
+                try
                 {
-                    //MessageBox.Show(ex.Message);
-                    //SetProgressBarValue(progressBarProcess, progressBarProcess.Value - 1);
+                    using (new StreamWriter(fullOutputFilename, true)) { }
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    DialogResult result = MessageBox.Show("The access to directory '" + directoryOutput + "' could not be granted. Do you wish to select a new output directory? Pressing 'No' means the process will be cancelled.", "No access!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result != DialogResult.Yes)
+                        break;
+
+                    string selectedPath = "-1";
+                    var t = new Thread((ThreadStart)(() =>
+                    {
+                        FolderBrowserDialog fbd = new FolderBrowserDialog();
+                        fbd.Description = "Select a directory to merge files from.";
+                        fbd.RootFolder = System.Environment.SpecialFolder.MyComputer;
+                        fbd.ShowNewFolderButton = true;
+
+                        if (txtBoxDirectorySearch.Text != String.Empty && Directory.Exists(txtBoxDirectorySearch.Text))
+                            fbd.SelectedPath = txtBoxDirectorySearch.Text;
+
+                        if (fbd.ShowDialog() == DialogResult.Cancel)
+                            return;
+
+                        selectedPath = fbd.SelectedPath;
+                    }));
+
+                    t.SetApartmentState(ApartmentState.STA);
+                    t.Start();
+                    t.Join();
+
+                    if (selectedPath == "-1")
+                    {
+                        MessageBox.Show("The output directory selecting has failed and we have therefore cancelled the process!", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                    }
+
+                    directoryOutput = selectedPath;
+                    fullOutputFilename = directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y];
+                    goto ReTryMergeFiles;
+                }
+
+                using (var outputFile = new StreamWriter(fullOutputFilename, true))
+                {
+                    for (int i = 0; i < arrayFiles.Length; i++)
+                    {
+                        SetProgressBarValue(progressBarProcess, progressBarProcess.Value + 1);
+
+                        if (!Path.HasExtension(arrayFiles[i]))
+                            continue;
+
+                        if (oneHardcodedOutputFile || extensionArray[y] == Path.GetExtension(arrayFiles[i]))
+                        {
+                            //! We run the try-catch before writing anything to save memory. If we get
+                            //! an error, there's no reason to continue anyway.
+                            string[] linesOfFile;
+
+                            try
+                            {
+                                linesOfFile = File.ReadAllLines(arrayFiles[i]);
+                            }
+                            catch (IOException)
+                            {
+                                MessageBox.Show("The output file could not be read (probably because it's being used). The content of the file did, however, most likely get updated properly (this is only a warning)!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                continue;
+                            }
+
+                            SetLabelText(labelProgressCounter, progressBarProcess.Value + " / " + progressBarProcess.Maximum);
+                            SetLabelText(labelProgressFilename, Path.GetFileName(arrayFiles[i]));
+
+                            if (firstLinePrinted) //! First line has to be on-top of the file.
+                                outputFile.WriteLine("\t");
+                                    //! "\t" is a single linebreak, "\n" breaks two lines.
+
+                            firstLinePrinted = true;
+                            outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
+                            outputFile.WriteLine(commentTypeStart + " '" + arrayFiles[i] + "'" + commentTypeEnd);
+                            outputFile.WriteLine(commentTypeStart + " - - - - - - - - - - - - - - - - - - - - - - - - - -" + commentTypeEnd);
+                            outputFile.WriteLine("\t");
+
+                            foreach (string line in linesOfFile)
+                                outputFile.WriteLine("\t" + line);
+                        }
+                    }
                 }
             }
 
