@@ -199,7 +199,7 @@ namespace File_Merger
 
             string[] extensionArray = extensionString.Split(';');
             int totalOutputFiles = checkBoxUniqueFilePerExt.Checked ? extensionArray.Length : 1;
-            bool oneHardcodedOutputFile = false;
+            bool oneHardcodedOutputFile = !checkBoxUniqueFilePerExt.Checked;
 
             if (!Directory.Exists(directoryOutput))
             {
