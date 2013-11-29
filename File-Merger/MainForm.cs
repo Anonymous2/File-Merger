@@ -618,7 +618,7 @@ namespace File_Merger
                     return;
                 }
 
-                if (progressBar.Value >= progressBar.Maximum)
+                if (value >= progressBar.Maximum)
                 {
                     progressBar.Value = progressBar.Maximum;
                     return;
