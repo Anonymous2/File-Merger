@@ -222,7 +222,6 @@ namespace File_Merger
                 oneHardcodedOutputFile = true;
                 totalOutputFiles = 1; //! Only create one file
                 extensionArray[0] = Path.GetExtension(directoryOutput); //! That one file we create must contain the output's file extension
-                //filenameExludingExtension = Path.GetFileNameWithoutExtension(directoryOutput); //! Extension is added later on
             }
 
             for (int y = 0; y < totalOutputFiles; ++y)
@@ -237,13 +236,10 @@ namespace File_Merger
                     fullOutputFilename += "\\merged_" + extensionWithoutDot + extensionArray[y];
 
             ReTryMergeFiles:
-                if (oneHardcodedOutputFile)
-                    fullOutputFilename = directoryOutput;
-
                 if (!oneHardcodedOutputFile && fullOutputFilename == directorySearch + "\\merged_")
                     continue;
 
-                if (!checkBoxUniqueFilePerExt.Checked && totalOutputFiles == 1 && !Path.HasExtension(txtBoxOutputFile.Text))
+                if (oneHardcodedOutputFile && totalOutputFiles == 1 && !Path.HasExtension(txtBoxOutputFile.Text))
                     fullOutputFilename = directoryOutput + "\\merged_files.txt";
 
                 if (Path.HasExtension(fullOutputFilename) && File.Exists(fullOutputFilename))
