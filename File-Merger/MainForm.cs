@@ -231,7 +231,10 @@ namespace File_Merger
                 string commentTypeStart = GetCommentStartTypeForLanguage(extensionWithoutDot);
                 string commentTypeEnd = GetCommentEndTypeForLanguage(extensionWithoutDot);
                 bool firstLinePrinted = false;
-                string fullOutputFilename = directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y];
+                string fullOutputFilename = directoryOutput;
+                
+                if (!Path.HasExtension(directoryOutput))
+                    fullOutputFilename += "\\merged_" + extensionWithoutDot + extensionArray[y];
 
             ReTryMergeFiles:
                 if (oneHardcodedOutputFile)
@@ -240,7 +243,7 @@ namespace File_Merger
                 if (!oneHardcodedOutputFile && fullOutputFilename == directorySearch + "\\merged_")
                     continue;
 
-                if (!checkBoxUniqueFilePerExt.Checked && totalOutputFiles == 1)
+                if (!checkBoxUniqueFilePerExt.Checked && totalOutputFiles == 1 && !Path.HasExtension(txtBoxOutputFile.Text))
                     fullOutputFilename = directoryOutput + "\\merged_files.txt";
 
                 if (Path.HasExtension(fullOutputFilename) && File.Exists(fullOutputFilename))
