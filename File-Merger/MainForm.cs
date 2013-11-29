@@ -301,10 +301,10 @@ namespace File_Merger
 
                     using (var outputFile = new StreamWriter(fullOutputFilename, true))
                     {
-                        SetProgressBarValue(progressBarProcess, progressBarProcess.Value + 1);
-
                         for (int i = 0; i < arrayFiles.Length; i++)
                         {
+                            SetProgressBarValue(progressBarProcess, progressBarProcess.Value + 1);
+
                             if (!Path.HasExtension(arrayFiles[i]))
                                 continue;
 
