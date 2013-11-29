@@ -225,7 +225,7 @@ namespace File_Merger
 
             for (int y = 0; y < totalOutputFiles; ++y)
             {
-                try
+                //try
                 {
                     string extensionWithoutDot = extensionArray[y].Replace(".", String.Empty);
                     string commentTypeStart = GetCommentStartTypeForLanguage(extensionWithoutDot);
@@ -233,6 +233,7 @@ namespace File_Merger
                     bool firstLinePrinted = false;
                     string fullOutputFilename = directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y];
 
+                ReTryMergeFiles:
                     if (oneHardcodedOutputFile)
                         fullOutputFilename = directoryOutput;
 
@@ -251,6 +252,52 @@ namespace File_Merger
                         }
 
                         File.Delete(fullOutputFilename);
+                    }
+
+                    try
+                    {
+                        new StreamWriter(fullOutputFilename, true);
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        DialogResult result = MessageBox.Show("The access to directory '" + directoryOutput + "' could not be granted. Do you wish to select a new output directory? Pressing 'No' means the process will be cancelled.", "No access!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                        if (result != DialogResult.Yes)
+                            break;
+
+                        //FolderBrowserDialog fbd = new FolderBrowserDialog();
+                        //fbd.Description = "Select a directory to merge files from.";
+
+                        string selectedPath = "-1";
+                        var t = new Thread((ThreadStart)(() =>
+                        {
+                            FolderBrowserDialog fbd = new FolderBrowserDialog();
+                            fbd.Description = "Select a directory to merge files from.";
+                            fbd.RootFolder = System.Environment.SpecialFolder.MyComputer;
+                            fbd.ShowNewFolderButton = true;
+
+                            if (txtBoxDirectorySearch.Text != String.Empty && Directory.Exists(txtBoxDirectorySearch.Text))
+                                fbd.SelectedPath = txtBoxDirectorySearch.Text;
+
+                            if (fbd.ShowDialog() == DialogResult.Cancel)
+                                return;
+
+                            selectedPath = fbd.SelectedPath;
+                        }));
+
+                        t.SetApartmentState(ApartmentState.STA);
+                        t.Start();
+                        t.Join();
+
+                        if (selectedPath == "-1")
+                        {
+                            MessageBox.Show("The output directory selecting has failed and we have therefore cancelled the process!", "An error has occurred!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        }
+
+                        directoryOutput = selectedPath;
+                        fullOutputFilename = directoryOutput + "\\merged_" + extensionWithoutDot + extensionArray[y];
+                        goto ReTryMergeFiles;
                     }
 
                     using (var outputFile = new StreamWriter(fullOutputFilename, true))
@@ -299,9 +346,10 @@ namespace File_Merger
                     }
                 }
                 //! Only try, no need to catch anything. We need to set back the counter of the progress box, though.
-                catch (Exception)
+                //catch (Exception ex)
                 {
-                    SetProgressBarValue(progressBarProcess, progressBarProcess.Value - 1);
+                    //MessageBox.Show(ex.Message);
+                    //SetProgressBarValue(progressBarProcess, progressBarProcess.Value - 1);
                 }
             }
 
@@ -372,7 +420,7 @@ namespace File_Merger
 
         private void btnSearchDirectory_Click(object sender, EventArgs e)
         {
-            var fbd = new FolderBrowserDialog();
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Select a directory to merge files from.";
 
             if (txtBoxDirectorySearch.Text != String.Empty && Directory.Exists(txtBoxDirectorySearch.Text))
