@@ -78,6 +78,7 @@ namespace File_Merger
         {
             string directorySearch = txtBoxDirectorySearch.Text;
             string directoryOutput = txtBoxOutputDir.Text + txtBoxOutputFile.Text;
+            SetProgressBarValue(progressBarProcess, 0);
 
             if (directorySearch == String.Empty)
             {
