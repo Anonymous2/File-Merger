@@ -210,7 +210,7 @@
             // 
             // progressBarProcess
             // 
-            this.progressBarProcess.Location = new System.Drawing.Point(18, 239);
+            this.progressBarProcess.Location = new System.Drawing.Point(18, 249);
             this.progressBarProcess.Name = "progressBarProcess";
             this.progressBarProcess.Size = new System.Drawing.Size(311, 23);
             this.progressBarProcess.TabIndex = 16;
@@ -218,7 +218,7 @@
             // labelProgressCounter
             // 
             this.labelProgressCounter.AutoSize = true;
-            this.labelProgressCounter.Location = new System.Drawing.Point(19, 221);
+            this.labelProgressCounter.Location = new System.Drawing.Point(20, 216);
             this.labelProgressCounter.Name = "labelProgressCounter";
             this.labelProgressCounter.Size = new System.Drawing.Size(62, 13);
             this.labelProgressCounter.TabIndex = 18;
@@ -228,7 +228,7 @@
             // labelProgressFilename
             // 
             this.labelProgressFilename.AutoSize = true;
-            this.labelProgressFilename.Location = new System.Drawing.Point(80, 221);
+            this.labelProgressFilename.Location = new System.Drawing.Point(20, 232);
             this.labelProgressFilename.Name = "labelProgressFilename";
             this.labelProgressFilename.Size = new System.Drawing.Size(68, 13);
             this.labelProgressFilename.TabIndex = 19;
@@ -252,7 +252,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 268);
+            this.ClientSize = new System.Drawing.Size(341, 278);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelProgressFilename);
             this.Controls.Add(this.labelProgressCounter);

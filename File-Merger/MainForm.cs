@@ -20,7 +20,7 @@ namespace File_Merger
         {
             InitializeComponent();
 
-            Height -= 50; //! We set the size of the form bigger than it actually is so we can put stuff in the expanded spot
+            Height -= 60; //! We set the size of the form bigger than it actually is so we can put stuff in the expanded spot
             originalHeight = Height;
         }
 
@@ -164,8 +164,8 @@ namespace File_Merger
             SetEnabledOfControl(btnMerge, false);
             SetEnabledOfControl(btnStopMerging, true);
             UseWaitCursor = true;
-            UpdateTextControl(labelProgressCounter, "Scanning amount of files...");
-            SetVisibleOfControl(labelProgressCounter, true);
+            SetVisibleOfControl(labelProgressFilename, true);
+            UpdateTextControl(labelProgressFilename, "Scanning amount of files...");
 
             //! Re-cursive call to get all files, then put them back in an array.
             string allFiles = String.Empty;
@@ -568,9 +568,9 @@ namespace File_Merger
         {
             if (checkBoxShowProgress.Checked)
             {
-                if (Height >= originalHeight + 50)
+                if (Height >= originalHeight + 60)
                 {
-                    Height = originalHeight + 50;
+                    Height = originalHeight + 60;
                     timerCollapseProgress.Enabled = false;
                 }
                 else
