@@ -265,9 +265,6 @@ namespace File_Merger
                         if (result != DialogResult.Yes)
                             break;
 
-                        //FolderBrowserDialog fbd = new FolderBrowserDialog();
-                        //fbd.Description = "Select a directory to merge files from.";
-
                         string selectedPath = "-1";
                         var t = new Thread((ThreadStart)(() =>
                         {
@@ -422,6 +419,8 @@ namespace File_Merger
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Select a directory to merge files from.";
+            fbd.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            fbd.ShowNewFolderButton = true;
 
             if (txtBoxDirectorySearch.Text != String.Empty && Directory.Exists(txtBoxDirectorySearch.Text))
                 fbd.SelectedPath = txtBoxDirectorySearch.Text;
