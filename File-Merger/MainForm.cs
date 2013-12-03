@@ -187,20 +187,38 @@ namespace File_Merger
                 return;
             }
 
-            string[] arrayFiles = allFiles.Split('\n');
-            SetProgressBarMaxValue(progressBarProcess, arrayFiles.Length);
-            SetLabelText(labelProgressCounter, "0 / " + arrayFiles.Length);
+            string[] _arrayFiles = allFiles.Split('\n');
+            List<string> arrayFiles = new List<string>();
+            bool oneHardcodedOutputFile = !checkBoxUniqueFilePerExt.Checked;
 
             //! If the extensions field was left empty, we take all extensions we can find and merge them
             if (String.IsNullOrWhiteSpace(extensionString))
-                for (int i = 0; i < arrayFiles.Length; i++)
-                    if (arrayFiles[i] != String.Empty && Path.HasExtension(arrayFiles[i]))
-                        if (extensionString.IndexOf(Path.GetExtension(arrayFiles[i]), StringComparison.OrdinalIgnoreCase) < 0)
-                            extensionString += Path.GetExtension(arrayFiles[i]) + ";";
+                for (int i = 0; i < _arrayFiles.Length; i++)
+                    if (_arrayFiles[i] != String.Empty && Path.HasExtension(_arrayFiles[i]))
+                        if (extensionString.IndexOf(Path.GetExtension(_arrayFiles[i]), StringComparison.OrdinalIgnoreCase) < 0)
+                            extensionString += Path.GetExtension(_arrayFiles[i]) + ";";
 
             string[] extensionArray = extensionString.Split(';');
             int totalOutputFiles = checkBoxUniqueFilePerExt.Checked ? extensionArray.Length : 1;
-            bool oneHardcodedOutputFile = !checkBoxUniqueFilePerExt.Checked;
+
+            if (Path.HasExtension(directoryOutput))
+            {
+                oneHardcodedOutputFile = true;
+                extensionArray[0] = Path.GetExtension(directoryOutput); //! That one file we create must contain the output's file extension
+                totalOutputFiles = 1; //! Only create one file
+            }
+
+            foreach (string file in _arrayFiles)
+            {
+                if (!Path.HasExtension(file))
+                    continue;
+
+                if (oneHardcodedOutputFile || Array.Exists(extensionArray, delegate(string s) { return s.Equals(Path.GetExtension(file)); }))
+                    arrayFiles.Add(file);
+            }
+
+            SetProgressBarMaxValue(progressBarProcess, arrayFiles.Count);
+            SetLabelText(labelProgressCounter, "0 / " + arrayFiles.Count);
 
             if (!Directory.Exists(directoryOutput))
             {
@@ -218,21 +236,15 @@ namespace File_Merger
                     Directory.CreateDirectory(_directoryOutput);
             }
 
-            if (Path.HasExtension(directoryOutput))
-            {
-                oneHardcodedOutputFile = true;
-                totalOutputFiles = 1; //! Only create one file
-                extensionArray[0] = Path.GetExtension(directoryOutput); //! That one file we create must contain the output's file extension
-            }
-
             for (int y = 0; y < totalOutputFiles; ++y)
             {
                 string extensionWithoutDot = extensionArray[y].Replace(".", String.Empty);
                 string commentTypeStart = GetCommentStartTypeForLanguage(extensionWithoutDot);
                 string commentTypeEnd = GetCommentEndTypeForLanguage(extensionWithoutDot);
-                bool firstLinePrinted = false;
                 string fullOutputFilename = directoryOutput;
+                bool firstLinePrinted = false;
                 
+                //! If no specific output file was specified
                 if (!Path.HasExtension(directoryOutput))
                     fullOutputFilename += "\\merged_" + extensionWithoutDot + extensionArray[y];
 
@@ -240,6 +252,7 @@ namespace File_Merger
                 if (!oneHardcodedOutputFile && fullOutputFilename == directorySearch + "\\merged_")
                     continue;
 
+                //! If there's only one file to be created AND the output file textbox property was not filled 
                 if (oneHardcodedOutputFile && totalOutputFiles == 1 && !Path.HasExtension(txtBoxOutputFile.Text))
                     fullOutputFilename = directoryOutput + "\\merged_files.txt";
 
@@ -299,10 +312,8 @@ namespace File_Merger
 
                 using (var outputFile = new StreamWriter(fullOutputFilename, true))
                 {
-                    for (int i = 0; i < arrayFiles.Length; i++)
+                    for (int i = 0; i < arrayFiles.Count; i++)
                     {
-                        SetProgressBarValue(progressBarProcess, progressBarProcess.Value + 1);
-
                         if (!Path.HasExtension(arrayFiles[i]))
                             continue;
 
@@ -322,6 +333,7 @@ namespace File_Merger
                                 continue;
                             }
 
+                            SetProgressBarValue(progressBarProcess, progressBarProcess.Value + 1);
                             SetLabelText(labelProgressCounter, progressBarProcess.Value + " / " + progressBarProcess.Maximum);
                             SetLabelText(labelProgressFilename, Path.GetFileName(arrayFiles[i]));
 
