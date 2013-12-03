@@ -199,7 +199,7 @@ namespace File_Merger
                             extensionString += Path.GetExtension(_arrayFiles[i]) + ";";
 
             string[] extensionArray = extensionString.Split(';');
-            int totalOutputFiles = checkBoxUniqueFilePerExt.Checked ? extensionArray.Length : 1;
+            int totalOutputFiles = checkBoxUniqueFilePerExt.Checked ? extensionArray.Length - 1  : 1;
 
             if (Path.HasExtension(directoryOutput))
             {
