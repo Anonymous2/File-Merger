@@ -238,7 +238,7 @@ namespace File_Merger
 
             for (int y = 0; y < totalOutputFiles; ++y)
             {
-                string extensionWithoutDot = extensionArray[y].Replace(".", String.Empty);
+                string extensionWithoutDot = extensionArray[y].Remove(extensionArray[y].IndexOf("."), 1);
                 string commentTypeStart = GetCommentStartTypeForLanguage(extensionWithoutDot);
                 string commentTypeEnd = GetCommentEndTypeForLanguage(extensionWithoutDot);
                 string fullOutputFilename = directoryOutput;
